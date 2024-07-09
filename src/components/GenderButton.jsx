@@ -1,11 +1,11 @@
 import React from "react";
-import "../css/components/GenderButton.css";
+import * as styles from "../css/components/GenderButton.css.ts";
 
 function GenderButton({ isActive, value, onClick, label }) {
   return (
     <button
       type="button"
-      className={`gender-button ${isActive ? "active" : "inactive"}`}
+      className={`${styles.genderButton} ${isActive ? "" : styles.inactive}`}
       value={value}
       onClick={() => onClick(value)}
     >

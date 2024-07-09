@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/components/AgeButton.css";
+import { ageButton, active } from "../css/components/AgeButton.css.ts";
 
 function AgeButton({ formData, value, onClick, isClickable, text }) {
   const isActive = formData === value;
@@ -13,9 +13,7 @@ function AgeButton({ formData, value, onClick, isClickable, text }) {
   return (
     <button
       type="button"
-      className={`AgeButton ${
-        isClickable ? `${isActive ? "active" : ""}` : ""
-      } `}
+      className={`${ageButton} ${isClickable ? (isActive ? active : '') : ''}`}
       value={value}
       onClick={handleClick}
       disabled={!isClickable}

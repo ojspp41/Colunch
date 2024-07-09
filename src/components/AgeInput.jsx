@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import MyInput from "./MyInput";
-import "../css/components/AgeInput.css";
+import * as styles from "../css/components/AgeInput.css";
 
 function AgeInput({ value, onChange }) {
   const handleBlur = (e) => {
@@ -21,13 +21,14 @@ function AgeInput({ value, onChange }) {
   return (
     <Fragment>
       <h3>나이</h3>
-      <div className="age">
+      <div className={styles.age}>
         <MyInput
           name="age"
           value={value}
           onChange={onChange}
           onBlur={handleBlur}
           placeholder="20~29살만 참여 가능합니다 만나이 🙅‍♂️"
+          className={styles.input}
         />
       </div>
     </Fragment>

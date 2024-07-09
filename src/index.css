@@ -1,5 +1,6 @@
 body {
-  margin: 0;
+  margin: 0px auto;
+  width: 1280px;
   font-family: "Pretendard Variable", Pretendard, -apple-system,
     BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
     "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -10,4 +11,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* 테블릿 크기에 맞춘 스타일 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  body {
+    width: 768px; /* 테블릿 크기 조정 */
+  }
 }

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import ContactMethodInput from "./ContactMethodInput";
 import ContactMethodPick from "./ContactMethodPick";
-import "../css/components/ContactMethod.css";
+import * as styles from  "../css/components/ContactMethod.css.ts";
 
 function ContactMethod({ user, handleChange, setUser }) {
   return (
@@ -14,7 +14,7 @@ function ContactMethod({ user, handleChange, setUser }) {
         handleChange={handleChange}
       />
       <h6
-        className={`check-message ${user.contact_id_Verified ? "" : "hidden"}`}
+        className={`${styles.checkMessage} ${user.contact_id_Verified ? "" : styles.hidden}`}
       >
         중복입력 방지를 위해 확인버튼을 눌러주세요
       </h6>

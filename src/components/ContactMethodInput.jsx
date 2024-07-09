@@ -1,6 +1,6 @@
-// import React from "react";
+import React from "react";
 import MyInput from "./MyInput";
-import "../css/components/ContactMethodInput.css";
+import * as styles from "../css/components/ContactMethodInput.css.ts";
 import axios from "../axiosConfig";
 
 function ContactMethodInput({ handleChange, user, setUser }) {
@@ -67,7 +67,7 @@ function ContactMethodInput({ handleChange, user, setUser }) {
   };
 
   return (
-    <div className="contact-input">
+    <div className={styles.contactInput}>
       <MyInput
         name="contact_id"
         value={user.contact_id}
@@ -77,8 +77,9 @@ function ContactMethodInput({ handleChange, user, setUser }) {
             ? "ex) kakao12"
             : "ex) @cuk_coma (@도 꼭 넣어주세요)"
         }
+        className={styles.inputField}
       />
-      <button type="button" className="checkbutton" onClick={handleCheck}>
+      <button type="button" className={styles.checkButton} onClick={handleCheck}>
         확인
       </button>
     </div>

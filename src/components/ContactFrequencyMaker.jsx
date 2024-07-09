@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../css/components/ContactFrequencyMaker.css";
+import * as styles from  "../css/components/ContactFrequencyMaker.css.ts";
 
 function ContactFrequencyMaker({ handleQuestionComplete, currentUserState, setCurrentUserState, setChooseAnswer }) {
   // 연락 빈도를 클릭했을 때 처리하는 함수
@@ -20,7 +20,7 @@ function ContactFrequencyMaker({ handleQuestionComplete, currentUserState, setCu
           <button
             key={index}
             type="button"
-            className={`AgeMaker ${currentUserState.contact_frequency === value ? "selected" : ""}`}
+            className={`${styles.ageMaker} ${currentUserState.contact_frequency === value ? styles.selected : ""}`}
             onClick={() => handleAgeClick(value, index)}
           >
             {value}
