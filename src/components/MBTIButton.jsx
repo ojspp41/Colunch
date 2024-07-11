@@ -1,6 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
-import "../css/components/MBTIButton.css";
+import * as styles from "../css/components/MBTIButton.css.ts";
 
 function MBTIButton({ user, onClick, letter, name }) {
   const isActive = user.includes(letter);
@@ -10,10 +9,18 @@ function MBTIButton({ user, onClick, letter, name }) {
   };
 
   return (
-    <div className="MBTIElement">
+    <div className={styles.mbtiElement}>
       <button
         type="button"
-        className={`${name} ${isActive ? "active" : ""}`}
+        className={`${
+          name === "form-MBTIButton" ? styles.formMbtiButton : styles.mbtiButton
+        } ${
+          isActive
+            ? name === "form-MBTIButton"
+              ? styles.formActiveButton
+              : styles.activeButton
+            : ""
+        }`}
         onClick={handleClick}
       >
         {letter}
@@ -21,5 +28,12 @@ function MBTIButton({ user, onClick, letter, name }) {
     </div>
   );
 }
+
+MBTIButton.propTypes = {
+  user: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+  letter: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default MBTIButton;

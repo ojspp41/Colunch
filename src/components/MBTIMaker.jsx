@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import "../css/components/MBTIMaker.css";
+import { useState } from "react";
+import PropTypes from "prop-types";
+import * as styles from "../css/components/MBTIMaker.css.ts";
 
 function MBTIMaker({
   mbtiAnswers,
@@ -9,6 +10,7 @@ function MBTIMaker({
   setChooseAnswer,
 }) {
   const [answerChecked, setAnswerChecked] = useState(null);
+
   const handleMBTIClick = (mbtiType, value, index) => {
     setSelectedMBTI((prevMBTI) => ({
       ...prevMBTI,
@@ -19,11 +21,11 @@ function MBTIMaker({
   };
 
   return (
-    <div className="MBTIMaker">
-      <div className="MBTIMaker-text">내 답변</div>
+    <div className={styles.mbtiMaker}>
+      <div className={styles.mbtiMakerText}>내 답변</div>
       <button
-        className={`MBTIMaker-choose-button ${
-          answerChecked === mbtiAnswers[questionNum][2] ? "selected" : ""
+        className={`${styles.mbtiMakerChooseButton} ${
+          answerChecked === mbtiAnswers[questionNum][2] ? styles.selected : ""
         }`}
         onClick={() =>
           handleMBTIClick(
@@ -33,14 +35,14 @@ function MBTIMaker({
           )
         }
       >
-        <div className="MBTIMaker-button-title">
+        <div className={styles.mbtiMakerButtonTitle}>
           {mbtiAnswers[questionNum][2]}
         </div>
         <div>{mbtiAnswers[questionNum][0]}</div>
       </button>
       <button
-        className={`MBTIMaker-choose-button ${
-          answerChecked === mbtiAnswers[questionNum][3] ? "selected" : ""
+        className={`${styles.mbtiMakerChooseButton} ${
+          answerChecked === mbtiAnswers[questionNum][3] ? styles.selected : ""
         }`}
         onClick={() =>
           handleMBTIClick(
@@ -50,13 +52,13 @@ function MBTIMaker({
           )
         }
       >
-        <div className="MBTIMaker-button-title">
+        <div className={styles.mbtiMakerButtonTitle}>
           {mbtiAnswers[questionNum][3]}
         </div>
         <div>{mbtiAnswers[questionNum][1]}</div>
       </button>
       <button
-        className="MBTIMaker-submit-button"
+        className={styles.mbtiMakerSubmitButton}
         onClick={() => handleQuestionComplete(questionNum)}
         disabled={!answerChecked}
       >
@@ -65,5 +67,14 @@ function MBTIMaker({
     </div>
   );
 }
+
+MBTIMaker.propTypes = {
+  mbtiAnswers: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string).isRequired)
+    .isRequired,
+  questionNum: PropTypes.number.isRequired,
+  handleQuestionComplete: PropTypes.func.isRequired,
+  setSelectedMBTI: PropTypes.func.isRequired,
+  setChooseAnswer: PropTypes.func.isRequired,
+};
 
 export default MBTIMaker;

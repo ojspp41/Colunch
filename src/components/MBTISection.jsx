@@ -1,22 +1,31 @@
-import React from "react";
-import "../css/components/MBTISection.css";
+import PropTypes from "prop-types";
+import * as styles from "../css/components/MBTISection.css.ts";
 import MBTIButton from "./MBTIButton";
+
+const BUTTON_LETTERS = ["E", "S", "T", "J", "I", "N", "F", "P"];
 
 function MBTISection({ user, onClick, name }) {
   return (
-    <div className="MBTISection">
-      <div className="MBTIContainer">
-        <MBTIButton user={user} onClick={onClick} letter="E" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="S" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="T" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="J" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="I" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="N" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="F" name={name} />
-        <MBTIButton user={user} onClick={onClick} letter="P" name={name} />
+    <div className={styles.mbtiSection}>
+      <div className={styles.mbtiContainer}>
+        {BUTTON_LETTERS.map((letter) => (
+          <MBTIButton
+            key={letter}
+            user={user}
+            onClick={onClick}
+            letter={letter}
+            name={name}
+          />
+        ))}
       </div>
     </div>
   );
 }
+
+MBTISection.propTypes = {
+  user: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+};
 
 export default MBTISection;
