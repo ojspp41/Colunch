@@ -2,7 +2,7 @@ import React, { Fragment, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../Atoms";
 import LoginUserInfoTop from "./LoginUserInfoTop";
-import "../css/components/UserInfoRrev.css";
+import * as styles from "../css/components/UserInfoRrev.css.ts";
 import UserInfoContainer from "./UserInfoContainer";
 import { useNavigate } from "react-router-dom";
 
@@ -10,9 +10,7 @@ function UserInfoRrev({ user, ifMainpage }) {
   const navigate = useNavigate();
   const sliderRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
-  // 유저정보 컨테이너를 슬라이딩하기 위함입니다.
-  // 위아래는 지정하지 않았는데 슬라이딩되어서 수정이 필요합니다.
-  // 슬라이드 함수 정의
+
   const scroll = (pageIndex) => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft = sliderRef.current.offsetWidth * pageIndex;
@@ -23,20 +21,17 @@ function UserInfoRrev({ user, ifMainpage }) {
   return (
     <Fragment>
       {ifMainpage && <LoginUserInfoTop username={user.contact_id} />}
-
-      <div className="User-Info-Rrev">
-        {/* 좌측 화살표 */}
+      <div className={styles.userInfoRrev}>
         {currentPage > 0 && (
           <div
-            className="slider-arrow left"
+            className={`${styles.sliderArrow} ${styles.sliderArrowLeft}`}
             onClick={() => scroll(currentPage - 1)}
           >
             ◀
           </div>
         )}
-        {/* 슬라이더 컨테이너 */}
-        <div className="slider" ref={sliderRef}>
-          <div className="sliderpage">
+        <div className={styles.slider} ref={sliderRef}>
+          <div className={styles.sliderPage}>
             <UserInfoContainer
               FirstTopic="전공"
               FirstText={user.major}
@@ -50,7 +45,7 @@ function UserInfoRrev({ user, ifMainpage }) {
               SecondText={user.mbti}
             />
           </div>
-          <div className="sliderpage">
+          <div className={`${styles.sliderPage} ${styles.sliderPageSecond}`}>
             <UserInfoContainer FirstTopic="취미" FirstText={user.hobby} />
             <UserInfoContainer
               FirstTopic="나를 표현하는 한마디"
@@ -60,30 +55,27 @@ function UserInfoRrev({ user, ifMainpage }) {
             />
           </div>
         </div>
-        {/* 우측 화살표 */}
         {currentPage < 1 && (
           <div
-            className="slider-arrow right"
+            className={`${styles.sliderArrow} ${styles.sliderArrowRight}`}
             onClick={() => scroll(currentPage + 1)}
           >
             ▶
           </div>
         )}
-        <div className="User-Contact">
+        <div className={styles.userContact}>
           <div
             onClick={() => {
               if (user.contact === "instagram") {
-                // user.contact가 'instagram'인 경우에만 작동
                 window.open(`https://www.instagram.com/${user.contact_id}/`);
               }
             }}
           >
             {user.contact_id}
           </div>
-
           {ifMainpage && (
             <button
-              className="Userinfo-fix-button"
+              className={styles.userinfoFixButton}
               onClick={() => navigate("/form")}
             >
               수정하기

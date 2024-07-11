@@ -1,5 +1,5 @@
 import React from "react";
-
+import * as styles from "../css/components/MajorSelector.css.ts"; // Vanilla Extract 스타일 임포트
 function MajorSelectorElement({
   placeholder,
   fieldType,
@@ -14,12 +14,12 @@ function MajorSelectorElement({
         <div className="form-inner-content-text">{placeholder}</div>
       </label>
       <select
-        className="MajorSelectorElement-select"
+        className={styles.majorSelectorElementSelect}
         name={selectname}
         value={value}
         onChange={onChange}
       >
-        <option value="" className="MajorSelectorElement-option" disabled>
+        <option value="" className={styles.majorSelectorElementOption} disabled>
           선택
         </option>
         {options.map((option) => (

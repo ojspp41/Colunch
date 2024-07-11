@@ -1,16 +1,16 @@
 import React, { Fragment } from "react";
-import "../css/components/UserInfoElement.css";
+import * as styles from "../css/components/UserInfoElement.css.ts";
 
 function UserInfoElement({ Topic, Text }) {
   return (
     <Fragment>
-      <div className="User-Info__Element__Topic">{Topic}</div>
-      <div className="User-Info__Element__Text User-Info__Element__Text-hobby">
+      <div className={styles.userInfoElementTopic}>{Topic}</div>
+      <div className={styles.userInfoElementText}>
         {Array.isArray(Text) ? (
-          <div className="User-Info__Element__Items">
+          <div className={styles.userInfoElementItems}>
             {Text.map((item, index) => (
               <Fragment key={index}>
-                <span className="User-Info__Element__Item">{item}</span>
+                <span className={styles.userInfoElementItem}>{item}</span>
                 {index !== Text.length - 1 && ","}
               </Fragment>
             ))}
