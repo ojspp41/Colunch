@@ -9,7 +9,7 @@ function HeaderNav() {
       <div>
         <img
           className={styles.logoImg}
-          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logowhite.png`}
+          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logoblack.svg`}
           alt="로고"
           onClick={() => navigate("/")}
         />

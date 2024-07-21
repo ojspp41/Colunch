@@ -7,7 +7,7 @@ function TotalUsersCounter({ font_size, numParticipants }) {
   return (
     <Fragment>
       <div className={styles.totalUsersCounter} style={{ fontSize: font_size }}>
-        현재 <span className={styles.totalUsersCounter_span}>{numParticipants}</span>명 참여중이에요!
+        현재 <span className={styles.totalUsersCounter_span}>{numParticipants}명</span> 참여중이에요!
       </div>
     </Fragment>
   );

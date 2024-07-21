@@ -10,8 +10,7 @@ export const header = style({
 });
 
 export const logoImg = style({
-  width: '142px',
+  width: '169px',
   height: 'auto',
-  marginLeft: '24px',
   cursor: 'pointer',
 });
