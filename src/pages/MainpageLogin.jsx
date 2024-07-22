@@ -31,7 +31,7 @@ function MainpageLogin() {
     "leftPoint": 100,
     "Pickme": 5,
     "major": "컴퓨터정보공학과",
-    "age": 25,
+    "age": 253,
     "contact_id": "오준석",
     "contact_frequency": "자주",
     "mbti": "INTJ",
