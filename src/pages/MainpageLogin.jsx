@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import Footer from "../components/Footer";
-import HeaderNav from "../components/HeaderNav";
+import HeaderMain from "../components/HeaderMain";
 import UserInfoRrev from "../components/UserInfoRrev";
 import { charge, userState } from "../Atoms";
 import "../css/pages/MainpageLogin.css";
@@ -15,6 +15,7 @@ import NavBar from "../components/Navbar";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isClicked, setIsClicked] = useState(false); // 충전 요청 토글 클릭 상태를 저장하는 상태 변수
+  
   const [userInfo, setUserInfo] = useState({
     // numParticipants: null,
     // leftPoint: null,
@@ -31,10 +32,10 @@ function MainpageLogin() {
     "leftPoint": 100,
     "Pickme": 5,
     "major": "컴퓨터정보공학과",
-    "age": 253,
-    "contact_id": "오준석",
+    "age": 25,
+    "contact_id": "jseok_492",
     "contact_frequency": "자주",
-    "mbti": "INTJ",
+    "mbti": "esfj",
     "hobby": ["독서", "게임"],
     "song": "Imagine",
     "comment": "모두들 안녕",
@@ -82,6 +83,9 @@ function MainpageLogin() {
   const handleVisitGuide = () => {
     navigate("/guide");
   };
+  const handleCharge = () => {
+    navigate("/charge");
+  };
   const handleClickmatch = () => {
     navigate("/QR-generator");
   };
@@ -112,7 +116,11 @@ function MainpageLogin() {
   };
   return (
     <div className="container">
-      <HeaderNav />
+      <HeaderMain />
+      <div className="welcome">
+        {userInfo.contact_id}님,<br />
+        환영합니다.
+      </div>
       <div className="Mainpage__Login">
         <UserInfoRrev
           user={userInfo}
@@ -136,18 +144,21 @@ function MainpageLogin() {
             imgSrc={`../../assets/point.svg`}
             infoText={`${userInfo.leftPoint}P`}
             buttonText="잔여포인트"
+            handleCharge={handleCharge}
           />
           <MyInfoButton
             imgSrc={`../../assets/heart.svg`}
             infoText={`${userInfo.Pickme}회`}
             buttonText="내가 뽑힐 횟수"
+            handleCharge={handleCharge}
           />
         </div>
 
         {isClicked ? (
           <ChargeButtonInfo
-            handleNotService={handleNotService}
+            //handleNotService={handleNotService}
             handleChargeRequest={handleChargeRequest}
+            handleToggleClick={handleToggleClick}
             chargeclick={chargeclick}
           />
         ) : (
@@ -156,8 +167,8 @@ function MainpageLogin() {
             <button
               className="charge-request-unclicked-img"
               type="button"
-              //onClick={handleToggleClick}
-              onClick={handleNotService}
+              onClick={handleToggleClick}
+              //onClick={handleNotService}
             >
               <img
                 src={`${
@@ -183,22 +194,10 @@ function MainpageLogin() {
             buttonText="가이드북"
           />
         </div>
-        <div className="button-group">
-          <BottomNavButton
-            onClick={handleVisitcheckresult}
-            imgSrc={`../../assets/survey.svg`}
-            imgText="설문조사"
-            buttonText="설문조사"
-          />
-          <BottomNavButton
-            onClick={handleLogout}
-            imgSrc={`../../assets/logout.svg`}
-            imgText="로그아웃"
-            buttonText="로그아웃"
-          />
-        </div>
+        <div  style={{ height: '50px' }}></div>
+        
       </div>
-      <Footer />
+      
       <NavBar/>
     </div>
   );

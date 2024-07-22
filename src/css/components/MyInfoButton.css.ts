@@ -13,6 +13,7 @@ export const myInfoButton = style({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+  cursor:'pointer'
 });
 
 export const textWrapper = style({
