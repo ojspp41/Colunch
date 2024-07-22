@@ -11,22 +11,34 @@ import TotalUsersCounter from "../components/TotalUsersCounter";
 import BottomNavButton from "../components/BottomNavButton";
 import MyInfoButton from "../components/MyInfoButton";
 import ChargeButtonInfo from "../components/ChargeButtonInfo";
-
+import NavBar from "../components/Navbar";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isClicked, setIsClicked] = useState(false); // 충전 요청 토글 클릭 상태를 저장하는 상태 변수
   const [userInfo, setUserInfo] = useState({
-    numParticipants: null,
-    leftPoint: null,
-    Pickme: null,
-    major: null,
-    age: null,
-    contact_id: null,
-    contact_frequency: null,
-    mbti: null,
-    hobby: [],
-    song: null,
-    comment: null,
+    // numParticipants: null,
+    // leftPoint: null,
+    // Pickme: null,
+    // major: null,
+    // age: null,
+    // contact_id: null,
+    // contact_frequency: null,
+    // mbti: null,
+    // hobby: [],
+    // song: null,
+    // comment: null, 예시로 넣기
+    "numParticipants": 10,
+    "leftPoint": 100,
+    "Pickme": 5,
+    "major": "컴퓨터정보공학과",
+    "age": 25,
+    "contact_id": "오준석",
+    "contact_frequency": "자주",
+    "mbti": "INTJ",
+    "hobby": ["독서", "게임"],
+    "song": "Imagine",
+    "comment": "모두들 안녕",
+    
   });
   // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
   const [chargeclick, setchargeclick] = useRecoilState(charge);
@@ -187,6 +199,7 @@ function MainpageLogin() {
         </div>
       </div>
       <Footer />
+      <NavBar/>
     </div>
   );
 }
