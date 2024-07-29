@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import HeaderNav from "../components/HeaderNav.jsx";
-import "../css/pages/Hobbyform.css";
 import { useRecoilState } from "recoil";
 import { userState } from "../Atoms";
 import hobbyIcons from "../data/hobbyIcons.jsx"; // 취미 아이콘 데이터
+import HeaderNav from "../components/HeaderNav.jsx";
+import ProgressBar from "../components/Progressbar.jsx";
+import Background from "../components/Background.jsx";
 import MemoizedHobbyElement from "../components/HobbyElement.jsx";
 import MemoizedHobbyChoice from "../components/HobbyChoice.jsx";
-import ProgressBar from "../components/Progressbar.jsx";
+import "../css/pages/Hobbyform.css";
 
 function Hobbyform() {
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ function Hobbyform() {
 
   return (
     <div className="container">
+      <Background/>
       <HeaderNav />
       <div className="content">
         <div className="info-card">
