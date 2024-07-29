@@ -5,12 +5,12 @@ export const header = style({
   width: '95%',
   paddingTop: '27px',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'left',
   margin: 'auto',
 });
 
 export const logoImg = style({
-  width: '169px',
+  width: '140px',
   height: 'auto',
   cursor: 'pointer',
 });
