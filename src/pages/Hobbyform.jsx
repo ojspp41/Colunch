@@ -1,4 +1,4 @@
-// import React from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderNav from "../components/HeaderNav.jsx";
 import "../css/pages/Hobbyform.css";
@@ -7,6 +7,8 @@ import { userState } from "../Atoms";
 import hobbyIcons from "../data/hobbyIcons.jsx"; // 취미 아이콘 데이터
 import MemoizedHobbyElement from "../components/HobbyElement.jsx";
 import MemoizedHobbyChoice from "../components/HobbyChoice.jsx";
+import ProgressBar from "../components/Progressbar.jsx";
+
 function Hobbyform() {
   const navigate = useNavigate();
   const [pickHobby, setPickHobby] = useRecoilState(userState);
@@ -22,7 +24,6 @@ function Hobbyform() {
 
   // 취미 아이템 클릭 시 실행되는 함수
   const handleHobbyClick = (index) => {
-    // 이미 선택한 취미인지, 5개 미만인지 확인
     const isAlreadySelected = pickHobby.hobby.includes(index);
     const updatedHobbies = isAlreadySelected
       ? pickHobby.hobby.filter((hobby) => hobby !== index)
@@ -36,20 +37,46 @@ function Hobbyform() {
     }));
   };
 
+  const categories = ["예술활동", "야외활동", "운동/스포츠", "미정", "미정"];
+  const hobbyCards = [];
+
+  for (let i = 0; i < hobbyIcons.length; i += 3) {
+    const hobbyChunk = hobbyIcons.slice(i, i + 3);
+    hobbyCards.push(
+      <div className="hobby-card" key={i}>
+        <div className="hobby-card-title">{categories[i / 3]}</div>
+        <div className="hobby-card-content">
+          {hobbyChunk.map((hobby, index) => (
+            <MemoizedHobbyChoice
+              key={index}
+              index={index}
+              hobby={hobby}
+              pickHobby={pickHobby}
+              handleHobbyClick={handleHobbyClick}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container">
       <HeaderNav />
       <div className="content">
-        <div className="select-hobby-topic">취미 선택하기</div>
-        <div className="select-hobby-text">
-          본인의 취미를 알려주세요. (1-5개)
+        <div className="info-card">
+          <div className="select-hobby-topic">취미 선택하기</div>
+          <div className="select-hobby-text">
+            본인의 취미를 알려주세요. (1-5개)
+          </div>
+          <ProgressBar progress={45} />
         </div>
-        {/*고른 취미 보여주는 칸(컴포넌트화 더 진행할지 고민중입니다) */}
         <div className="selected-hobbies">
           {pickHobby.hobby.map((label, index) => {
             const hobby = hobbyIcons.find((item) => item.label === label);
             return (
               <MemoizedHobbyElement
+                key={index}
                 index={index}
                 hobby={hobby}
                 className="selected-hobby"
@@ -57,15 +84,8 @@ function Hobbyform() {
             );
           })}
         </div>
-        <div className="hobby-grid">
-          {hobbyIcons.map((hobby, index) => (
-            <MemoizedHobbyChoice
-              index={index}
-              hobby={hobby}
-              pickHobby={pickHobby}
-              handleHobbyClick={handleHobbyClick}
-            />
-          ))}
+        <div className="hobby-card-container">
+          {hobbyCards}
         </div>
         <button className="submit-button" onClick={handleSubmit}>
           다음으로

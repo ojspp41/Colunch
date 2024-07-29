@@ -1,7 +1,27 @@
-.hobby-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 각 행에 3개의 아이템이 올 수 있도록 */
-  padding: 20px;
+.info-card {
+  background-color: white;
+  border-radius: 24px;
+  width: 95%;
+  padding: 24px;
+  margin-left: -16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ProgressBar와 텍스트 스타일 */
+.select-hobby-topic {
+  text-align: left;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 8px; 
+}
+
+.select-hobby-text {
+  text-align: left;
+  font-size: 16px;
+  font-weight: medium;
+  color: #858585;
+  margin-bottom: 16px;
 }
 
 .hobby-item {
@@ -9,33 +29,68 @@
   flex-direction: column;
   align-items: center;
   border: 0;
-  background-color: transparent;
-
+  background-color: transparent; 
   font-family: "Pretendard", sans-serif;
   font-weight: bold;
   color: black;
 }
 
-.hobby-item img {
-  background-color: #ffffff;
-  width: 36px;
-  height: 36px;
-  padding: 18px;
-  border-radius: 50%; /* 동그라미 모양 */
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25); /* drop shadow */
-  margin-bottom: 7px;
+.hobby-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.hobby-item.selected img {
-  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25); /* innershadow 효과 */
+.hobby-card {
+  background-color: white;
+  border-radius: 24px;
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.hobby-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-left: 10px;
+  text-align: left;
+}
+
+.hobby-card-content {
+  display: flex;
+  justify-content: space-between;
+  margin-left: -9px;
+}
+
+.hobby-card-content .hobby-item img {
+  box-shadow: none;
+  padding: 18px;
+}
+
+.submit-button {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #6200ea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #3700b3; 
+}
+
 .selected-hobbies {
   width: 80%;
-  /* min-height: 28px; */
   margin: 12px 40px 0px 40px;
   display: flex;
   flex-wrap: wrap;
 }
+
 .selected-hobby {
   display: flex;
   align-items: center;
@@ -50,20 +105,8 @@
   margin: 2px 2px;
   white-space: nowrap;
 }
+
 .selected-hobby img {
   width: 16px;
   height: 16px;
-}
-.select-hobby-topic {
-  text-align: left;
-  margin: 40px 0px 0px 40px;
-  font-size: 36px;
-  font-weight: bold;
-}
-.select-hobby-text {
-  text-align: left;
-  margin: 12px 0px 0px 40px;
-  font-size: 16px;
-  font-weight: medium;
-  color: #858585;
 }
