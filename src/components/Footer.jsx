@@ -1,10 +1,10 @@
 import React from "react";
-import "../css/components/Footer.css";
+import * as styles from "../css/components/Footer.css.ts";
 
 function Footer() {
   return (
-    <div className="footer">
-      <div className="textDB">
+    <div className={styles.footer}>
+      <div className={styles.footer}>
         Developed By COMA, Catholic University of Korea
       </div>
     </div>

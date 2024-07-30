@@ -1,9 +1,10 @@
 import React from "react";
 
 function ChargeButtonInfo({
-  handleNotService,
+  //handleNotService,
   handleChargeRequest,
   chargeclick,
+  handleToggleClick,
 }) {
   return (
     <div className="charge-request-clicked">
@@ -12,8 +13,8 @@ function ChargeButtonInfo({
         <button
           className="charge-request-clicked-img"
           type="button"
-          //onClick={handleToggleClick}
-          onClick={handleNotService}
+          onClick={handleToggleClick}
+          //onClick={handleNotService}
         >
           <img
             src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/arrowup.svg`}

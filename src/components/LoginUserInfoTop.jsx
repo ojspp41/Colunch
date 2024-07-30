@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
-import "../css/components/LoginUserInfoTop.css";
+import * as styles from "../css/components/LoginUserInfoTop.css.ts";
 
 function LoginUserInfoTop({ username }) {
   return (
     <Fragment>
-      <div className="welcome-message">
+      <div className={styles.welcomeMessage}>
         {username}님,
         <br />
         환영합니다.

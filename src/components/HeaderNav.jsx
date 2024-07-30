@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import "../css/components/HeaderNav.css";
+import * as styles from "../css/components/HeaderNav.css";
 
 function HeaderNav() {
   const navigate = useNavigate();
 
   return (
-    <div className="header">
+    <div className={styles.header}>
       <div>
         <img
-          className="logo-img"
-          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logowhite.png`}
+          className={styles.logoImg}
+          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logoblack.svg`}
           alt="로고"
           onClick={() => navigate("/")}
         />

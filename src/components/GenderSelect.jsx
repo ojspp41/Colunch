@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import GenderButton from "./GenderButton";
-import "../css/components/GenderSelect.css";
+import * as styles from "../css/components/GenderSelect.css.ts";
 
 function GenderSelect({ user, setUser }) {
   const handleGenderSelection = (value) => {
@@ -13,7 +13,7 @@ function GenderSelect({ user, setUser }) {
   return (
     <Fragment>
       <h3>성별</h3>
-      <div className="gender-container">
+      <div className={styles.genderContainer}>
         <GenderButton
           isActive={isActive}
           value="남자"

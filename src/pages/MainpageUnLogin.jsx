@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import "../css/pages/MainpageUnLogin.css";
-import HeaderNav from "../components/HeaderNav.jsx";
 import Footer from "../components/Footer.jsx";
 import TotalUsersCounter from "../components/TotalUsersCounter.jsx";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Background from "../components/Background.jsx";
+import HeaderNav from "../components/HeaderNav.jsx";
 // 로그인 되지 않은 메인페이지입니다.
 function MainpageUnLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
@@ -41,16 +42,43 @@ function MainpageUnLogin() {
 
   return (
     <div className="container">
-      <HeaderNav />
-      <div className="content">
-        <div className="bubble-counter">
+      <Background />
+      <div className="margin_top"></div>
+      <div className="bubble-counter">
           <TotalUsersCounter
             font_size="16px"
             numParticipants={numParticipants}
           />
+      </div>
+      <HeaderNav />
+      <div className="greeting-message">
+        반갑습니다<br></br>
+        코매칭이라면 당신은<br></br>
+        이미 커플입니다
+      </div>
+      
+      <div  style={{ marginTop: '189px' }}>
+        <div className="bubble" >
+          ⚡️10초만에 빠른 가입⚡️
         </div>
-        {/* 이미지가 컴퓨터로 봤을때 너무 크게 유지되어서 고쳐도 좋을것 같습니다. */}
-        <img
+        <button className="kakao-login" onClick={handleLogin}>
+            <div className="kakao-login-element">
+              <img
+                src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/kakao.svg`}
+                alt="카카오"
+              />
+              <p>카카오로 시작하기</p>
+            </div>
+        </button>
+      </div>
+      <div className="help-text">이용에 도움이 필요하신가요?</div>
+        <div>
+          <a className="privacy-button" onClick={handleVisitGuide}>
+            서비스 이용법 안내
+          </a>
+        </div>  
+        <Footer /> 
+        {/* <img
           src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/helloemoji.svg`}
           alt="사람 이미지"
           style={{
@@ -59,8 +87,8 @@ function MainpageUnLogin() {
             paddingTop: "30px",
           }}
           className="mainpage-unlogin-userimage"
-        />
-        <div>
+        /> */}
+        {/* <div>
           <img
             src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logoblack.svg`}
             alt="로고이미지"
@@ -95,7 +123,8 @@ function MainpageUnLogin() {
           </button>
         </div>
       </div>
-      <Footer />
+      <Footer /> */}
+      
     </div>
   );
 }

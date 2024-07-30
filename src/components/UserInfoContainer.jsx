@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import UserInfoElement from "./UserInfoElement";
-import "../css/components/UserInfoContainer.css";
+import * as styles from "../css/components/UserInfoContainer.css";
 
 function UserInfoContainer({
   FirstTopic,
@@ -10,15 +10,15 @@ function UserInfoContainer({
 }) {
   return (
     <Fragment>
-      <div className="User-Info__Container">
+      <div className={styles.userInfoContainer}>
         <div
-          className={`User-Info__Container__First-Item ${
-            FirstTopic === "취미" ? "User-Info__Container__Hobby" : ""
+          className={`${styles.firstItem} ${
+            FirstTopic === "취미" ? styles.hobby : ""
           }`}
         >
           <UserInfoElement Topic={FirstTopic} Text={FirstText} />
         </div>
-        <div className="User-Info__Container__Second-Item">
+        <div className={styles.secondItem}>
           <UserInfoElement Topic={SecoundTopic} Text={SecondText} />
         </div>
       </div>

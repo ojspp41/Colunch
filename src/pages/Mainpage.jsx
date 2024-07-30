@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MainpageUnLogin from "./MainpageUnLogin.jsx";
 import MainpageLogin from "./MainpageLogin.jsx";
 import axios from "axios";
+
 // mainpage 로그인 비로그인 페이지를 구분하기 위한 페이지입니다
 // 토큰의 유무로 확인하였으며 response를 통해 상태를 확인합니다.
 function Mainpage() {
@@ -24,6 +25,7 @@ function Mainpage() {
 
   // 로그인 상태에 따라 다른 컴포넌트 렌더링
   return <div>{isLoggedIn ? <MainpageLogin /> : <MainpageUnLogin />}</div>;
+  
 }
 
 export default Mainpage;

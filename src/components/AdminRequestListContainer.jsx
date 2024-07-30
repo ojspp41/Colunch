@@ -1,7 +1,22 @@
 import React, { useState } from "react";
-import "../css/components/AdminRequestListContainer.css";
+import {
+  adminRequestListContainer,
+  adminRequestListElement,
+  adminRequestListItem,
+  adminRequestListElementMargin,
+  adminRequestListItemImg,
+  adminRequestListItemInput,
+  adminRequestListElementUserID,
+  adminRequestListElementUserIDID,
+  adminRequestListItemPickmeButton,
+  adminRequestListItemPickmeValue,
+  adminRequestListItemSubmitButton,
+  adminRequestListElementResultPoint
+} from "../css/components/AdminRequestListContainer.css.ts"; // 스타일 파일 import
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import pointIcon from '../../public/assets/point.svg';
+import heartIcon from '../../public/assets/heart.svg';
 
 function AdminRequestListContainer({ request, setRequests }) {
   const navigate = useNavigate();
@@ -11,6 +26,7 @@ function AdminRequestListContainer({ request, setRequests }) {
     add_pick_me: 0,
     result_point: request.point,
   });
+
   // 충전 확인 함수
   const handleAdminSubmit = async () => {
     const FormData = {
@@ -22,7 +38,6 @@ function AdminRequestListContainer({ request, setRequests }) {
     const response = await axios.post("/admin/manage/charge", FormData);
     console.log(request);
     if (response.data.status === 200) {
-      // 요청이 성공하면 해당 요청의 isChecked를 true로 변경하여 목록에서 제거
       setRequests((prev) =>
         prev.map((item) =>
           item.contact_id === request.contact_id
@@ -32,13 +47,13 @@ function AdminRequestListContainer({ request, setRequests }) {
       );
     }
   };
+
   // 충전 삭제 함수
   const handleChargeDelete = async () => {
     const response = await axios.get(
       `/admin/manage/delete?contactId=${request.contact_id}`
     );
     if (response.data.status === 200) {
-      // 요청이 성공하면 해당 요청의 isChecked를 true로 변경하여 목록에서 제거
       setRequests((prev) =>
         prev.map((item) =>
           item.contact_id === request.contact_id
@@ -63,7 +78,6 @@ function AdminRequestListContainer({ request, setRequests }) {
     if (value.result_point >= value.add_point) {
       setValue((prevState) => ({
         ...prevState,
-
         result_point: prevState.result_point - prevState.add_point,
         chargeCheck: false,
       }));
@@ -71,6 +85,7 @@ function AdminRequestListContainer({ request, setRequests }) {
       alert("pickme를 취소해주세요");
     }
   };
+
   // Pickme 증가 함수
   const handleIncrease = () => {
     setValue((prevState) => ({
@@ -79,6 +94,7 @@ function AdminRequestListContainer({ request, setRequests }) {
       result_point: prevState.result_point - 500,
     }));
   };
+
   // Pickme 감소 함수
   const handleDecrease = () => {
     if (value.add_pick_me > 0) {
@@ -103,56 +119,64 @@ function AdminRequestListContainer({ request, setRequests }) {
   };
 
   return (
-    <div className="AdminRequestListContainer">
-      <div className="AdminRequestListElement">
-        <div className="AdminRequestListElement-userID">
+    <div className={adminRequestListContainer}>
+      <div className={`${adminRequestListElement} ${adminRequestListElementMargin}`}>
+        <div className={adminRequestListElementUserID}>
           userID: &nbsp;
-          <div className="AdminRequestListElement-userID-ID">
-            {" "}
+          <div className={adminRequestListElementUserIDID}>
             {request.contact_id}
           </div>
         </div>
-        <div className="AdminRequestListElement-result_point">
-          총 잔액 :{value.result_point}
+        <div className={adminRequestListElementResultPoint}>
+          총 잔액 : {value.result_point}
         </div>
         <button onClick={handleChargeDelete}>X</button>
       </div>
 
-      <div className="AdminRequestListItem">
-        <img src={process.env.PUBLIC_URL + `assets/point.svg`} alt="cost" />
+      <div className={adminRequestListItem}>
+        <img
+          src={pointIcon}
+          alt="cost"
+          className={adminRequestListItemImg}
+        />
         <input
           type="text"
           value={value.add_point}
           onChange={handleInputChange}
           disabled={value.chargeCheck}
+          className={adminRequestListItemInput}
         />
         {value.chargeCheck ? (
           <button onClick={handleChargeDecrease}>취소</button>
         ) : (
           <button onClick={handleChargeIncrease}>적용</button>
         )}
-        <img src={process.env.PUBLIC_URL + `assets/heart.svg`} alt="heart" />
+        <img
+          src={heartIcon}
+          alt="heart"
+          className={adminRequestListItemImg}
+        />
         <button
           type="button"
           onClick={handleDecrease}
-          className="AdminRequestListItem-pickme-button"
+          className={adminRequestListItemPickmeButton}
         >
           -
         </button>
-        <div className="AdminRequestListItem-pickme-value">
+        <div className={adminRequestListItemPickmeValue}>
           {value.add_pick_me}
         </div>
         <button
           type="button"
           onClick={handleIncrease}
-          className="AdminRequestListItem-pickme-button"
-          disabled={value.result_point < 500} // result_point가 500보다 작거나 같으면 비활성화
+          className={adminRequestListItemPickmeButton}
+          disabled={value.result_point < 500}
         >
           +
         </button>
         <button
           type="button"
-          className="AdminRequestListItem-submit-button"
+          className={adminRequestListItemSubmitButton}
           onClick={handleAdminSubmit}
           disabled={!value.chargeCheck}
         >
