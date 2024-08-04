@@ -3,7 +3,7 @@ import MyInput from "./MyInput";
 import * as styles from "../css/components/ContactMethodInput.css.ts";
 import axios from "../axiosConfig";
 
-function ContactMethodInput({ handleChange, user, setUser }) {
+function ContactMethodInput({ handleChange, user, setUser , onContactVerified }) {
   // 중복 여부 확인 함수
   const checkIfExists = async () => {
     // contact_id가 @로 시작하면 @를 제거
@@ -63,6 +63,7 @@ function ContactMethodInput({ handleChange, user, setUser }) {
         ...prevState,
         contact_id_Verified: false,
       }));
+      // onContactVerified();
     }
   };
 

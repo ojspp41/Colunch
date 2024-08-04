@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { userState, selectedMBTIState } from "../Atoms";
 import { useNavigate } from "react-router-dom";
 import MyInput from "../components/MyInput";
-import HeaderNav from "../components/HeaderNav";
+import HeaderMain from "../components/HeaderMain";
 import MajorSelector from "../components/MajorSelector";
 import FormTitle from "../components/FormTitle";
 import "../css/pages/Register.css";
@@ -15,7 +15,8 @@ import GenderSelect from "../components/GenderSelect";
 import MBTISection from "../components/MBTISection";
 import hobbyIcons from "../data/hobbyIcons";
 import Agreement from "../components/Agreement";
-
+import Background from "../components/Background"
+import  ProgressBar  from "../components/Progressbar";
 function Register() {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState); // 유저 상태 관리
@@ -139,8 +140,18 @@ function Register() {
   };
   return (
     <div className="container">
+      <Background/>
+      <HeaderMain />
+        
+
       <form onSubmit={handleSubmit}>
-        <HeaderNav />
+        <div className="info-card">
+          <div className="select-hobby-topic">취미 선택하기</div>
+          <div className="select-hobby-text">
+            본인의 취미를 알려주세요. (1-5개)
+          </div>
+          <ProgressBar progress={45} />
+        </div>
         <div className="form-inner-content">
           <FormTitle />
           <MajorSelector

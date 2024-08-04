@@ -1,13 +1,23 @@
 import { style } from '@vanilla-extract/css';
 
-export const majorSelector = style({
+
+export const schoolRow = style({
   display: 'flex',
-  paddingRight: '0px',
+  marginBottom: '20px',
+});
+export const departmentRow = style({
+  display: 'flex',
+  gap: '22px',
+  marginBottom: '15px',
+});
+
+export const school = style({
+  width: '100%',
 });
 
 export const depart = style({
   width: 'calc(33%)',
-  marginRight: '22px',
+  marginRight: '12px',
 });
 
 export const major = style({

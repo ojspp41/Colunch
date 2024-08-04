@@ -15,7 +15,7 @@ import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import QRGenerator from "./pages/QRGenerator.jsx";
 import Redirection from "./pages/RedirectionPage.jsx";
 import OpenExternalBrowser from "./OpenExternalBrowser.jsx";
-
+import Userinfo from "./pages/User_info_page.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./axiosConfig.jsx";
@@ -41,6 +41,7 @@ export default function App() {
             <Route path="/QR-generator" element={<QRGenerator />} />
             <Route path="/profile-builder" element={<ProfileBuilder />} />
             <Route path="/redirection" element={<Redirection />} />
+            <Route path="/userinfo" element={<Userinfo/>} />
             
           </Routes>
         </BrowserRouter>
