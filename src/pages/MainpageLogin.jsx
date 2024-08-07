@@ -12,9 +12,12 @@ import BottomNavButton from "../components/BottomNavButton";
 import MyInfoButton from "../components/MyInfoButton";
 import ChargeButtonInfo from "../components/ChargeButtonInfo";
 import NavBar from "../components/Navbar";
+import TutorialSlides from "../components/TutorialSlides";
+
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isClicked, setIsClicked] = useState(false); // 충전 요청 토글 클릭 상태를 저장하는 상태 변수
+  const [showTutorial, setShowTutorial] = useState(true); // Show tutorial on login
   
   const [userInfo, setUserInfo] = useState({
     // numParticipants: null,
@@ -199,6 +202,10 @@ function MainpageLogin() {
       </div>
       
       <NavBar/>
+
+      {showTutorial && (
+        <TutorialSlides onComplete={() => setShowTutorial(false)} />
+      )}
     </div>
   );
 }
