@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css';
+import { style, keyframes } from '@vanilla-extract/css';
 
 export const tutorialBackdrop = style({
     position: 'fixed',
@@ -26,7 +26,8 @@ export const tutorialSlide = style({
     alignItems: 'center',
     textAlign: 'center',
     cursor: 'pointer',
-    });
+    transition: 'transform 0.3s ease',
+});
 
 export const tutorialImage = style({
     width: '250px',
@@ -34,4 +35,22 @@ export const tutorialImage = style({
     backgroundColor: '#f7f7f7',
     borderRadius: '50%',
     margin: '20px 0',
+});
+
+const slideEnterKeyframes = keyframes({
+    '0%': { transform: 'translateX(100%)' },
+    '100%': { transform: 'translateX(0)' },
+});
+
+const slideExitKeyframes = keyframes({
+    '0%': { transform: 'translateX(0)' },
+    '100%': { transform: 'translateX(-100%)' },
+});
+
+export const slideEnter = style({
+    animation: `${slideEnterKeyframes} 0.7s forwards`,
+});
+
+export const slideExit = style({
+    animation: `${slideExitKeyframes} 0.7s forwards`,
 });

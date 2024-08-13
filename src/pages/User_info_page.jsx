@@ -19,6 +19,7 @@ import Background from "../components/Background";
 import ProgressBar from "../components/Progressbar";
 import Modal from "react-modal"; // Import react-modal
 import TermsAgreementModal from "../components/TermsAgreementModal"; // Import the modal component
+import { endFileScope } from "@vanilla-extract/css/fileScope";
 Modal.setAppElement("#root");
 
 function Userinfo() {
@@ -44,51 +45,6 @@ function Userinfo() {
     const [isCommentVisible, setIsCommentVisible] = useState(false);
     const [isFiveChars, setIsFiveChars] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // 입력값 유효성 검사
-        if (!validateForm(user, registerCheck)) {
-            return;
-        }
-
-        // 나이를 정수형으로 변환
-        const ageAsInt = parseInt(user.age, 10);
-
-        // POST 요청에 필요한 데이터 구성
-        const postData = {
-            major: user.major,
-            age: ageAsInt,
-            contact_id: user.contact_id,
-            gender: user.gender,
-            contact_frequency: user.contact_frequency,
-            mbti: user.mbti,
-            hobby: user.hobby,
-            song: user.song,
-            comment: user.comment,
-        };
-        try {
-            const response = await axios.post("/account/register-detail", postData);
-            if (response.data.status === 200) {
-                const token = response.data.data.update_token;
-                localStorage.setItem("token", token);
-
-                document.cookie.split(";").forEach((cookie) => {
-                    const [name] = cookie.split("=");
-                    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-                });
-
-                document.cookie = `token=${token};path=/;`;
-                alert("가입이 완료되었습니다.");
-                navigate("/");
-            } else {
-                alert("가입 실패");
-            }
-        } catch (error) {
-            console.error("오류 발생:", error);
-        }
-    };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         let errorMessage = "";
@@ -116,6 +72,7 @@ function Userinfo() {
                         setIsFiveChars(false); // 다섯 글자가 입력되지 않았음을 설정
                     }
                 }
+                
                 break;
             case "age":
                 setUser((prevUser) => ({ ...prevUser, age: value }));
@@ -134,6 +91,48 @@ function Userinfo() {
     // const handleContactVerified = () => {
     //     setIsContactVerified(true);
     // };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // 입력값 유효성 검사
+        if (!validateForm(user, registerCheck)) {
+            return;
+        }
+
+        // 나이를 정수형으로 변환
+        const ageAsInt = parseInt(user.age, 10);
+
+        // POST 요청에 필요한 데이터 구성
+        const postData = {
+            major: user.major,
+            age: ageAsInt,
+            contact_id: user.contact_id,
+            hobby: user.hobby,
+            song: user.song,
+            comment: user.comment,
+        };
+        try {
+            const response = await axios.post("/account/register-detail", postData);
+            if (response.data.status === 200) {
+                const token = response.data.data.update_token;
+                localStorage.setItem("token", token);
+
+                document.cookie.split(";").forEach((cookie) => {
+                    const [name] = cookie.split("=");
+                    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+                });
+
+                document.cookie = `token=${token};path=/;`;
+                alert("가입이 완료되었습니다.");
+                navigate("/");
+            } else {
+                alert("가입 실패");
+            }
+        } catch (error) {
+            console.error("오류 발생:", error);
+        }
+    };
+
 
     const isMajorSelectorComplete = checkMethod.school && checkMethod.department && checkMethod.major;
     const isAgeInputComplete = user.age;
