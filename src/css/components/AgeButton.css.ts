@@ -7,17 +7,15 @@ export const ageButton = style({
   margin: '0px 5px',
   borderRadius: '40px',
   backgroundColor: '#ffffff',
+  fontWeight: "bold",
   color: '#a5a5a5',
   border: '2px solid #e0e0e0',
-  boxShadow: '2px 4px 4px rgba(0, 0, 0, 0.25)', // Drop Shadow
 });
 
 export const active = style({
   fontFamily: '"Pretendard-SemiBold", Helvetica',
-  fontWeight: '700',
-  backgroundColor: '#ff775e',
-  color: '#ffffff',
-  boxShadow: `inset 2px 2px 10px rgba(255, 119, 94, 0.5), 
-              inset 0px 4px 10px rgba(0, 0, 0, 0.15), 
-              inset 4px 4px 15px rgba(0, 0, 0, 0.2)` // Inner shadows
+  fontWeight: "bold",
+  background: 'linear-gradient(45deg, #F8D1E0 0%, #FFFFFF 75%)', // 기존 색상보다 더 연한 핑크
+  color: "#F57DB2",
+  border: "1px solid #F57DB2", // 2px 두께의 경계선, 색상은 #F57DB2
 });

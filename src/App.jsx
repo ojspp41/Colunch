@@ -19,6 +19,7 @@ import Userinfo from "./pages/User_info_page.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import "./axiosConfig.jsx";
+import Matching from "./pages/Matching.jsx";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/profile-builder" element={<ProfileBuilder />} />
             <Route path="/redirection" element={<Redirection />} />
             <Route path="/userinfo" element={<Userinfo/>} />
+            <Route path="/matching" element={<Matching/>} />
             
           </Routes>
         </BrowserRouter>

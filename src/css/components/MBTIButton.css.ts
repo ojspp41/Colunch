@@ -8,12 +8,11 @@ export const mbtiElement = style({
 });
 
 export const mbtiButton = style({
-  width: "90%",
+  width: "85%",
   height: "54px",
   margin: "0px 6px 10px 6px",
   borderRadius: "30px",
   backgroundColor: "#ffffff",
-  boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.25)",
   border: "1px solid #e0e0e0",
   fontSize: "20px",
   fontFamily: '"Pretendard", sans-serif',
@@ -22,16 +21,14 @@ export const mbtiButton = style({
 });
 
 export const activeButton = style({
-  backgroundColor: "#ff775e",
-  color: "#ffffff",
-  border: "none",
+  background: 'linear-gradient(45deg, #F8D1E0 0%, #FFFFFF 75%)', // 기존 색상보다 더 연한 핑크
+  color: "#F57DB2",
+  border: "1px solid #F57DB2", // 2px 두께의 경계선, 색상은 #F57DB2
   fontFamily: '"Pretendard-SemiBold", Helvetica',
   fontWeight: "bold",
   fontSize: "20px",
-  boxShadow: `inset 2px 2px 10px rgba(255, 119, 94, 0.5),
-              inset 0px 4px 10px rgba(0, 0, 0, 0.15),
-              inset 4px 4px 15px rgba(0, 0, 0, 0.2)`,
 });
+
 
 export const formMbtiButton = style({
   width: "90%",
@@ -50,5 +47,4 @@ export const formActiveButton = style({
   backgroundColor: "#ff775e",
   color: "#ffffff",
   border: "none",
-  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
 });

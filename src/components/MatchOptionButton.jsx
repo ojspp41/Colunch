@@ -3,20 +3,19 @@ import React from "react";
 function MatchOptionButton({ state, num, handleButtonClick, money }) {
   return (
     <div className="match-premium-option-right">
-      <div className="match-premium-option-cost">
-        <img
-          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/point.svg`}
-          alt="cost"
-        />
-        {money}
-      </div>
       {!state ? (
         <button
           type="button"
           className="match-premium-option-unclick-button"
           onClick={() => handleButtonClick(num, money)}
         >
-          +
+          <div className="match-premium-option-cost">
+            <img
+              src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/point.svg`}
+              alt="cost"
+            />
+            {money}
+          </div>
         </button>
       ) : (
         <button
