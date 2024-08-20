@@ -132,7 +132,9 @@
   height: 20px;
   margin-right: 8px; /* spacing between the image and text */
 }
-
+.match-premium-option-class-click-button{
+  background-color: #fff;
+}
 .match-premium-option-click-button img {
   margin-right: 0; /* Remove margin for the close icon */
 }
@@ -231,4 +233,43 @@
   border-top: 10px solid white; /* 말풍선과 동일한 색상으로 설정 */
   z-index: -1; /* 삼각형이 말풍선 뒤에 위치하도록 설정 */
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.match-hobby-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 10px;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hobby-item {
+  flex: 1 1 calc(33.33% - 20px); /* 3개씩 배치 (간격 포함) */
+  max-width: calc(33.33% - 20px);
+  margin-bottom: 10px;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: white; /* 기본 배경색 */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.hobby-item.selected {
+  background: linear-gradient(45deg, #F8D1E0 0%, #FFFFFF 75%);
+
+  border-color: #ff99a9; /* 선택 시 보더 색상 변경 */
+}
+
+.hobby-item img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 8px;
+}
+
+.hobby-item div {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
 }
