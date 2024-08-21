@@ -61,7 +61,7 @@ function Matching() {
         // 필수 선택 확인
         const isAgeSelected = MatchState.isUseOption[0] ? MatchState.formData.age_option !== "" : true;
         const isContactFrequencySelected = MatchState.isUseOption[1] ? MatchState.formData.contact_frequency_option !== "" : true;
-        const isHobbySelected = MatchState.isUseOption[2] ? MatchState.formData.hobby_option.length === 5 : true;
+        const isHobbySelected = MatchState.isUseOption[2] ? MatchState.formData.hobby_option.length > 0 : true;
 
         if (!isAgeSelected) {
             alert("나이를 선택해 주세요.");
@@ -70,7 +70,7 @@ function Matching() {
             alert("연락 빈도를 선택해 주세요.");
             setImagePosition(0); // 이미지 위치 초기화
         } else if (!isHobbySelected) {
-            alert("취미를 5개 선택해 주세요.");
+            alert("취미를 선택해 주세요.(최대 5개");
             setImagePosition(0); // 이미지 위치 초기화
         } else if (imagePosition >= 252) {
             alert("다음 단계로 이동합니다."); // 이동 완료 후 원하는 동작 수행
