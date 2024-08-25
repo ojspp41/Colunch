@@ -17,6 +17,7 @@ import Redirection from "./pages/RedirectionPage.jsx";
 import OpenExternalBrowser from "./OpenExternalBrowser.jsx";
 import Userinfo from "./pages/User_info_page.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Adminpage from "./pages/Adminpage.jsx";
 import "./App.css";
 import "./axiosConfig.jsx";
 import Matching from "./pages/Matching.jsx";
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/match" element={<Match />} />
             <Route path="/check-result" element={<Checkresult />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/adminpage" element={<Adminpage />} />
             <Route path="/admin-select" element={<AdminSelect />} />
             <Route path="/loading" element={<Loading />} />
             <Route path="/code-reader" element={<CodeReader />} />
