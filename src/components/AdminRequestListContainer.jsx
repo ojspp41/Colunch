@@ -139,6 +139,7 @@ function AdminRequestListContainer({ request, setRequests }) {
           alt="cost"
           className={adminRequestListItemImg}
         />
+        <p className={adminRequestListElementUserIDID}> 입금액</p>
         <input
           type="text"
           value={value.add_point}

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/components/AdminNavbar.css';
 
 function AdminNavbar() {
     const [activeMenu, setActiveMenu] = useState('main');
     const [menuOpen, setMenuOpen] = useState(false);
     const [chargeRequestCount, setChargeRequestCount] = useState(3);
+    const navigate = useNavigate();
 
-    const handleMenuClick = (menu) => {
+    const handleMenuClick = (menu, path) => {
         setActiveMenu(menu);
         setMenuOpen(false);
+        navigate(path); // 네비게이트 함수로 경로 이동
     };
 
     const toggleMenu = () => {
@@ -28,6 +31,7 @@ function AdminNavbar() {
             const data = JSON.parse(event.data);
             if (data.topic === '/topic/chargeRequests') {
                 setChargeRequestCount(data.requestCount); // 충전 요청 건수를 상태에 저장
+                
             }
         };
 
@@ -54,13 +58,13 @@ function AdminNavbar() {
             <div className={`menu ${menuOpen ? 'open' : ''}`}>
                 <div
                     className={`menu-item ${activeMenu === 'main' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('main')}
+                    onClick={() => handleMenuClick('main', '/adminpage')}
                 >
                     Main
                 </div>
                 <div
                     className={`menu-item ${activeMenu === 'request' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('request')}
+                    onClick={() => handleMenuClick('request', '/adminpage/charge-requests')}
                 >
                     충전요청
                     {chargeRequestCount > 0 && (
@@ -69,13 +73,13 @@ function AdminNavbar() {
                 </div>
                 <div
                     className={`menu-item ${activeMenu === 'user-management' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('user-management')}
+                    onClick={() => handleMenuClick('user-management', '/adminpage/user-management')}
                 >
                     가입자관리
                 </div>
                 <div
                     className={`menu-item ${activeMenu === 'team-management' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('team-management')}
+                    onClick={() => handleMenuClick('team-management', '/adminpage/team-management')}
                 >
                     팀관리
                 </div>

@@ -37,7 +37,7 @@ export default function App() {
             <Route path="/match" element={<Match />} />
             <Route path="/check-result" element={<Checkresult />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="/adminpage" element={<Adminpage />} />
+            <Route path="/adminpage/*" element={<Adminpage />} />          
             <Route path="/admin-select" element={<AdminSelect />} />
             <Route path="/loading" element={<Loading />} />
             <Route path="/code-reader" element={<CodeReader />} />
