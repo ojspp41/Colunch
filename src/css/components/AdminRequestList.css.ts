@@ -1,6 +1,31 @@
 // AdminRequestList.css.ts
 import { style } from '@vanilla-extract/css';
 
+
+export const requestSummaryBox = style({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  backgroundColor: '#fff',
+  width: '80%',
+  margin: '0 auto',
+  padding: '24px 56px',
+  borderRadius: '12px', // Adds rounded corners
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Adds a subtle shadow
+});
+
+export const requestSummaryItem = style({
+  textAlign: 'center',
+  color: '#383838',
+  fontSize: '16px',
+});
+
+export const requestSummaryNumber = style({
+  display: 'block',
+  fontSize: '48px',
+  fontWeight: 'bold',
+  marginTop: '8px',
+});
 export const adminRequestList = style({
   width: '100%',
 });

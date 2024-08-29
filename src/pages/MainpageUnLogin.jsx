@@ -16,7 +16,7 @@ function MainpageUnLogin() {
   // Redirection페이지로 옮겨서 role을 확인하는 과정을 거쳤습니다.
   const handleLogin = () => {
     window.location.href =
-      "https://catholic-mibal.site/oauth2/authorization/kakao";
+      "http://backend.comatching.site:8080/login";
   };
 
   // 서비스 이용법 안내 페이지로 이동하는 핸들러

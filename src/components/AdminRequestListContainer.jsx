@@ -11,7 +11,10 @@ import {
   adminRequestListItemPickmeButton,
   adminRequestListItemPickmeValue,
   adminRequestListItemSubmitButton,
-  adminRequestListElementResultPoint
+  adminRequestListElementResultPoint,
+  adminRequestListElementContainer,
+  buttonMarginRight,
+  chargeDeleteButton
 } from "../css/components/AdminRequestListContainer.css.ts"; // 스타일 파일 import
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -127,10 +130,13 @@ function AdminRequestListContainer({ request, setRequests }) {
             {request.contact_id}
           </div>
         </div>
-        <div className={adminRequestListElementResultPoint}>
-          총 잔액 : {value.result_point}
+        <div className={adminRequestListElementContainer}>
+          <span className={adminRequestListElementResultPoint}>
+            총 잔액 : {value.result_point}
+          </span>
+          <button className={chargeDeleteButton} onClick={handleChargeDelete}>요청 삭제</button>
         </div>
-        <button onClick={handleChargeDelete}>X</button>
+        
       </div>
 
       <div className={adminRequestListItem}>
@@ -148,15 +154,16 @@ function AdminRequestListContainer({ request, setRequests }) {
           className={adminRequestListItemInput}
         />
         {value.chargeCheck ? (
-          <button onClick={handleChargeDecrease}>취소</button>
+          <button onClick={handleChargeDecrease} className={buttonMarginRight}>취소</button>
         ) : (
-          <button onClick={handleChargeIncrease}>적용</button>
+          <button onClick={handleChargeIncrease} className={buttonMarginRight}>적용</button>
         )}
         <img
           src={heartIcon}
           alt="heart"
           className={adminRequestListItemImg}
         />
+        <p className={adminRequestListElementUserIDID}>기회 추가:</p>
         <button
           type="button"
           onClick={handleDecrease}
