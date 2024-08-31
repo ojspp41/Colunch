@@ -20,7 +20,7 @@ function Hobbyform() {
       alert("관심사를 최소 1개 이상 선택해주세요.");
       return false;
     }
-    navigate("/Register");
+    navigate("/userinfo");
   };
 
   // 취미 아이템 클릭 시 실행되는 함수
@@ -38,7 +38,7 @@ function Hobbyform() {
     }));
   };
 
-  const categories = ["예술활동", "야외활동", "운동/스포츠", "미정", "미정"];
+  const categories = ["예술활동", "야외활동", "운동/스포츠", "정적인", "동적인"];
   const hobbyCards = [];
 
   for (let i = 0; i < hobbyIcons.length; i += 3) {
@@ -73,7 +73,7 @@ function Hobbyform() {
           </div>
           <ProgressBar progress={45} />
         </div>
-        <div className="selected-hobbies">
+        {/* <div className="selected-hobbies">
           {pickHobby.hobby.map((label, index) => {
             const hobby = hobbyIcons.find((item) => item.label === label);
             return (
@@ -85,7 +85,7 @@ function Hobbyform() {
               />
             );
           })}
-        </div>
+        </div> */}
         <div className="hobby-card-container">
           {hobbyCards}
         </div>
