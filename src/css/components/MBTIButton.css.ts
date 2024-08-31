@@ -44,7 +44,8 @@ export const formMbtiButton = style({
 });
 
 export const formActiveButton = style({
-  backgroundColor: "#ff775e",
+  background: 'pink', // 기존 색상보다 더 연한 핑크
+  opacity: '0.5',
   color: "#ffffff",
   border: "none",
 });

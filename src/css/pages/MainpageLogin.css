@@ -171,3 +171,9 @@
   color: black;
   line-height: 1.2;
 }
+.charge-request-disabled {
+  
+  color: #a0a0a0; /* 회색 글자 */
+  cursor: not-allowed; /* 클릭할 수 없음을 나타내는 커서 */
+  font-size: 13px;
+}

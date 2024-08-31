@@ -5,24 +5,24 @@ import axios from "../axiosConfig";
 
 function ContactMethodInput({ handleChange, user, setUser , onContactVerified }) {
   // 중복 여부 확인 함수
-  const checkIfExists = async () => {
+  // const checkIfExists = async () => {
     // contact_id가 @로 시작하면 @를 제거
-    const contactId = user.contact_id.startsWith("@")
-      ? user.contact_id.slice(1)
-      : user.contact_id;
-    const contact = user.contact;
+    // const contactId = user.contact_id.startsWith("@")
+    //   ? user.contact_id.slice(1)
+    //   : user.contact_id;
+    // const contact = user.contact;
     // 서버에 중복 여부를 확인하는 GET 요청
-    const response = await axios.get(
-      `/account/contact/duplication?contactId=${contactId}&contactType=${contact}`
-    );
+    // const response = await axios.get(
+    //   `/account/contact/duplication?contactId=${contactId}&contactType=${contact}`
+    // );
     // 응답 코드에 따른 처리
-    if (response.data.status === 200) {
-      const duplication = response.data.data.is_duplication;
-      return duplication;
-    } else {
-      throw new Error("Unexpected response code or status");
-    }
-  };
+  //   if (response.data.status === 200) {
+  //     const duplication = response.data.data.is_duplication;
+  //     return duplication;
+  //   } else {
+  //     throw new Error("Unexpected response code or status");
+  //   }
+  // };
   // 입력 값 확인 및 유효성 검사 함수
   const handleCheck = async () => {
     // 카카오 ID 유효성 검사 패턴
@@ -46,7 +46,7 @@ function ContactMethodInput({ handleChange, user, setUser , onContactVerified })
     }
 
     // 중복 여부 확인
-    const alreadyExists = await checkIfExists();
+    const alreadyExists = false; 
     if (alreadyExists) {
       alert(
         `이미 존재하는 ${
@@ -61,7 +61,7 @@ function ContactMethodInput({ handleChange, user, setUser , onContactVerified })
       );
       setUser((prevState) => ({
         ...prevState,
-        contact_id_Verified: false,
+        contact_id_Verified: true,
       }));
       // onContactVerified();
     }

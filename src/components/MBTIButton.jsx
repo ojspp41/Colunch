@@ -30,7 +30,7 @@ function MBTIButton({ user, onClick, letter, name }) {
 }
 
 MBTIButton.propTypes = {
-  user: PropTypes.array.isRequired,
+  user: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   letter: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

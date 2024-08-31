@@ -3,7 +3,7 @@ import ContactMethodInput from "./ContactMethodInput";
 import ContactMethodPick from "./ContactMethodPick";
 import * as styles from  "../css/components/ContactMethod.css.ts";
 
-function ContactMethod({ user, handleChange, setUser , onContactVerified }) {
+function ContactMethod({ user, handleChange, setUser  }) {
   return (
     <Fragment>
       <ContactMethodPick user={user} setUser={setUser} />
@@ -14,11 +14,11 @@ function ContactMethod({ user, handleChange, setUser , onContactVerified }) {
         handleChange={handleChange}
         // onContactVerified={onContactVerified}
       />
-      <h6
-        className={`${styles.checkMessage} ${user.contact_id_Verified ? "" : styles.hidden}`}
-      >
-        중복입력 방지를 위해 확인버튼을 눌러주세요
-      </h6>
+      {!user.contact_id_Verified && (
+        <h6 className={styles.checkMessage}>
+          중복입력 방지를 위해 확인버튼을 눌러주세요
+        </h6>
+      )}
     </Fragment>
   );
 }

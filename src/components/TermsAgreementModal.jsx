@@ -15,7 +15,8 @@ const TermsAgreementModal = ({ isOpen, onRequestClose, handleSubmit, registerChe
             alert('필수 항목을 모두 선택해주세요.');
             return;
         }
-        handleSubmit(registerCheck);
+        onRequestClose(); // 모달을 닫습니다
+        handleSubmit(); // 전달받은 handleSubmit 함수를 호출합니다
     };
 
     return (
@@ -49,10 +50,10 @@ const TermsAgreementModal = ({ isOpen, onRequestClose, handleSubmit, registerChe
                             <input type="checkbox" id="terms3" checked={registerCheck.terms3} onChange={handleCheckboxChange} />
                             <label htmlFor="terms3">만 14세 이상입니다 </label>
                         </li>
-                        <li>
+                        {/* <li>
                             <input type="checkbox" id="terms4" checked={registerCheck.terms4} onChange={handleCheckboxChange} />
                             <label htmlFor="terms4">마케팅 정보 수신 동의 </label>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <button className="agree-button" onClick={handleSubmitClick}>

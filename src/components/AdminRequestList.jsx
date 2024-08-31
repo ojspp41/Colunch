@@ -1,79 +1,97 @@
-import { useEffect } from "react";
-import "../css/components/AdminRequestList.css.ts"; // 확인: 경로와 확장자
+import React, { useEffect, useState } from "react";
+import "../css/components/AdminRequestList.css"; // 스타일 파일 경로 확인
 import AdminRequestListContainer from "./AdminRequestListContainer";
-import * as styles from "../css/components/AdminRequestList.css.ts";
-
-import axios from "axios";
+import * as styles from "../css/components/AdminRequestList.css";
 import { useRecoilState } from "recoil";
 import { adminRequests } from "../Atoms";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
+
+function getTokenFromCookie() {
+  const name = 'Authorization=';
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const ca = decodedCookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
 
 function AdminRequestList() {
   const [requests, setRequests] = useRecoilState(adminRequests);
-  const exampleRequests = [
-    {
-      contact_id: "user123",
-      point: 2000,
-    },
-    {
-      contact_id: "user456",
-      point: 2000,
-    },
-  ];
+  const [stompClient, setStompClient] = useState(null);
+
   useEffect(() => {
-    // 초기 요청 목록 초기화
-    setRequests(exampleRequests);
-    
-    
-  }, [setRequests]); // useEffect의 의존성 배열에 setRequests 추가
- /* useEffect(() => {
-    // 초기 요청 목록 초기화
-    setRequests(exampleRequests);
-    const fetchData = async () => {
+    const connectWebSocket = async () => {
+      const socket = new SockJS('http://backend.comatching.site:8080/ws');
+      const client = Stomp.over(socket);
+      const token = getTokenFromCookie();
+
+      console.log("Token from cookie:", token);
+
+      return new Promise((resolve, reject) => {
+        client.connect({ Authorization: `Bearer ${token}` }, (frame) => {
+          console.log('Connected: ' + frame);
+
+          setStompClient(client);
+
+          // 충전 요청 구독
+          client.subscribe('/topic/chargeRequests', (message) => {
+            const chargeRequests = JSON.parse(message.body);
+            console.log(chargeRequests);
+            setRequests((prevRequests) => [...prevRequests, ...chargeRequests]);
+          });
+
+          // 승인 업데이트 구독
+          client.subscribe('/topic/approvalUpdate', (message) => {
+            const userId = message.body;
+            setRequests((prevRequests) =>
+              prevRequests.map((request) =>
+                request.contact_id === userId ? { ...request, isChecked: true } : request
+              )
+            );
+          });
+
+          resolve(client);
+        }, (error) => {
+          console.error('Error connecting to WebSocket', error);
+          reject(error);
+        });
+      });
+    };
+
+    const initializeWebSocket = async () => {
       try {
-        const response = await axios.get("/admin/manage/main");
-        if (response.data.status === 200) {
-          const updatedData = response.data.data.charge_request_info_list.map(
-            (item) => ({
-              ...item,
-              isChecked: false,
-            })
-          );
-          setRequests(updatedData);
-        }
+        await connectWebSocket();
       } catch (error) {
-        console.error("Error fetching data:", error);
-        // Handle errors if needed
+        console.error("Failed to connect to WebSocket:", error);
       }
     };
 
-    fetchData();
-  }, [setRequests]); // useEffect의 의존성 배열에 setRequests 추가
-*/
+    initializeWebSocket();
+
+    return () => {
+      if (stompClient && stompClient.connected) {
+        stompClient.disconnect(() => {
+          console.log('Disconnected');
+        });
+      }
+    };
+  }, []); // 빈 의존성 배열로 한 번만 실행
+
   return (
-    <div >
-      <div className={styles.requestSummaryBox}>
-        <div className={styles.requestSummaryItem}>
-          <span>현재 요청건수</span>
-          <span className={styles.requestSummaryNumber}>0</span>
-        </div>
-        <div className={styles.requestSummaryItem}>
-          <span>누적 요청건수</span>
-          <span className={styles.requestSummaryNumber}>0</span>
-        </div>
-        <div className={styles.requestSummaryItem}>
-          <span>누적 승인건수</span>
-          <span className={styles.requestSummaryNumber}>0</span>
-        </div>
-        <div className={styles.requestSummaryItem}>
-          <span>누적 취소건수</span>
-          <span className={styles.requestSummaryNumber}>0</span>
-        </div>
-      </div>
+    <div>
       <div className="content">
         <div className={styles.adminRequestListTitle}>충전 요청 목록</div>
-          <div className={styles.adminRequestListText}>
-            유저로부터 이름, 아이디, 입금 내역 확인해서 그만큼 충전
-          </div>
+        <div className={styles.adminRequestListText}>
+          유저로부터 이름, 아이디, 입금 내역 확인해서 그만큼 충전
+        </div>
         <div className={styles.adminRequestListBox}>
           {requests.map(
             (request, index) =>
@@ -90,4 +108,5 @@ function AdminRequestList() {
     </div>
   );
 }
+
 export default AdminRequestList;

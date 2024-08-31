@@ -1,50 +1,76 @@
 import React, { useState,useEffect } from "react";
 import axios from "../axiosConfig";
-import { validateForm } from "../myfunction/formValidation";
+// import { validateForm } from "../myfunction/formValidation";
 import { useRecoilState } from "recoil";
 import { userState, selectedMBTIState } from "../Atoms";
 import { useNavigate } from "react-router-dom";
 import MyInput from "../components/MyInput";
 import HeaderMain from "../components/HeaderMain";
 import MajorSelector from "../components/MajorSelector";
-
+import Cookies from 'js-cookie';
 import "../css/pages/User_info.css";
 import AgeInputInput from "../components/AgeInput";
 import ContactMethod from "../components/ContactMethod";
 import GenderSelect from "../components/GenderSelect";
 import MBTISection from "../components/MBTISection";
-import hobbyIcons from "../data/hobbyIcons";
-import Agreement from "../components/Agreement";
+// import hobbyIcons from "../data/hobbyIcons";
+// import Agreement from "../components/Agreement";
+import AdmissionYearInput from "../components/AdmissionYearInput";
 import Background from "../components/Background";
 import ProgressBar from "../components/Progressbar";
 import Modal from "react-modal"; // Import react-modal
-import TermsAgreementModal from "../components/TermsAgreementModal"; // Import the modal component
+import TermsAgreementModal from "../components/TermsAgreementModal"; 
 import { endFileScope } from "@vanilla-extract/css/fileScope";
 Modal.setAppElement("#root");
 
 function Userinfo() {
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState); // 유저 상태 관리
-    const [registerCheck, setRegisterCheck] = useState({
-        terms1: false,
-        terms2: false,
-        terms3: false,
-        terms4: false,
-    });
+    const [selectedMBTI, setSelectedMBTI] = useRecoilState(selectedMBTIState);
     const [checkMethod, setCheckMethod] = useState({
         school: "",
         department: "",
         major: "",
-        contactVerified: false,
+        contactVerified: true,
     });
+    const [registerCheck, setRegisterCheck] = useState({
+        terms1: false,
+        terms2: false,
+        terms3: false,
+    });
+    const handleMBTISelection = (value) => {
+        const category =
+            value === "E" || value === "I"
+                ? "EI"
+                : value === "S" || value === "N"
+                ? "SN"
+                : value === "T" || value === "F"
+                ? "TF"
+                : "PJ";
+    
+        setSelectedMBTI((prevMBTI) => ({
+            ...prevMBTI,
+            [category]: value,
+        }));
+    
+        setUser((prevUser) => ({
+            ...prevUser,
+            mbti: `${category === "EI" ? value : selectedMBTI.EI}${
+                category === "SN" ? value : selectedMBTI.SN
+        }${category === "TF" ? value : selectedMBTI.TF}${
+            category === "PJ" ? value : selectedMBTI.PJ
+        }`,
+        isLoggedIn: true,
+        }));
+    };
 
-    const [isMajorSelectorVisible, setIsMajorSelectorVisible] = useState(false);
-    const [isAgeInputVisible, setIsAgeInputVisible] = useState(false);
+    const [isGenderSelectable, setIsGenderSelectable] = useState(false); 
     const [isContactVerified, setIsContactVerified] = useState(false);
     const [isSongInputVisible, setIsSongInputVisible] = useState(false);
     const [isCommentVisible, setIsCommentVisible] = useState(false);
     const [isFiveChars, setIsFiveChars] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [isGenderSelected, setIsGenderSelected] = useState(false); 
     const handleChange = (e) => {
         const { name, value } = e.target;
         let errorMessage = "";
@@ -75,8 +101,22 @@ function Userinfo() {
                 
                 break;
             case "age":
-                setUser((prevUser) => ({ ...prevUser, age: value }));
+                setUser((prevUser) => ({ ...prevUser, age: parseInt(value, 10) || "" }));
                 setIsAgeInputVisible(true);
+                break;
+            case "admissionYear":
+                setUser((prevUser) => ({ 
+                    ...prevUser, 
+                    admissionYear: value !== "" ? parseInt(value, 10) : "" 
+                }));
+                break;
+            case "gender":
+                if (value === "MALE" || value === "FEMALE") {
+                    setUser((prevUser) => ({ ...prevUser, gender: value }));
+                    setIsGenderSelected(true);
+                } else {
+                    errorMessage = "성별은 MALE 또는 FEMALE로 선택해야 합니다.";
+                }
                 break;
             default:
                 break;
@@ -91,38 +131,78 @@ function Userinfo() {
     // const handleContactVerified = () => {
     //     setIsContactVerified(true);
     // };
+    const fieldLabels = {
+        major: "전공",
+        age: "나이",
+        mbti: "MBTI",
+        gender: "성별",
+        contactFrequency: "연락 빈도",
+        hobby: "취미",
+        song: "좋아하는 노래",
+        comment: "소개할 다섯글자",
+        admissionYear: "학번"
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        // 입력값 유효성 검사
-        if (!validateForm(user, registerCheck)) {
-            return;
+        if (e && e.preventDefault) {
+            e.preventDefault();  
         }
-
+        // 입력값 유효성 검사
+        const requiredFields = ['major', 'age', 'mbti', 'gender', 'contactFrequency', 'hobby', 'song', 'comment', 'admissionYear'];
+        for (let field of requiredFields) {
+            if (!user[field] || (Array.isArray(user[field]) && user[field].length === 0)) {
+                alert(`${fieldLabels[field]} 빈칸을 채워주세요`);
+                return;
+            }
+    }
         // 나이를 정수형으로 변환
-        const ageAsInt = parseInt(user.age, 10);
+        
 
         // POST 요청에 필요한 데이터 구성
         const postData = {
             major: user.major,
-            age: ageAsInt,
-            contact_id: user.contact_id,
+            age: user.age,
+            mbti: user.mbti,
+            gender: user.gender,
+            contactFrequency: user.contactFrequency,
             hobby: user.hobby,
             song: user.song,
             comment: user.comment,
+            admissionYear: user.admissionYear,
         };
         try {
-            const response = await axios.post("/account/register-detail", postData);
+            console.log(postData);
+            
+            // 쿠키에서 ACCESSTOKEN 가져오기
+            const accessToken = Cookies.get('Authorization');
+            
+            const response = await axios.post("http://backend.comatching.site:8080/auth/social/api/user/info", postData, {
+                
+                headers: {
+                    Authorization: `Bearer ${accessToken}`  // ACCESSTOKEN을 Authorization 헤더에 추가
+                }
+            });
+            console.log(response);
             if (response.data.status === 200) {
-                const token = response.data.data.update_token;
-                localStorage.setItem("token", token);
+                // 응답 헤더에서 토큰 추출
+                const newAccessToken = response.headers['authorization'];
+                const refreshToken = response.headers['refresh-token'];
+                
+                console.log("새 액세스 토큰:", newAccessToken);
+                console.log("리프레시 토큰:", refreshToken);
 
-                document.cookie.split(";").forEach((cookie) => {
-                    const [name] = cookie.split("=");
-                    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-                });
-
-                document.cookie = `token=${token};path=/;`;
+                if (newAccessToken) {
+                    // "Bearer " (7글자)를 제거
+                    const tokenWithoutBearer = newAccessToken.slice(7);
+                
+                    // 쿠키에 저장
+                    Cookies.set('Authorization', tokenWithoutBearer, { path: '/' });
+                }
+                
+        
+                if (refreshToken) {
+                    Cookies.set('RefreshToken', refreshToken, { path: '/' });
+                }
                 alert("가입이 완료되었습니다.");
                 navigate("/");
             } else {
@@ -137,20 +217,35 @@ function Userinfo() {
     const isMajorSelectorComplete = checkMethod.school && checkMethod.department && checkMethod.major;
     const isAgeInputComplete = user.age;
 
-    const progress = isFiveChars ? 100 : isCommentVisible ? 90 : isSongInputVisible ? 80 : isMajorSelectorComplete ? (isAgeInputComplete ? 60 : 35) : 0;
+    const progress = isFiveChars ? 100 : isCommentVisible ? 90 : isSongInputVisible ? 80 : isMajorSelectorComplete ? (isAgeInputComplete ? 60 : 45) : 30;
 
     useEffect(() => {
-        if (isMajorSelectorComplete) {
-            setIsMajorSelectorVisible(true);
-        }
-        if (isAgeInputComplete) {
-            setIsAgeInputVisible(true);
-        }
-    }, [isMajorSelectorComplete, isAgeInputComplete]);
+        checkAllFieldsSelected(); // Initial check on load
+    }, [checkMethod, user.age, user.admissionYear, user.mbti, user.contactFrequency]);
     const openModal = () => {
         setModalIsOpen(true);
     };
+    const handleAgeClick = (value) => {
+        setUser((prev) => ({
+            ...prev,
+            contactFrequency: value,
+        }));
+        checkAllFieldsSelected();
+    };
+    const checkAllFieldsSelected = () => {
+        const isAllSelected =
+            checkMethod.school &&
+            checkMethod.department &&
+            checkMethod.major &&
+            user.age &&
+            user.admissionYear &&
+            user.mbti &&
+            user.contactFrequency;
 
+        if (isAllSelected) {
+            setIsGenderSelectable(true);
+        }
+    };
     const closeModal = () => {
         setModalIsOpen(false);
     };
@@ -161,28 +256,79 @@ function Userinfo() {
             <div className="info-card">
                 <div className="select-hobby-topic">학교를 선택해 주세요.</div>
                 <div className="select-hobby-text">
-                    본인의 취미를 알려주세요. (1-5개)
+                    커플이 되기까지 단 한걸음!
                 </div>
                 <ProgressBar progress={progress} />
             </div>
             <form onSubmit={handleSubmit}>
                 <div className="form-inner-content">
-                    {isCommentVisible && (
-                        <div>
-                            <label>
-                                <h3>나를 소개할 다섯글자</h3>
-                                <div className="music">
-                                    <MyInput
-                                        name="comment"
-                                        value={user.comment}
-                                        onChange={handleChange}
-                                        placeholder="😊😊😊😊😊"
-                                        className="comment-input"
-                                        maxLength={5}
-                                    />
-                                </div>
-                            </label>
-                        </div>
+                    <MajorSelector
+                        user={user}
+                        setUser={setUser}
+                        checkMethod={checkMethod}
+                        setCheckMethod={setCheckMethod}
+                    />
+                    <AgeInputInput value={user.age} onChange={handleChange} />
+                    <AdmissionYearInput value={user.admissionYear} onChange={handleChange} />
+                    <h3>MBTI</h3>
+                    <MBTISection
+                        user={user.mbti}
+                        onClick={handleMBTISelection}
+                        name="form-MBTIButton"
+                    />
+                    <div>
+                    <h3>연락빈도</h3>
+                    <div className="match-select-button">
+                        <button
+                            type="button"
+                            className={`form-AgeMaker ${
+                                user.contactFrequency === "FREQUENT" ? "selected" : ""
+                            }`}
+                            value={"FREQUENT"}
+                            onClick={() => handleAgeClick("FREQUENT")}
+                        >
+                            자주
+                        </button>
+                        <button
+                            type="button"
+                            className={`form-AgeMaker ${
+                                user.contactFrequency === "NORMAL" ? "selected" : ""
+                            }`}
+                            value={"NORMAL"}
+                            onClick={() => handleAgeClick("NORMAL")}
+                        >
+                            보통
+                        </button>
+                        <button
+                            type="button"
+                            className={`form-AgeMaker ${
+                                user.contactFrequency === "NOT_FREQUENT" ? "selected" : ""
+                            }`}
+                            value={"NOT_FREQUENT"}
+                            onClick={() => handleAgeClick("NOT_FREQUENT")}
+                        >
+                            가끔
+                        </button>
+                    </div>
+                    </div>
+                    
+                    
+                    {isGenderSelectable && (
+                        <GenderSelect
+                            user={user}
+                            setUser={setUser}
+                            onChange={handleChange}
+                            setIsGenderSelected={setIsGenderSelected}
+                        />
+                    )}
+                    {isGenderSelected && (
+                        <ContactMethod
+                            checkMethod={checkMethod}
+                            setCheckMethod={setCheckMethod}
+                            user={user}
+                            setUser={setUser}
+                            handleChange={handleChange}
+                        />
                     )}
                     {isContactVerified && (
                         <div>
@@ -200,26 +346,24 @@ function Userinfo() {
                             </label>
                         </div>
                     )}
-                
-                    {isAgeInputVisible && (
-                        <ContactMethod
-                            checkMethod={checkMethod}
-                            setCheckMethod={setCheckMethod}
-                            user={user}
-                            setUser={setUser}
-                            handleChange={handleChange}
-                            // onContactVerified={handleContactVerified}
-                        />
+                    {isCommentVisible && (
+                        <div>
+                            <label>
+                                <h3>나를 소개할 다섯글자</h3>
+                                <div className="music">
+                                    <MyInput
+                                        name="comment"
+                                        value={user.comment}
+                                        onChange={handleChange}
+                                        placeholder="😊😊😊😊😊"
+                                        className="comment-input"
+                                        maxLength={5}
+                                    />
+                                </div>
+                            </label>
+                        </div>
                     )}
-                    {isMajorSelectorVisible && (
-                        <AgeInputInput value={user.age} onChange={handleChange} />
-                    )}
-                    <MajorSelector
-                        user={user}
-                        setUser={setUser}
-                        checkMethod={checkMethod}
-                        setCheckMethod={setCheckMethod}
-                    />
+                    
                     {isFiveChars && (
                         <button
                             className="start-button"
@@ -229,6 +373,7 @@ function Userinfo() {
                             코매칭 시작하기
                         </button>
                     )}
+                    
                 </div>
             </form>
             <TermsAgreementModal

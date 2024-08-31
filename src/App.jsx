@@ -17,12 +17,17 @@ import Redirection from "./pages/RedirectionPage.jsx";
 import OpenExternalBrowser from "./OpenExternalBrowser.jsx";
 import Userinfo from "./pages/User_info_page.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Adminpage from "./pages/Adminpage.jsx";
+import Describe from "./pages/Describe.jsx";
 import "./App.css";
 import "./axiosConfig.jsx";
 import Matching from "./pages/Matching.jsx";
-
+import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
+// import ChargeRequestsPage from "./pages/ChargeRequestsPage.jsx";
+// import ChargeRequestMonitor from "./components/admintest.jsx";
+import AdminRequestList from "./components/AdminRequestList.jsx";
 export default function App() {
+  
+  
   return (
     <RecoilRoot>
       <div className="App">
@@ -37,7 +42,8 @@ export default function App() {
             <Route path="/match" element={<Match />} />
             <Route path="/check-result" element={<Checkresult />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="/adminpage/*" element={<Adminpage />} />          
+            <Route path="/adminpage" element={<Adminpageunlogin />} />   
+            <Route path="/adminpage/charge-requests" element={<AdminRequestList />} />           
             <Route path="/admin-select" element={<AdminSelect />} />
             <Route path="/loading" element={<Loading />} />
             <Route path="/code-reader" element={<CodeReader />} />
@@ -46,6 +52,8 @@ export default function App() {
             <Route path="/redirection" element={<Redirection />} />
             <Route path="/userinfo" element={<Userinfo/>} />
             <Route path="/matching" element={<Matching/>} />
+            <Route path="/describe" element={<Describe/>} />
+            
             
           </Routes>
         </BrowserRouter>

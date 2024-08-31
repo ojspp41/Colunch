@@ -30,7 +30,7 @@ function Adminpage() {
         checkLoginStatus();
     }, []);
 
-    return <div>{isLoggedIn ? <Adminpagelogin /> : <Adminpagelogin />}</div>;
+    return <div>{isLoggedIn ? <Adminpagelogin /> : <Adminpageunlogin />}</div>;
 }
 
 export default Adminpage;
