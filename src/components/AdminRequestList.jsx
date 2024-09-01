@@ -7,6 +7,8 @@ import { adminRequests } from "../Atoms";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
+
+
 function getTokenFromCookie() {
   const name = 'Authorization=';
   const decodedCookie = decodeURIComponent(document.cookie);
@@ -35,7 +37,7 @@ function AdminRequestList() {
 
       console.log("Token from cookie:", token);
 
-      return new Promise((resolve, reject) => {
+      
         client.connect({ Authorization: `Bearer ${token}` }, (frame) => {
           console.log('Connected: ' + frame);
 
@@ -58,12 +60,12 @@ function AdminRequestList() {
             );
           });
 
-          resolve(client);
+          
         }, (error) => {
           console.error('Error connecting to WebSocket', error);
-          reject(error);
+          
         });
-      });
+
     };
 
     const initializeWebSocket = async () => {

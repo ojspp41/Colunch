@@ -25,6 +25,7 @@ import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
 // import ChargeRequestsPage from "./pages/ChargeRequestsPage.jsx";
 // import ChargeRequestMonitor from "./components/admintest.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";
+import ChargeRequestPage from "./pages/ChargeRequestPage.jsx";
 export default function App() {
   
   
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="/adminpage/charge-requests" element={<AdminRequestList />} />           
             <Route path="/admin-select" element={<AdminSelect />} />
             <Route path="/loading" element={<Loading />} />
+            <Route path="/charge-request" element={<ChargeRequestPage />} />
             <Route path="/code-reader" element={<CodeReader />} />
             <Route path="/QR-generator" element={<QRGenerator />} />
             <Route path="/profile-builder" element={<ProfileBuilder />} />

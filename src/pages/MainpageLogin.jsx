@@ -14,10 +14,11 @@ import MyInfoButton from "../components/MyInfoButton";
 import ChargeButtonInfo from "../components/ChargeButtonInfo";
 import NavBar from "../components/Navbar";
 import TutorialSlides from "../components/TutorialSlides";
-
+import HartButtonInfo from "../components/HartButtonInfo";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
-  const [isClicked, setIsClicked] = useState(false); // 충전 요청 토글 클릭 상태를 저장하는 상태 변수
+  const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
+  const [isHeartClicked, setIsHeartClicked] = useState(false); // 하트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
   const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
   
   const [userInfo, setUserInfo] = useState({
@@ -38,7 +39,15 @@ function MainpageLogin() {
   const handleToggleClick = () => {
     setIsClicked((prevIsClicked) => !prevIsClicked);
   };
+  // 포인트 충전 토글 클릭 핸들러
+  const handlePointToggleClick = () => {
+    setIsPointClicked((prevIsClicked) => !prevIsClicked);
+  };
 
+  // 하트 충전 토글 클릭 핸들러
+  const handleHeartToggleClick = () => {
+    setIsHeartClicked((prevIsClicked) => !prevIsClicked);
+  };
   // 사용자 정보를 가져오는 비동기 함수
   useEffect(() => {
     const fetchData = async () => {
@@ -91,7 +100,10 @@ function MainpageLogin() {
     navigate("/guide");
   };
   const handleCharge = () => {
-    navigate("/charge");
+    navigate("/charge-request");
+  };
+  const handlehartCharge = () => {
+    navigate("/hart-charge-request");
   };
   const handleClickmatch = () => {
     navigate("/QR-generator");
@@ -161,21 +173,21 @@ function MainpageLogin() {
           />
         </div>
 
-        {isClicked ? (
+        {isPointClicked ? (
           <ChargeButtonInfo
             //handleNotService={handleNotService}
-            handleChargeRequest={handleChargeRequest}
-            handleToggleClick={handleToggleClick}
+            handleChargeRequest={handleCharge}
+            handleToggleClick={handlePointToggleClick}
             chargeclick={chargeclick}
           />
         ) : (
           <div className="charge-request-unclicked">
-            💁 부스에 충전 요청하기
+            💁 부스에 포인트 충전 요청하기
             {userInfo.canRequestCharge ? (
               <button
                 className="charge-request-unclicked-img"
                 type="button"
-                onClick={handleToggleClick}
+                onClick={handlePointToggleClick}
               >
                 <img
                   src={`${
@@ -191,7 +203,37 @@ function MainpageLogin() {
             )}
           </div>
         )}
-
+        {isHeartClicked ? (
+          <HartButtonInfo
+            //handleNotService={handleNotService}
+            point={userInfo.point}
+            handleChargeRequest={handlehartCharge}
+            handleToggleClick={handleHeartToggleClick}
+            chargeclick={chargeclick}
+          />
+        ) : (
+          <div className="charge-request-unclicked">
+            ❤️ 포인트 하트로 교환하기
+            {userInfo.canRequestCharge ? (
+              <button
+                className="charge-request-unclicked-img"
+                type="button"
+                onClick={handleHeartToggleClick}
+              >
+                <img
+                  src={`${
+                    import.meta.env.VITE_PUBLIC_URL
+                  }../../assets/arrowbottom.svg`}
+                  alt="충전요청 열기"
+                />
+              </button>
+            ) : (
+              <div className="charge-request-disabled">
+                요청완료
+              </div>
+            )}
+          </div>
+        )}
         <div className="button-group">
           <BottomNavButton
             onClick={handleVisitcheckresult}

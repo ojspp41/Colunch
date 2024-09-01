@@ -9,7 +9,7 @@ function ChargeButtonInfo({
   return (
     <div className="charge-request-clicked">
       <div className="charge-request-clicked-top">
-        💁 부스에 충전 요청하기
+        💁 부스에 포인트 충전 요청하기
         <button
           className="charge-request-clicked-img"
           type="button"
@@ -36,7 +36,7 @@ function ChargeButtonInfo({
       </li>
       <button
         className="charge-request-clicked-button"
-        onClick={handleChargeRequest}
+        onClick={handleChargeRequest} 
         disabled={chargeclick.chargeclick}
       >
         충전 요청하기

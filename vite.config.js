@@ -8,6 +8,6 @@ export default defineConfig({
     vanillaExtractPlugin(),
   ],
   define: {
-    global: {},  // 이 줄을 추가하여 브라우저 환경에서 global 변수를 정의
+    global: "window", // global을 window 객체로 매핑
   },
 });
