@@ -10,6 +10,7 @@ import MBTISection from "../components/MBTISection";
 import AgeButton from "../components/AgeButton";
 import MatchOptionButton from "../components/MatchOptionButton";
 import hobbyIcons from "../data/hobbyIcons"; // 취미 아이콘 데이터 가져오기
+import Cookies from "js-cookie";
 import "../css/pages/Matching.css";
 
 function Matching() {
@@ -55,7 +56,7 @@ function Matching() {
       startX.current = clientX; // 현재 위치 업데이트
     }
   };
-  const handleEnd = () => {
+  const handleEnd = async () => {
     setIsDragging(false);
 
     // 필수 선택 확인
@@ -82,7 +83,6 @@ function Matching() {
       alert("다음 단계로 이동합니다."); // 이동 완료 후 원하는 동작 수행
       // 다음 단계로 이동 로직 추가
     }
-    console.log(MatchState);
     const FormData = {
       ageOption: MatchState.isUseOption[0]
         ? MatchState.formData.age_option
@@ -103,6 +103,26 @@ function Matching() {
       campus: "Catholic National University",
     };
     console.log("FormData: ", FormData);
+    try {
+      const accessToken = Cookies.get("Authorization");
+
+      const response = await axios.post(
+        "/auth/user/api/match/request",
+        FormData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
+          },
+        }
+      );
+      if (response.data.status === 200) {
+        navigate("/loading");
+      } else {
+        alert("가입 실패");
+      }
+    } catch (error) {
+      console.error("오류 발생:", error);
+    }
   };
   // const handleEnd = async () => {
   //     setIsDragging(false);
