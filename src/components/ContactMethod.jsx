@@ -3,7 +3,7 @@ import ContactMethodInput from "./ContactMethodInput";
 import ContactMethodPick from "./ContactMethodPick";
 import * as styles from  "../css/components/ContactMethod.css.ts";
 
-function ContactMethod({ user, handleChange, setUser  }) {
+function ContactMethod({ user, handleChange, setIsContactVerified,setUser  }) {
   return (
     <Fragment>
       <ContactMethodPick user={user} setUser={setUser} />
@@ -12,6 +12,7 @@ function ContactMethod({ user, handleChange, setUser  }) {
         user={user}
         setUser={setUser}
         handleChange={handleChange}
+        setIsContactVerified={setIsContactVerified}
         // onContactVerified={onContactVerified}
       />
       {!user.contact_id_Verified && (

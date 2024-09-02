@@ -28,13 +28,13 @@ export const my_button_img = style({
 });
 
 export const buttonText = style({
-  fontSize: '20px',
+  fontSize: '16px',
   fontWeight: 700,
   color: '#000000',
 });
 
 export const valueText = style({
-  fontSize: '36px',
+  fontSize: '28px',
   fontWeight: 700,
   color: '#000000',
 });

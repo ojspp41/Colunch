@@ -3,7 +3,7 @@ import MyInput from "./MyInput";
 import * as styles from "../css/components/ContactMethodInput.css.ts";
 import axios from "../axiosConfig";
 
-function ContactMethodInput({ handleChange, user, setUser , onContactVerified }) {
+function ContactMethodInput({ handleChange, setIsContactVerified,user, setUser , onContactVerified }) {
   // 중복 여부 확인 함수
   // const checkIfExists = async () => {
     // contact_id가 @로 시작하면 @를 제거
@@ -26,45 +26,35 @@ function ContactMethodInput({ handleChange, user, setUser , onContactVerified })
   // 입력 값 확인 및 유효성 검사 함수
   const handleCheck = async () => {
     // 카카오 ID 유효성 검사 패턴
-    const kakaoPattern = /^[a-z0-9-_.]{3,15}$/;
-    // 인스타그램 ID 유효성 검사 패턴
+     // 카카오 ID 유효성 검사 패턴
+    const kakaoPattern = /^(?!.*\.\.)(?!.*\.$)(?!^\.)[a-z0-9-_.]{3,15}$/;
+     // 인스타그램 ID 유효성 검사 패턴
     const instagramPattern = /^@[a-z0-9_.]+$/;
-
+ 
     // contact 값에 따른 유효성 검사
     if (user.contact === "kakao") {
       if (!kakaoPattern.test(user.contact_id)) {
         alert("카카오 ID 형식이 올바르지 않습니다.");
         return;
       }
+      alert('입력한 정보는 사용 가능합니다.');
+      onContactVerified(true);  // 성공 콜백 호출
     } else if (user.contact === "instagram") {
       if (!instagramPattern.test(user.contact_id)) {
+        console.log(user.contact_id);
         alert(
           "인스타 아이디는 @을 붙이고 영어, 숫자, 언더바(_), 마침표(.)만 가능합니다."
         );
         return;
       }
+      setUser(prevUser => ({ ...prevUser, contact_id_Verified: true }));
+      setIsContactVerified(true);
+      alert('입력한 정보는 사용 가능합니다.');
+      
     }
 
     // 중복 여부 확인
-    const alreadyExists = false; 
-    if (alreadyExists) {
-      alert(
-        `이미 존재하는 ${
-          user.contact === "kakao" ? "카카오 ID" : "인스타그램 ID"
-        }입니다.`
-      );
-    } else {
-      alert(
-        `입력한 ${
-          user.contact === "kakao" ? "카카오 ID" : "인스타그램 ID"
-        }는 사용 가능합니다.`
-      );
-      setUser((prevState) => ({
-        ...prevState,
-        contact_id_Verified: true,
-      }));
-      // onContactVerified();
-    }
+   
   };
 
   return (

@@ -9,7 +9,10 @@ function HartButtonInfo({
     chargeclick,
     handleToggleClick,
 }) {
-    const [hearts, setHearts] = useState();
+    
+
+    const [userInfo, setUserInfo] = useRecoilState(userState);
+    const [hearts, setHearts] = useState(0);
     const pointsPerHeart = 500; // 하트 당 500 포인트
 
     const handleHeartsChange = (event) => {

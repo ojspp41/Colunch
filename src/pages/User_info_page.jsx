@@ -76,10 +76,7 @@ function Userinfo() {
         let errorMessage = "";
 
         switch (name) {
-            case "contact_id":
-                setUser((prevUser) => ({ ...prevUser, contact_id_Verified: true })); // 타이핑시 연락처 검사 다시하도록
-                setIsContactVerified(true);
-                break;
+            
             case "song":
                 if (!/^[^?~!@#$%^&*()+'"<>\\/|{}[\]_=;:]{0,20}$/.test(value)) {
                     // 특수기호 타이핑 확인
@@ -102,7 +99,7 @@ function Userinfo() {
                 break;
             case "age":
                 setUser((prevUser) => ({ ...prevUser, age: parseInt(value, 10) || "" }));
-                setIsAgeInputVisible(true);
+                
                 break;
             case "admissionYear":
                 setUser((prevUser) => ({ 
@@ -160,6 +157,8 @@ function Userinfo() {
 
         // POST 요청에 필요한 데이터 구성
         const postData = {
+            university:user.university,
+            contactId:user.contact_id,
             major: user.major,
             age: user.age,
             mbti: user.mbti,
@@ -171,7 +170,7 @@ function Userinfo() {
             admissionYear: user.admissionYear,
         };
         try {
-            console.log(postData);
+            
             
             // 쿠키에서 ACCESSTOKEN 가져오기
             const accessToken = Cookies.get('Authorization');
@@ -182,14 +181,12 @@ function Userinfo() {
                     Authorization: `Bearer ${accessToken}`  // ACCESSTOKEN을 Authorization 헤더에 추가
                 }
             });
-            console.log(response);
             if (response.data.status === 200) {
                 // 응답 헤더에서 토큰 추출
                 const newAccessToken = response.headers['authorization'];
                 const refreshToken = response.headers['refresh-token'];
                 
-                console.log("새 액세스 토큰:", newAccessToken);
-                console.log("리프레시 토큰:", refreshToken);
+                
 
                 if (newAccessToken) {
                     // "Bearer " (7글자)를 제거
@@ -234,7 +231,7 @@ function Userinfo() {
     };
     const checkAllFieldsSelected = () => {
         const isAllSelected =
-            checkMethod.school &&
+            checkMethod.university &&
             checkMethod.department &&
             checkMethod.major &&
             user.age &&
@@ -325,6 +322,7 @@ function Userinfo() {
                         <ContactMethod
                             checkMethod={checkMethod}
                             setCheckMethod={setCheckMethod}
+                            setIsContactVerified={setIsContactVerified}
                             user={user}
                             setUser={setUser}
                             handleChange={handleChange}

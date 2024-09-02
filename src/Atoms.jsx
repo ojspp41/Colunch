@@ -13,6 +13,7 @@ export const adminRequests = atom({
 export const userState = atom({
   key: "userState",
   default: {
+    university:"",
     major: "",
     age: "",
     contact: "kakao",

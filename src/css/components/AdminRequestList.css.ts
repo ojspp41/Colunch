@@ -1,7 +1,9 @@
 // AdminRequestList.css.ts
 import { style } from '@vanilla-extract/css';
 
-
+export const content = style({
+  marginTop:'100px'
+});
 export const requestSummaryBox = style({
   display: 'flex',
   justifyContent: 'space-between',

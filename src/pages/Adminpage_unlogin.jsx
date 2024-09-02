@@ -3,6 +3,7 @@ import '../css/pages/Adminpage.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+
 function Adminpageunlogin() {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [formData, setFormData] = useState({ accountId: '', password: '' });
@@ -23,31 +24,30 @@ function Adminpageunlogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://backend.comatching.site:8080/admin/login', formData, {
+            const response = await axios.post('https://backend.comatching.site:8080/admin/login', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             console.log(response);
-
-            if (response.status === 200) {
-                // Handle successful response
-                console.log('Login successful');
-                // 응답 헤더에서 토큰 추출
+    
+            // 로그인 응답 데이터에서 status 코드를 확인
+            if (response.data.status === 200) {
+                console.log('로그인 성공');
                 const token = response.headers['authorization'];
-                
-                // 토큰이 존재하고 'Bearer '로 시작하면 7글자를 잘라내고 쿠키에 저장
+    
                 if (token && token.startsWith('Bearer ')) {
                     const tokenWithoutBearer = token.slice(7);
                     Cookies.set('Authorization', tokenWithoutBearer, { path: '/' });
                 }
-                // Redirect to Adminpage_login or change state to show login page
-                navigate('/adminpage/charge-requests'); // 로그인 성공 시 Adminpagelogin 페이지로 이동
+                navigate('/adminpage/charge-requests'); // 로그인 성공 시 페이지 이동
             } else {
-                console.log('Login failed');
+                console.log('로그인 실패:', response.data.message); // 로그인 실패 시 메시지 로깅
+                alert('로그인 실패: ' + response.data.message); // 사용자에게 실패 메시지를 보여줍니다.
             }
         } catch (error) {
-            console.error('Error during login:', error);
+            console.error('로그인 중 에러 발생:', error);
+            alert('로그인 중 오류가 발생했습니다. 자세한 사항은 콘솔을 확인해 주세요.');
         }
     };
 

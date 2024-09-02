@@ -6,8 +6,6 @@ import Hobbyform from "./pages/Hobbyform.jsx";
 import Match from "./pages/Match.jsx";
 import Matchresult from "./pages/Matchresult.jsx";
 import Checkresult from "./pages/Checkresult.jsx";
-import Admin from "./pages/Admin.jsx";
-import AdminSelect from "./pages/AdminSelect.jsx";
 import Loading from "./pages/Loading.jsx";
 import Guide from "./pages/Guide.jsx";
 import CodeReader from "./pages/CodeReader.jsx";
@@ -42,10 +40,10 @@ export default function App() {
             <Route path="/match-result" element={<Matchresult />} />
             <Route path="/match" element={<Match />} />
             <Route path="/check-result" element={<Checkresult />} />
-            <Route path="/admin" element={<Admin />} />
+            
             <Route path="/adminpage" element={<Adminpageunlogin />} />   
             <Route path="/adminpage/charge-requests" element={<AdminRequestList />} />           
-            <Route path="/admin-select" element={<AdminSelect />} />
+            
             <Route path="/loading" element={<Loading />} />
             <Route path="/charge-request" element={<ChargeRequestPage />} />
             <Route path="/code-reader" element={<CodeReader />} />

@@ -8,106 +8,56 @@ import {
   adminRequestListItemInput,
   adminRequestListElementUserID,
   adminRequestListElementUserIDID,
-  adminRequestListItemPickmeButton,
-  adminRequestListItemPickmeValue,
-  adminRequestListItemSubmitButton,
   adminRequestListElementResultPoint,
   adminRequestListElementContainer,
   buttonMarginRight,
-  chargeDeleteButton
+  chargeDeleteButton,
+  formattedDateStyle
 } from "../css/components/AdminRequestListContainer.css.ts"; // 스타일 파일 import
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import pointIcon from '../../public/assets/point.svg';
-import heartIcon from '../../public/assets/heart.svg';
 
-function AdminRequestListContainer({ request, setRequests }) {
+function FormattedDate({ isoDate }) {
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+    return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+    
+  };
+
+  return (
+    <div>{formatDate(isoDate)}</div>
+  );
+}
+function AdminRequestListContainer({ request, setRequests , handleAction}) {
   const navigate = useNavigate();
   const [value, setValue] = useState({
-    add_point: 0,
+    add_point:  request.requestAmount,
     chargeCheck: false,
-    add_pick_me: 0,
-    result_point: request.point,
+    result_point:  request.existingPoints,
   });
 
   // 충전 확인 함수
-  const handleAdminSubmit = async () => {
-    const FormData = {
-      add_point: value.add_point,
-      add_pick_me: value.add_pick_me,
-      result_point: value.result_point,
-      contact_id: request.contact_id,
-    };
-    const response = await axios.post("/admin/manage/charge", FormData);
-    console.log(request);
-    if (response.data.status === 200) {
-      setRequests((prev) =>
-        prev.map((item) =>
-          item.contact_id === request.contact_id
-            ? { ...item, isChecked: true }
-            : item
-        )
-      );
-    }
-  };
-
-  // 충전 삭제 함수
-  const handleChargeDelete = async () => {
-    const response = await axios.get(
-      `/admin/manage/delete?contactId=${request.contact_id}`
-    );
-    if (response.data.status === 200) {
-      setRequests((prev) =>
-        prev.map((item) =>
-          item.contact_id === request.contact_id
-            ? { ...item, isChecked: true }
-            : item
-        )
-      );
-    }
-  };
-
-  // 잔액 증가 함수
   const handleChargeIncrease = () => {
-    setValue((prevState) => ({
+    handleAction(request.userId, value.add_point, 'approve');
+    setValue(prevState => ({
       ...prevState,
       result_point: prevState.result_point + prevState.add_point,
       chargeCheck: true,
     }));
   };
 
-  // 잔액 감소 함수
-  const handleChargeDecrease = () => {
-    if (value.result_point >= value.add_point) {
-      setValue((prevState) => ({
-        ...prevState,
-        result_point: prevState.result_point - prevState.add_point,
-        chargeCheck: false,
-      }));
-    } else {
-      alert("pickme를 취소해주세요");
-    }
+  // "요청 삭제" 버튼에 삭제 로직 적용
+  const handleChargeDelete = () => {
+    handleAction(request.userId, request.requestAmount, 'cancel');
   };
 
-  // Pickme 증가 함수
-  const handleIncrease = () => {
-    setValue((prevState) => ({
-      ...prevState,
-      add_pick_me: prevState.add_pick_me + 1,
-      result_point: prevState.result_point - 500,
-    }));
-  };
-
-  // Pickme 감소 함수
-  const handleDecrease = () => {
-    if (value.add_pick_me > 0) {
-      setValue((prevState) => ({
-        ...prevState,
-        add_pick_me: prevState.add_pick_me - 1,
-        result_point: prevState.result_point + 500,
-      }));
-    }
-  };
+  
 
   // 입력값 변경 핸들러
   const handleInputChange = (event) => {
@@ -127,12 +77,14 @@ function AdminRequestListContainer({ request, setRequests }) {
         <div className={adminRequestListElementUserID}>
           userID: &nbsp;
           <div className={adminRequestListElementUserIDID}>
-            {request.contact_id}
+            {request.username}
           </div>
+          
+          
         </div>
         <div className={adminRequestListElementContainer}>
           <span className={adminRequestListElementResultPoint}>
-            총 잔액 : {value.result_point}
+            총 잔액 : {request.existingPoints}
           </span>
           <button className={chargeDeleteButton} onClick={handleChargeDelete}>요청 삭제</button>
         </div>
@@ -147,49 +99,17 @@ function AdminRequestListContainer({ request, setRequests }) {
         />
         <p className={adminRequestListElementUserIDID}> 입금액</p>
         <input
-          type="text"
+          type="number"
           value={value.add_point}
           onChange={handleInputChange}
           disabled={value.chargeCheck}
           className={adminRequestListItemInput}
         />
-        {value.chargeCheck ? (
-          <button onClick={handleChargeDecrease} className={buttonMarginRight}>취소</button>
-        ) : (
-          <button onClick={handleChargeIncrease} className={buttonMarginRight}>적용</button>
-        )}
-        <img
-          src={heartIcon}
-          alt="heart"
-          className={adminRequestListItemImg}
-        />
-        <p className={adminRequestListElementUserIDID}>기회 추가:</p>
-        <button
-          type="button"
-          onClick={handleDecrease}
-          className={adminRequestListItemPickmeButton}
-        >
-          -
-        </button>
-        <div className={adminRequestListItemPickmeValue}>
-          {value.add_pick_me}
+        <button onClick={handleChargeIncrease} className={buttonMarginRight}>적용</button>
+        <div  className={formattedDateStyle}>
+          
+          <FormattedDate isoDate={request.createdAt} />
         </div>
-        <button
-          type="button"
-          onClick={handleIncrease}
-          className={adminRequestListItemPickmeButton}
-          disabled={value.result_point < 500}
-        >
-          +
-        </button>
-        <button
-          type="button"
-          className={adminRequestListItemSubmitButton}
-          onClick={handleAdminSubmit}
-          disabled={!value.chargeCheck}
-        >
-          확인
-        </button>
       </div>
     </div>
   );

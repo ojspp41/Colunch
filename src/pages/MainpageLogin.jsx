@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import Footer from "../components/Footer";
 import axiosInstance from "../axiosConfig";
 import HeaderMain from "../components/HeaderMain";
 import UserInfoRrev from "../components/UserInfoRrev";
@@ -22,16 +21,16 @@ function MainpageLogin() {
   const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
   
   const [userInfo, setUserInfo] = useState({
-    username: "천승환",
-    major: "정보통신전자공학부",
+    username: "",
+    major: "",
     admissionYear: 19,
-    song: "Make it to christmas",
-    mbti: "INTJ",
+    song: "",
+    mbti: "",
     point: 0,
     pickMe: 0,
     canRequestCharge: true,
-    hobby: ["독서", "게임"],
-    comment: "모두들 안녕",
+    hobby: [],
+    comment: "",
     numParticipants: 100,
   });
   // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
@@ -163,13 +162,13 @@ function MainpageLogin() {
             imgSrc={`../../assets/point.svg`}
             infoText={`${userInfo.point}P`}
             buttonText="잔여포인트"
-            handleCharge={handleCharge}
+           
           />
           <MyInfoButton
             imgSrc={`../../assets/heart.svg`}
             infoText={`${userInfo.pickMe}회`}
             buttonText="내가 뽑힐 횟수"
-            handleCharge={handleCharge}
+            
           />
         </div>
 
@@ -214,8 +213,7 @@ function MainpageLogin() {
         ) : (
           <div className="charge-request-unclicked">
             ❤️ 포인트 하트로 교환하기
-            {userInfo.canRequestCharge ? (
-              <button
+            <button
                 className="charge-request-unclicked-img"
                 type="button"
                 onClick={handleHeartToggleClick}
@@ -227,11 +225,6 @@ function MainpageLogin() {
                   alt="충전요청 열기"
                 />
               </button>
-            ) : (
-              <div className="charge-request-disabled">
-                요청완료
-              </div>
-            )}
           </div>
         )}
         <div className="button-group">
@@ -252,7 +245,7 @@ function MainpageLogin() {
         
       </div>
       
-      <NavBar/>
+      {/* <NavBar/> */}
 
       {showTutorial && (
         <TutorialSlides onComplete={() => setShowTutorial(false)} />

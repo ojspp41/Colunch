@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
-
+export const content = style({
+  marginTop:'100px'
+});
 export const adminRequestListElement = style({
   display: 'flex',
   alignItems: 'center',
@@ -11,7 +13,7 @@ export const adminRequestListContainer = style({
   border: 'none', /* 기존 border 제거 */
   borderBottom: '1px solid #000000', /* 아래쪽에만 border 추가 */
   backgroundColor: '#ffffff',
-  margin: '10px auto',
+  margin: '30px auto',
   
 });
 
@@ -86,7 +88,7 @@ export const adminRequestListItemSubmitButton = style({
 });
 
 export const adminRequestListElementResultPoint = style({
-  color: '#d3d3d3',  /* grayscale 색상으로 변경 */
+  color: 'gray',  /* grayscale 색상으로 변경 */
   fontSize: '24px',
   fontWeight: '400',
 
@@ -113,4 +115,10 @@ export const chargeDeleteButton = style({
   ':hover': {
     backgroundColor: '#6d6d6d', /* 호버 시 배경색 변화 */
   },
+});
+export const formattedDateStyle = style({
+  marginTop:"15px",
+  color: 'grey', // 회색으로 설정
+  fontSize: '12px', // 글씨 크기 조정
+  opacity: 0.6, // 투명도로 흐리게 표현
 });

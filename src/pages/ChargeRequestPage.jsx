@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
+import { useNavigate } from "react-router-dom";
 import "../css/pages/ChargeRequestPage.css"; // 스타일링을 위한 CSS 파일 생성
 import HeaderMain from "../components/HeaderMain";
 import { charge } from "../Atoms";
@@ -9,6 +10,7 @@ import NavBar from "../components/Navbar.jsx";
 function ChargeRequestPage() {
   const [amount, setAmount] = useState("");
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
+  const navigate = useNavigate(); 
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
@@ -26,14 +28,14 @@ function ChargeRequestPage() {
         return acc;
       }, {});
       const accessToken = cookies.Authorization;
-
+      
       if (!accessToken) {
         throw new Error('No access token found in cookies');
       }
 
       // 백엔드로 POST 요청 보내기
       const response = await axios.post(
-        "http://backend.comatching.site:8080/auth/user/api/charge",
+        "https://backend.comatching.site:8080/auth/user/api/charge",
         {
           amount: parseInt(amount), // amount를 integer로 변환하여 전송
         },
@@ -45,7 +47,8 @@ function ChargeRequestPage() {
       );
 
       if (response.status === 200) {
-        alert("충전 요청이 성공적으로 전송되었습니다.");
+        alert("충전 요청이 성공적으로 전송되었습니다. 부스에 가서 계좌 입금 확인 해주세요!");
+        navigate('/');
         // 이후 리디렉션 또는 다른 로직 추가 가능
       } else {
         alert("충전 요청에 실패했습니다.");

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../css/components/AdminRequestList.css"; // 스타일 파일 경로 확인
 import AdminRequestListContainer from "./AdminRequestListContainer";
+
 import * as styles from "../css/components/AdminRequestList.css";
 import { useRecoilState } from "recoil";
 import { adminRequests } from "../Atoms";
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
-
+import AdminNavbar from "./Adminnavbar";
 
 function getTokenFromCookie() {
   const name = 'Authorization=';
@@ -31,11 +32,12 @@ function AdminRequestList() {
 
   useEffect(() => {
     const connectWebSocket = async () => {
-      const socket = new SockJS('http://backend.comatching.site:8080/ws');
+      
+      const socket = new SockJS('https://backend.comatching.site:8080/ws');
       const client = Stomp.over(socket);
       const token = getTokenFromCookie();
 
-      console.log("Token from cookie:", token);
+      
 
       
         client.connect({ Authorization: `Bearer ${token}` }, (frame) => {
@@ -47,7 +49,8 @@ function AdminRequestList() {
           client.subscribe('/topic/chargeRequests', (message) => {
             const chargeRequests = JSON.parse(message.body);
             console.log(chargeRequests);
-            setRequests((prevRequests) => [...prevRequests, ...chargeRequests]);
+            updateRequestsWithoutDuplicates(chargeRequests);
+            
           });
 
           // 승인 업데이트 구독
@@ -75,7 +78,7 @@ function AdminRequestList() {
         console.error("Failed to connect to WebSocket:", error);
       }
     };
-
+    
     initializeWebSocket();
 
     return () => {
@@ -86,10 +89,40 @@ function AdminRequestList() {
       }
     };
   }, []); // 빈 의존성 배열로 한 번만 실행
+  function updateRequestsWithoutDuplicates(newRequests) {
+    // 현재 요청에 새 요청을 합칩니다.
+    const combinedRequests = [...requests, ...newRequests];
+    
+    // userId를 키로 사용하여 가장 최근의 요청을 저장하는 객체를 생성합니다.
+    const latestRequestsMap = {};
+  
+    combinedRequests.forEach(request => {
+      // 해당 userId의 기존 요청보다 더 최신인 경우에만 객체를 업데이트합니다.
+      if (!latestRequestsMap[request.userId] || new Date(latestRequestsMap[request.userId].createdAt) < new Date(request.createdAt)) {
+        latestRequestsMap[request.userId] = request;
+      }
+    });
+  
+    // 객체의 값들만 추출하여 배열로 변환합니다.
+    const latestRequests = Object.values(latestRequestsMap);
+    setRequests(latestRequests);
+  }
+  function handleAction(userId, amount, actionType) {
+    const approvalData = {
+      userId,
+      amount,
+      approvalTime: new Date().toISOString(),
+    };
+    const destination = actionType === 'approve' ? '/app/approveCharge' : '/app/cancelCharge';
+    stompClient.send(destination, {}, JSON.stringify(approvalData));
+    setRequests(prevRequests => prevRequests.filter(req => req.userId !== userId));
+  }
 
   return (
+    
     <div>
-      <div className="content">
+      <AdminNavbar/>
+      <div className={styles.content}>
         <div className={styles.adminRequestListTitle}>충전 요청 목록</div>
         <div className={styles.adminRequestListText}>
           유저로부터 이름, 아이디, 입금 내역 확인해서 그만큼 충전
@@ -102,6 +135,7 @@ function AdminRequestList() {
                   key={index}
                   request={request}
                   setRequests={setRequests}
+                  handleAction={handleAction} // handleAction을 prop으로 전달
                 />
               )
           )}
