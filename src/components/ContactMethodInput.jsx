@@ -3,7 +3,7 @@ import MyInput from "./MyInput";
 import * as styles from "../css/components/ContactMethodInput.css.ts";
 import axios from "../axiosConfig";
 
-function ContactMethodInput({ handleChange, setIsContactVerified,user, setUser , onContactVerified }) {
+function ContactMethodInput({ handleChange, setIsContactVerified,user, setUser  }) {
   // 중복 여부 확인 함수
   // const checkIfExists = async () => {
     // contact_id가 @로 시작하면 @를 제거
@@ -38,7 +38,8 @@ function ContactMethodInput({ handleChange, setIsContactVerified,user, setUser ,
         return;
       }
       alert('입력한 정보는 사용 가능합니다.');
-      onContactVerified(true);  // 성공 콜백 호출
+      setIsContactVerified(true);
+      alert('입력한 정보는 사용 가능합니다.');
     } else if (user.contact === "instagram") {
       if (!instagramPattern.test(user.contact_id)) {
         console.log(user.contact_id);
