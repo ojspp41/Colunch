@@ -1,23 +1,42 @@
+.circle-icon {
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-top: 25px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
 .MatchResult-Container {
   display: flex;
 }
 .matchresult-content {
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.75);
-  width: calc(100% - 30px);
+  background-color: white;
+  width: calc(100% - 35px);
   margin: auto;
   border-radius: 32px;
-  margin-top: 25px;
+  margin-top: 10px;
   margin-bottom: 20px;
   position: relative;
-  padding: 24px 16px;
-
+  padding: 24px 20px;
   backdrop-filter: blur(12px);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 }
+.MatchResult-Topic-Top {
+  font-size: 16px;
+  font-weight: 600;
+  color: #777777;
+  text-align: left;
+  margin-top: 10px;
+}
 .MatchResult-Topic {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 600;
   color: #777777;
   text-align: left;
   margin-top: 32px;
@@ -99,31 +118,31 @@
 
 .MatchResult-button-container {
   display: flex;
-  width: 90%;
-  margin: auto;
+  width: 100%;
+  margin-top: 10px;
   justify-content: space-between;
 }
 .Retry-button {
   background-color: #ffffff;
-  font-size: 24px;
-  width: 34%;
+  font-size: 18px;
+  width: 48%;
   font-family: "Pretendard", sans-serif;
   font-weight: 900;
   color: #6f6f6f;
-  height: 64px;
+  height: 56px;
   border-radius: 15px;
 
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 }
 .Retry-same-button {
   background-image: linear-gradient(135deg, #ff775e, #ff4d61, #e83abc);
-  font-size: 22px;
-  width: 63%;
+  font-size: 18px;
+  width: 100%;
 
   font-family: "Pretendard", sans-serif;
   font-weight: 900;
   color: white;
-  height: 64px;
+  height: 56px;
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -139,7 +158,7 @@
   padding: 4px 12px;
   border-radius: 36px;
   background-color: rgba(255, 255, 255, 0.95);
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
   margin-right: 12px;
 }

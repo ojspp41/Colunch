@@ -14,11 +14,15 @@ function HeaderPoint() {
           onClick={() => navigate("/")}
         />
       </div>
-        <div className={styles.right} onClick={() => navigate("/charge")}>
+      <div className={styles.right}>
+                <img src="./assets/point.svg" alt="point" className={styles.pointImage} />
+                <span className={styles.spanText}>180p</span>
+        </div>
+        {/* <div className={styles.right} onClick={() => navigate("/charge")}>
                 <img src="./assets/point.svg" alt="point" className={styles.pointImage} />
                 <span className={styles.spanText}>180p</span>
                 <img src="./assets/headertoggle.svg" alt="toggle" className={styles.toggleImage} />
-        </div>
+        </div> */}
     </div>
   );
 }

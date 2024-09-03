@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import HeaderMain from "../components/HeaderMain";
+import Background from "../components/Background.jsx";
+import HeaderPoint from "../components/Headerpoint.jsx";
 import Footer from "../components/Footer";
 import { useRecoilState } from "recoil";
 import { MatchResultState, MatchPickState } from "../Atoms";
@@ -75,7 +76,10 @@ function Matchresult() {
   return (
     <div>
       <div className="container">
-        <HeaderMain />
+        <Background/>
+        <HeaderPoint />
+
+        <div className="circle-icon">💟</div>
 
         {resultData.generatedCode === 2002 ? (
           <div className="matchresult-content">
@@ -90,7 +94,7 @@ function Matchresult() {
             <div className="matchresult-content">
               <div className="MatchResult-Container">
                 <div className="MatchResult-Major">
-                  <div className="MatchResult-Topic">전공</div>
+                  <div className="MatchResult-Topic-Top">전공</div>
                   <div className="MatchResult-Text">{resultData.major}</div>
                 </div>
               </div>
@@ -150,20 +154,25 @@ function Matchresult() {
 
             </div>
             <div className="MatchResult-button-container">
+              <button className="Retry-same-button" onClick={handleSubmit}>
+                  <div className="Retry-same-button-point">
+                    <img
+                      src={`${
+                        import.meta.env.VITE_PUBLIC_URL
+                      }../../assets/point.svg`}
+                      alt="cost"
+                    />
+                    1000P
+                  </div>
+                  같은 조건으로 한번 더 뽑기
+              </button>
+            </div>
+            <div className="MatchResult-button-container">
               <button className="Retry-button" onClick={handleRematch}>
                 다시뽑기
               </button>
-              <button className="Retry-same-button" onClick={handleSubmit}>
-                <div className="Retry-same-button-point">
-                  <img
-                    src={`${
-                      import.meta.env.VITE_PUBLIC_URL
-                    }../../assets/point.svg`}
-                    alt="cost"
-                  />
-                  {MatchState.point}P
-                </div>
-                같은 조건으로 한번 더 뽑기
+              <button className="Retry-button" onClick={handleRematch}>
+                쪽지 보내기
               </button>
             </div>
           </div>
