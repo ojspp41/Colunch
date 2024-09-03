@@ -6,8 +6,6 @@ import Hobbyform from "./pages/Hobbyform.jsx";
 import Match from "./pages/Match.jsx";
 import Matchresult from "./pages/Matchresult.jsx";
 import Checkresult from "./pages/Checkresult.jsx";
-import Admin from "./pages/Admin.jsx";
-import AdminSelect from "./pages/AdminSelect.jsx";
 import Loading from "./pages/Loading.jsx";
 import Guide from "./pages/Guide.jsx";
 import CodeReader from "./pages/CodeReader.jsx";
@@ -15,12 +13,20 @@ import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import QRGenerator from "./pages/QRGenerator.jsx";
 import Redirection from "./pages/RedirectionPage.jsx";
 import OpenExternalBrowser from "./OpenExternalBrowser.jsx";
-
+import Userinfo from "./pages/User_info_page.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Describe from "./pages/Describe.jsx";
 import "./App.css";
 import "./axiosConfig.jsx";
-
+import Matching from "./pages/Matching.jsx";
+import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
+// import ChargeRequestsPage from "./pages/ChargeRequestsPage.jsx";
+// import ChargeRequestMonitor from "./components/admintest.jsx";
+import AdminRequestList from "./components/AdminRequestList.jsx";
+import ChargeRequestPage from "./pages/ChargeRequestPage.jsx";
 export default function App() {
+  
+  
   return (
     <RecoilRoot>
       <div className="App">
@@ -34,13 +40,20 @@ export default function App() {
             <Route path="/match-result" element={<Matchresult />} />
             <Route path="/match" element={<Match />} />
             <Route path="/check-result" element={<Checkresult />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/admin-select" element={<AdminSelect />} />
+            
+            <Route path="/adminpage" element={<Adminpageunlogin />} />   
+            <Route path="/adminpage/charge-requests" element={<AdminRequestList />} />           
+            
             <Route path="/loading" element={<Loading />} />
+            <Route path="/charge-request" element={<ChargeRequestPage />} />
             <Route path="/code-reader" element={<CodeReader />} />
             <Route path="/QR-generator" element={<QRGenerator />} />
             <Route path="/profile-builder" element={<ProfileBuilder />} />
             <Route path="/redirection" element={<Redirection />} />
+            <Route path="/userinfo" element={<Userinfo/>} />
+            <Route path="/matching" element={<Matching/>} />
+            <Route path="/describe" element={<Describe/>} />
+            
             
           </Routes>
         </BrowserRouter>

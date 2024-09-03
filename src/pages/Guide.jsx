@@ -11,7 +11,7 @@ function Guide() {
       <div className="content">
         <img
           // className="guide-img"
-          src={process.env.PUBLIC_URL + `assets/guide.svg`}
+          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/guide.svg`}
           alt="가이드 이미지1"
           style={{
             width: "90%",

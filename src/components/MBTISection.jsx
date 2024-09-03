@@ -6,7 +6,9 @@ const BUTTON_LETTERS = ["E", "S", "T", "J", "I", "N", "F", "P"];
 
 function MBTISection({ user, onClick, name }) {
   return (
+    
     <div className={styles.mbtiSection}>
+      
       <div className={styles.mbtiContainer}>
         {BUTTON_LETTERS.map((letter) => (
           <MBTIButton
@@ -23,7 +25,7 @@ function MBTISection({ user, onClick, name }) {
 }
 
 MBTISection.propTypes = {
-  user: PropTypes.array.isRequired,
+  user: PropTypes.string.isRequired,  // 문자열로 수정
   onClick: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
 };

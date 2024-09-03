@@ -4,9 +4,10 @@ import { ageButton, active } from "../css/components/AgeButton.css.ts";
 function AgeButton({ formData, value, onClick, isClickable, text }) {
   const isActive = formData === value;
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (isClickable) {
       onClick(value);
+      
     }
   };
 
