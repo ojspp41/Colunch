@@ -28,3 +28,31 @@
       font-size: 20px;
     }
   }
+  .account_name{
+    text-align: left;
+    font-weight: bold;
+  }
+  .account{
+    color: gray;
+    font-weight: 500;
+    text-align: left;
+    opacity: 0.8;
+  }
+  .charge-request-clicked {
+    position: relative;
+  }
+  
+  .clipboard-icon {
+    position: absolute;
+    top: 20px; /* 박스 위쪽에서의 위치 (원하는 대로 조정 가능) */
+    right: 20px; /* 박스 오른쪽에서의 위치 (원하는 대로 조정 가능) */
+    cursor: pointer;
+    width: 30px; /* 이미지 크기 조정 */
+    height: 30px; /* 이미지 크기 조정 */
+    opacity: 0.5;
+  }
+  .copied-message {
+    color: gray;
+    opacity: 0.5;
+    text-align: left;
+  }

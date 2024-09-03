@@ -11,11 +11,19 @@ function ChargeRequestPage() {
   const [amount, setAmount] = useState("");
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
   const navigate = useNavigate();
-
+  const [copied, setCopied] = useState(false);
+  const accountNumber = "카카오뱅크 3333-17-9418736"; // 계좌번호를 여기에 입력
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
-
+  const handleCopy = () => {
+    navigator.clipboard.writeText(accountNumber).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // 2초 후에 "Copied!" 메시지 사라지게
+    }).catch(err => {
+      console.error('Failed to copy!', err);
+    });
+  };
   const handleSubmit = async () => {
     // Recoil 상태 업데이트
     setChargeState({ chargeclick: true });
@@ -97,6 +105,25 @@ function ChargeRequestPage() {
         >
           충전 요청하기
         </button>
+      </div>
+      <div className="charge-request-clicked">
+        <p className="account_name">계좌번호: 오준석</p>
+        <p className="account">{accountNumber}</p>
+        <img 
+          src="/assets/clipboard.png" 
+          alt="Copy to clipboard" 
+          onClick={handleCopy} 
+          className="clipboard-icon"
+        />
+        <li className="charge-request-clicked-text">
+          클립보드 아이콘을 누르면 계좌번호가 복사되요
+        </li>
+        <li className="charge-request-clicked-text">
+          충전 요청후 해당 계좌로 돈을 입금 후 부스에서 확인해 주세요!
+        </li>
+        
+        {copied && <span className="copied-message">copy</span>}
+
       </div>
     </div>
   );

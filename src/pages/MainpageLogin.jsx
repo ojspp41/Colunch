@@ -70,7 +70,7 @@ function MainpageLogin() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        
+        console.log(response);
 
         if (response.status === 200) {
           setUserInfo((prev) => ({
@@ -82,7 +82,7 @@ function MainpageLogin() {
             mbti: response.data.data.mbti,
             point: response.data.data.point,
             pickMe: response.data.data.pickMe,
-            contact_id : 'jseok_492',
+            contact_id : response.data.data.contactId,
             canRequestCharge: response.data.data.canRequestCharge,
           }));
         }
