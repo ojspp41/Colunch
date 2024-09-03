@@ -1,8 +1,9 @@
 .container{
-  width: calc(100% - 96px);
+  width: calc(100% - 48px);
+
 }
 .margin_top{
-  margin-top: 142px;
+  margin-top: 50px;
 }
 .greeting-message{
   font-family: 'Pretendard', sans-serif;
