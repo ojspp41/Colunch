@@ -4,42 +4,42 @@
 .matchresult-content {
   text-align: center;
   background-color: rgba(255, 255, 255, 0.75);
-  width: calc(90% - 70px);
+  width: calc(100% - 30px);
   margin: auto;
   border-radius: 32px;
   margin-top: 25px;
   margin-bottom: 20px;
   position: relative;
-  padding: 38px 35px;
+  padding: 24px 16px;
 
   backdrop-filter: blur(12px);
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
 }
 .MatchResult-Topic {
-  font-size: 36px;
+  font-size: 16px;
   font-weight: bold;
   color: #777777;
   text-align: left;
   margin-top: 32px;
-
-  /* animation: fadeIn 1s ease forwards; */
 }
 .MatchResult-Text {
-  font-size: 32px;
+  max-width: 100%;
+  font-size: 20px;
   font-weight: bold;
   color: #000000;
   text-align: left;
-  margin-left: 16px;
   margin-top: 8px;
-  /* animation: fadeIn 1s ease forwards 1s; */
 }
 
 .MatchResult-Hobby,
-.MatchResult-Age,
 .MatchResult-Major,
-.MatchResult-MBTI {
-  width: 50%;
+.MatchResult-Age,
+.MatchResult-MBTI,
+.MatchResult-Frequency,
+.MatchResult-Contact {
+  width: 100%;
 }
+
 .MatchResult-Major,
 .MatchResult-Age {
   opacity: 0;
