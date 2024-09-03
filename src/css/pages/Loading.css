@@ -26,25 +26,27 @@
 .GradientBar {
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0) 25%,
-    #ff775e 50%,
-    rgba(255, 255, 255, 0) 75%
+    #FFF0F7 0%,      /* 0% 위치 */
+    #F57DB2 50%,     /* 50% 위치 */
+    #FFF0F7 100%     /* 100% 위치 */
   );
   background-size: 200% 100%;
-  animation: slideGradient 1.25s linear infinite;
+  animation: slideGradient 1.25s linear infinite reverse;
   width: 100%;
   height: 24px;
   border-radius: 8px;
   margin: 20px 0px;
 }
+
 .firstloadingbar {
   animation-delay: 0s;
 }
 
+
 .secondloadingbar {
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
 }
 
 .thirdloadingbar {
-  animation-delay: 1s;
+  animation-delay: 0.5s;
 }
