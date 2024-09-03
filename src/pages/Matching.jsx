@@ -88,26 +88,25 @@ function Matching() {
         ? MatchState.formData.age_option
         : "UNSELECTED",
       //   mbti_option: MatchState.selectedMBTI.join(""),
-      mbtiOption: MatchState.selectedMBTI
-        .filter((letter) => letter !== "X")
-        .join(""),
+      mbti: MatchState.selectedMBTI.filter((letter) => letter !== "X").join(""),
       //   ai_option_count: aiOptionCount,
       hobbyOption: MatchState.isUseOption[2]
         ? MatchState.formData.hobby_option
-        : "UNSELECTED",
+        : ["UNSELECTED"],
       contactFrequencyOption: MatchState.isUseOption[1]
         ? MatchState.formData.contact_frequency_option
         : "UNSELECTED",
       sameMajorOption: MatchState.isUseOption[3] ? true : false,
       //   match_code: MatchState.formData.match_code,
-      campus: "Catholic National University",
+      // campus: "Catholic National University",
+      uuid: "efc3044fc84d4f1e94209d784e8b2615",
     };
     console.log("FormData: ", FormData);
     try {
       const accessToken = Cookies.get("Authorization");
 
       const response = await axios.post(
-        "/auth/user/api/match/request",
+        "https://backend.comatching.site/api/match/match-request",
         FormData,
         {
           headers: {
