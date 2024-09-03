@@ -7,4 +7,7 @@ export default defineConfig({
     react(),
     vanillaExtractPlugin(),
   ],
+  define: {
+    global: "window", // global을 window 객체로 매핑
+  },
 });

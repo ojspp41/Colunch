@@ -16,9 +16,9 @@ function MainpageUnLogin() {
   // Redirection페이지로 옮겨서 role을 확인하는 과정을 거쳤습니다.
   const handleLogin = () => {
     window.location.href =
-      "https://catholic-mibal.site/oauth2/authorization/kakao";
+      "http://backend.comatching.site:8080/oauth2/authorization/kakao";
   };
-
+  
   // 서비스 이용법 안내 페이지로 이동하는 핸들러
   const handleVisitGuide = () => {
     navigate("/guide");
@@ -29,7 +29,8 @@ function MainpageUnLogin() {
     // 컴포넌트가 마운트될 때 API 요청을 보냄
     const fetchData = async () => {
       try {
-        const response = await axios.get("/participation/count");
+        const response = await axios.get("http://backend.comatching.site:8080/api/participations");
+        
         if (response.status === 200) {
           setNumParticipants(response.data.participation);
         }

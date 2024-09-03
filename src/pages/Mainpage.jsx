@@ -1,31 +1,46 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import MainpageUnLogin from "./MainpageUnLogin.jsx";
 import MainpageLogin from "./MainpageLogin.jsx";
-import axios from "axios";
 
 // mainpage 로그인 비로그인 페이지를 구분하기 위한 페이지입니다
-// 토큰의 유무로 확인하였으며 response를 통해 상태를 확인합니다.
+// 쿠키에 토큰의 유무로 확인합니다.
 function Mainpage() {
-  // 로그인 상태를 관리하기 위한 state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
+
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 API 요청을 보냄
-    const checkLoginStatus = async () => {
-      try {
-        const response = await axios.get("/token/check");
-        if (response.status === 200) {
-          setIsLoggedIn(true);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+    // 쿼리 파라미터에서 accessToken과 userRole 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('accessToken');
+    const userRole = urlParams.get('userRole');
+
+    // accessToken이 있다면 쿠키에 저장
+    if (accessToken) {
+      document.cookie = `Authorization=${accessToken}; path=/;`;
+      setIsLoggedIn(true);
+      
+      // userRole이 'SOCIAL'이면 /hobby로 리다이렉션
+      if (userRole === 'SOCIAL') {
+        navigate('/hobby');
       }
-    };
-    checkLoginStatus();
-  }, []);
+    } else {
+      // 쿠키에서 토큰 확인
+      const checkTokenInCookies = () => {
+        const cookies = document.cookie.split('; ');
+        const tokenCookie = cookies.find(cookie => cookie.startsWith('Authorization='));
+        if (tokenCookie) {
+          setIsLoggedIn(true);  // 토큰이 있으면 로그인 상태로 설정
+        } else {
+          setIsLoggedIn(false); // 토큰이 없으면 비로그인 상태로 설정
+        }
+      };
+      checkTokenInCookies();
+    }
+  }, [navigate]);
 
   // 로그인 상태에 따라 다른 컴포넌트 렌더링
   return <div>{isLoggedIn ? <MainpageLogin /> : <MainpageUnLogin />}</div>;
-  
 }
 
 export default Mainpage;

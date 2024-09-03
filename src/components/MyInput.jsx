@@ -1,5 +1,5 @@
 import React from "react";
-
+import * as styles from "../css/components/AgeInput.css";
 const MyInput = ({
   type = "text",
   name,
@@ -16,7 +16,7 @@ const MyInput = ({
       value={value}
       onChange={onChange}
       onBlur={onBlur}
-      className="MyInput"
+      className={styles.myinput}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           e.preventDefault();

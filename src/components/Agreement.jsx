@@ -1,7 +1,7 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import AgreementBox from "./AgreementBox";
 
-function Agreement({ registerCheck, setRegisterCheck }) {
+function Agreement({ registerCheck, setRegisterCheck, onAgree }) {
   const handleAgreement = () => {
     setRegisterCheck((prev) => ({
       ...prev,
@@ -15,6 +15,7 @@ function Agreement({ registerCheck, setRegisterCheck }) {
       check: !prev.check,
     }));
   };
+
   return (
     <Fragment>
       <div className="checkbox-label">
@@ -30,7 +31,7 @@ function Agreement({ registerCheck, setRegisterCheck }) {
         >
           <input
             type="checkbox"
-            checked={registerCheck.isCheckedPrivacy}
+            checked={registerCheck.check}
             onChange={handlePrivacyCheckboxChange}
             style={{
               width: "13px",
@@ -52,6 +53,9 @@ function Agreement({ registerCheck, setRegisterCheck }) {
       {registerCheck.showregister && (
         <AgreementBox handleCloseAgreement={handleAgreement} />
       )}
+      <button className="agree-button" onClick={onAgree}>
+        모두 동의하고 가입하기
+      </button>
     </Fragment>
   );
 }

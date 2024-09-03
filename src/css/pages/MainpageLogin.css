@@ -91,7 +91,7 @@
   backdrop-filter: blur(12px); /* Background blur effect */
 
   font-family: "Pretendard", sans-serif;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   color: #000000;
 }
@@ -101,8 +101,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   padding: 0px;
   border-radius: 100px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
@@ -133,6 +133,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+
 }
 .charge-request-clicked-text {
   text-align: left;
@@ -170,4 +171,63 @@
   font-size: 32px;
   color: black;
   line-height: 1.2;
+}
+.charge-request-disabled {
+  
+  color: #a0a0a0; /* 회색 글자 */
+  cursor: not-allowed; /* 클릭할 수 없음을 나타내는 커서 */
+  font-size: 13px;
+}
+.present_point {
+  margin-top: 10px;
+  align-items: flex-start; /* Align items to the start of the cross axis (left in this case) */
+  display: flex; /* Ensure that the container is using flexbox to make align-items work */
+  justify-content: flex-start; /* Justify content to the start of the main axis (left in this case) */
+}
+.heart-input-container {
+  display: flex; /* flexbox 사용 */
+  align-items: center; /* 크로스 축(세로)에서 중앙 정렬 */
+  justify-content: flex-start; /* 메인 축(가로)에서 왼쪽 정렬 */
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.heart-input {
+  padding: 10px 12px; /* 타이핑 편안함을 위한 패딩 조정 */
+  width: 20%; /* 부모 컨테이너에 맞는 너비 조정 */
+  margin-top: 7px;
+  height: 30px;
+  margin-left: 5px; /* 라벨과의 간격 */
+  border: 1px solid #ccc; /* 경계선 설정 */
+  border-radius: 4px; /* 경계선의 모서리를 둥글게 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+}
+
+.heart-input:focus {
+  
+  outline: none; /* 기본 아웃라인 제거 */
+}
+
+label {
+  font-size: 20px; /* 라벨의 글자 크기 설정 */
+  font-weight: bold;
+  color: #333; /* 라벨의 글자 색상 설정 */
+  margin-right: 10px; /* 입력 필드와의 간격 */
+}
+
+.points-needed > div {
+  text-align: left; /* 내부 div의 텍스트를 왼쪽 정렬 */
+}
+
+
+.points-needed {
+  display: flex;
+  justify-content: flex-start; 
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}
+@media (max-width: 412px) {
+  .charge-request-unclicked {
+    font-size: 13px;
+  }
 }

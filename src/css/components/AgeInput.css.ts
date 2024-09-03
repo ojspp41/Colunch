@@ -13,9 +13,17 @@ export const age = style({
   padding: '8px 0px',
   marginTop: '6px',
   position: 'relative',
+  marginBottom : '24px'
 });
 
-export const input = style({
+export const agetitle = style({
+  marginTop:"0px"
+});
+export const myinput = style({
   flex: 1,
+  
+});
+export const input = style({
+  
   border: 'none',
 });

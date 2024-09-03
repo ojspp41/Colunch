@@ -1,7 +1,7 @@
 import { style } from "@vanilla-extract/css";
 
 export const mbtiSection = style({
-  padding: "0px 10px 0px 10px",
+  padding: "0px 20px 0px 20px",
 });
 
 export const mbtiContainer = style({

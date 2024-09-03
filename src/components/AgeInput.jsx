@@ -20,14 +20,14 @@ function AgeInput({ value, onChange }) {
 
   return (
     <Fragment>
-      <h3>나이</h3>
+      <h3 className={styles.agetitle}>나이</h3>
       <div className={styles.age}>
         <MyInput
           name="age"
           value={value}
           onChange={onChange}
           onBlur={handleBlur}
-          placeholder="20~29살만 참여 가능합니다 만나이 🙅‍♂️"
+          placeholder="23"
           className={styles.input}
         />
       </div>

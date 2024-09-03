@@ -20,7 +20,7 @@ function UserInfoRrev({ user, ifMainpage }) {
 
   return (
     <Fragment>
-      {ifMainpage && <LoginUserInfoTop username={user.contact_id} />}
+      {ifMainpage && <LoginUserInfoTop username={user.username} />}
       <div className={styles.userInfoRrev}>
         {currentPage > 0 && (
           <div
@@ -45,7 +45,7 @@ function UserInfoRrev({ user, ifMainpage }) {
               SecondText={user.mbti}
             />
           </div>
-          <div className={`${styles.sliderPage} ${styles.sliderPageSecond}`}>
+          {/* <div className={`${styles.sliderPage} ${styles.sliderPageSecond}`}>
             <UserInfoContainer FirstTopic="취미" FirstText={user.hobby} />
             <UserInfoContainer
               FirstTopic="나를 표현하는 한마디"
@@ -53,16 +53,16 @@ function UserInfoRrev({ user, ifMainpage }) {
               SecoundTopic="연락빈도"
               SecondText={user.contact_frequency}
             />
-          </div>
+          </div> */}
         </div>
-        {currentPage < 1 && (
+        {/* {currentPage < 1 && (
           <div
             className={`${styles.sliderArrow} ${styles.sliderArrowRight}`}
             onClick={() => scroll(currentPage + 1)}
           >
             ▶
-          </div>
-        )}
+          </div> */}
+        {/* )} */}
         <div className={styles.userContact}>
           <div
             onClick={() => {
