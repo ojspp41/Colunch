@@ -50,6 +50,16 @@ const hobbyIcons = [
     label: "독서",
   },
   {
+    image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/ott.svg`,
+    alt: "ott/영화",
+    label: "ott시청",
+  },
+  {
+    image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/photo.svg`,
+    alt: "사진",
+    label: "사진",
+  },
+  {
     image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/cook.svg`,
     alt: "요리",
     label: "요리",
@@ -60,20 +70,10 @@ const hobbyIcons = [
     label: "악기",
   },
   {
-    image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/photo.svg`,
-    alt: "사진",
-    label: "사진",
-  },
-  {
     image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/tech.svg`,
     alt: "테크",
     label: "테크",
-  },
-  {
-    image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/ott.svg`,
-    alt: "ott/영화",
-    label: "ott시청",
-  },
+  }
 ];
 
 export default hobbyIcons;
