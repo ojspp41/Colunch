@@ -17,6 +17,7 @@ import HartButtonInfo from "../components/HartButtonInfo";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
+  
   const [isHeartClicked, setIsHeartClicked] = useState(false); // 하트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
   const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
   
@@ -162,13 +163,13 @@ function MainpageLogin() {
             imgSrc={`../../assets/point.svg`}
             infoText={`${userInfo.point}P`}
             buttonText="잔여포인트"
-           
+            handleCharge={handleCharge}
           />
           <MyInfoButton
             imgSrc={`../../assets/heart.svg`}
             infoText={`${userInfo.pickMe}회`}
             buttonText="내가 뽑힐 횟수"
-            
+            handleCharge={handleHeartToggleClick}
           />
         </div>
 

@@ -11,12 +11,12 @@ import Stomp from "stompjs";
 import AdminNavbar from "./Adminnavbar";
 
 function getTokenFromCookie() {
-  const name = 'Authorization=';
+  const name = "Authorization=";
   const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(';');
+  const ca = decodedCookie.split(";");
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) === ' ') {
+    while (c.charAt(0) === " ") {
       c = c.substring(1);
     }
     if (c.indexOf(name) === 0) {
@@ -32,43 +32,40 @@ function AdminRequestList() {
 
   useEffect(() => {
     const connectWebSocket = async () => {
-      
-      const socket = new SockJS('https://backend.comatching.site:8080/ws');
+      const socket = new SockJS("https://backend.comatching.site/wss");
       const client = Stomp.over(socket);
       const token = getTokenFromCookie();
 
-      
-
-      
-        client.connect({ Authorization: `Bearer ${token}` }, (frame) => {
-          console.log('Connected: ' + frame);
+      client.connect(
+        { Authorization: `Bearer ${token}` },
+        (frame) => {
+          console.log("Connected: " + frame);
 
           setStompClient(client);
 
           // 충전 요청 구독
-          client.subscribe('/topic/chargeRequests', (message) => {
+          client.subscribe("/topic/chargeRequests", (message) => {
             const chargeRequests = JSON.parse(message.body);
             console.log(chargeRequests);
             updateRequestsWithoutDuplicates(chargeRequests);
-            
           });
 
           // 승인 업데이트 구독
-          client.subscribe('/topic/approvalUpdate', (message) => {
+          client.subscribe("/topic/approvalUpdate", (message) => {
             const userId = message.body;
             setRequests((prevRequests) =>
               prevRequests.map((request) =>
-                request.contact_id === userId ? { ...request, isChecked: true } : request
+                request.contact_id === userId
+                  ? { ...request, isChecked: true }
+                  : request
               )
             );
           });
-
-          
-        }, (error) => {
-          console.error('Error connecting to WebSocket', error);
-          
-        });
-
+        },
+        (error) => {
+          console.error("Error connecting to WebSocket", error);
+        }
+      );
     };
 
     const initializeWebSocket = async () => {
@@ -78,13 +75,13 @@ function AdminRequestList() {
         console.error("Failed to connect to WebSocket:", error);
       }
     };
-    
+
     initializeWebSocket();
 
     return () => {
       if (stompClient && stompClient.connected) {
         stompClient.disconnect(() => {
-          console.log('Disconnected');
+          console.log("Disconnected");
         });
       }
     };
@@ -92,17 +89,21 @@ function AdminRequestList() {
   function updateRequestsWithoutDuplicates(newRequests) {
     // 현재 요청에 새 요청을 합칩니다.
     const combinedRequests = [...requests, ...newRequests];
-    
+
     // userId를 키로 사용하여 가장 최근의 요청을 저장하는 객체를 생성합니다.
     const latestRequestsMap = {};
-  
-    combinedRequests.forEach(request => {
+
+    combinedRequests.forEach((request) => {
       // 해당 userId의 기존 요청보다 더 최신인 경우에만 객체를 업데이트합니다.
-      if (!latestRequestsMap[request.userId] || new Date(latestRequestsMap[request.userId].createdAt) < new Date(request.createdAt)) {
+      if (
+        !latestRequestsMap[request.userId] ||
+        new Date(latestRequestsMap[request.userId].createdAt) <
+          new Date(request.createdAt)
+      ) {
         latestRequestsMap[request.userId] = request;
       }
     });
-  
+
     // 객체의 값들만 추출하여 배열로 변환합니다.
     const latestRequests = Object.values(latestRequestsMap);
     setRequests(latestRequests);
@@ -113,15 +114,17 @@ function AdminRequestList() {
       amount,
       approvalTime: new Date().toISOString(),
     };
-    const destination = actionType === 'approve' ? '/app/approveCharge' : '/app/cancelCharge';
+    const destination =
+      actionType === "approve" ? "/app/approveCharge" : "/app/cancelCharge";
     stompClient.send(destination, {}, JSON.stringify(approvalData));
-    setRequests(prevRequests => prevRequests.filter(req => req.userId !== userId));
+    setRequests((prevRequests) =>
+      prevRequests.filter((req) => req.userId !== userId)
+    );
   }
 
   return (
-    
     <div>
-      <AdminNavbar/>
+      <AdminNavbar />
       <div className={styles.content}>
         <div className={styles.adminRequestListTitle}>충전 요청 목록</div>
         <div className={styles.adminRequestListText}>

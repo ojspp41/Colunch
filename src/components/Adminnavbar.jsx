@@ -14,7 +14,7 @@ function AdminNavbar() {
         navigate(path); // 네비게이트 함수로 경로 이동
     };
 
-    const toggleMenu = () => {
+    const toggleMenu = ( ) => {
         setMenuOpen(!menuOpen);
     };
 
@@ -58,7 +58,7 @@ function AdminNavbar() {
             <div className={`menu ${menuOpen ? 'open' : ''}`}>
                 <div
                     className={`menu-item ${activeMenu === 'main' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('main', '/adminpage')}
+                    onClick={() => handleMenuClick('main', '/adminpage/charge-requests')}
                 >
                     Main
                 </div>
@@ -68,18 +68,18 @@ function AdminNavbar() {
                 >
                     충전요청
                     {chargeRequestCount > 0 && (
-                        <span className="request-count">{chargeRequestCount}</span>
+                        <span className="request-count">0 </span>
                     )}
                 </div>
                 <div
                     className={`menu-item ${activeMenu === 'user-management' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('user-management', '/adminpage/user-management')}
+                    onClick={() => handleMenuClick('user-management', '/adminpage/charge-requests')}
                 >
                     가입자관리
                 </div>
                 <div
                     className={`menu-item ${activeMenu === 'team-management' ? 'active' : ''}`}
-                    onClick={() => handleMenuClick('team-management', '/adminpage/team-management')}
+                    onClick={() => handleMenuClick('team-management', '/adminpage/charge-requests')}
                 >
                     팀관리
                 </div>

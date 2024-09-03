@@ -32,4 +32,5 @@ export const majorSelectorElementSelect = style({
   border: '1px #eaeaea solid',
   borderRadius: '15px',
   padding: '0 12px',
+
 });

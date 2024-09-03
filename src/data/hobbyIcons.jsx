@@ -6,8 +6,8 @@ const hobbyIcons = [
   },
   {
     image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/draw.svg`,
-    alt: "그림",
-    label: "그림",
+    alt: "창작",
+    label: "창작",
   },
   {
     image: `${import.meta.env.VITE_PUBLIC_URL}../../assets/activity.svg`,

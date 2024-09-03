@@ -23,3 +23,8 @@
     margin-bottom: 20px;
     font-size: 30px;
   }
+  @media (max-width: 450px) {
+    .charge-request-clicked-top-page{
+      font-size: 20px;
+    }
+  }
