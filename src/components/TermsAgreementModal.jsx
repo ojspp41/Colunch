@@ -35,16 +35,12 @@ const TermsAgreementModal = ({ isOpen, onRequestClose, handleSubmit, registerChe
                         <li>
                             <input type="checkbox" id="terms1" checked={registerCheck.terms1} onChange={handleCheckboxChange} />
                             <label htmlFor="terms1">이용약관 동의 </label>
-                            <a href="/terms1" target="_blank" rel="noopener noreferrer" className="terms-link">
-                                <img src="/assets/agreementtoggle.svg" alt="이용약관 확인" />
-                            </a>
+                            
                         </li>
                         <li>
                             <input type="checkbox" id="terms2" checked={registerCheck.terms2} onChange={handleCheckboxChange} />
                             <label htmlFor="terms2">개인정보 수집 이용 동의 </label>
-                            <a href="/terms2" target="_blank" rel="noopener noreferrer" className="terms-link">
-                                <img src="/assets/agreementtoggle.svg" alt="개인정보 수집 이용 확인" />
-                            </a>
+                            
                         </li>
                         <li>
                             <input type="checkbox" id="terms3" checked={registerCheck.terms3} onChange={handleCheckboxChange} />

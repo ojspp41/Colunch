@@ -29,10 +29,10 @@ function MainpageUnLogin() {
     // 컴포넌트가 마운트될 때 API 요청을 보냄
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://backend.comatching.site:8080/api/participations");
+        const response = await axios.get("https://backend.comatching.site/api/participations");
         
         if (response.status === 200) {
-          setNumParticipants(response.data.participation);
+          setNumParticipants(response.data.data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -58,7 +58,7 @@ function MainpageUnLogin() {
         이미 커플입니다
       </div>
       
-      <div  style={{ marginTop: '189px' }}>
+      <div  style={{ marginTop: '69px' }}>
         <div className="bubble" >
           ⚡️10초만에 빠른 가입⚡️
         </div>

@@ -12,7 +12,7 @@ function HartButtonInfo({
     
 
     const [userInfo, setUserInfo] = useRecoilState(userState);
-    const [hearts, setHearts] = useState(0);
+    const [hearts, setHearts] = useState("");
     const pointsPerHeart = 500; // 하트 당 500 포인트
 
     const handleHeartsChange = (event) => {
@@ -42,11 +42,15 @@ function HartButtonInfo({
     
             if (response.status === 200) {
                 alert("교환 성공!");
+                
                 setUserInfo(prevState => ({
                 ...prevState,
                 point: prevState.point - totalPointsNeeded,
                 pickme: prevState.pickme + hearts
+                
             }));
+            window.location.reload();
+            handleToggleClick();
             } else {
                 alert("교환 실패: " + response.data.message);
             }

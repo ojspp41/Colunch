@@ -257,7 +257,7 @@ function Userinfo() {
                 </div>
                 <ProgressBar progress={progress} />
             </div>
-            <form onSubmit={handleSubmit}>
+            <form className= "form_container" onSubmit={handleSubmit}>
                 <div className="form-inner-content">
                     <MajorSelector
                         user={user}
@@ -331,7 +331,7 @@ function Userinfo() {
                     {isContactVerified && (
                         <div>
                             <label>
-                                <h3>좋아하는 노래</h3>
+                                <h3 className="music_title">좋아하는 노래</h3>
                                 <div className="music">
                                     <MyInput
                                         name="song"
@@ -347,13 +347,13 @@ function Userinfo() {
                     {isCommentVisible && (
                         <div>
                             <label>
-                                <h3>나를 소개할 다섯글자</h3>
+                                <h3 className="commet_title"> 나를 소개할 다섯글자</h3>
                                 <div className="music">
                                     <MyInput
                                         name="comment"
                                         value={user.comment}
                                         onChange={handleChange}
-                                        placeholder="😊😊😊😊😊"
+                                        placeholder="5글자 이상 작성해주세요"
                                         className="comment-input"
                                         maxLength={5}
                                     />
