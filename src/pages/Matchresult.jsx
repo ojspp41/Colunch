@@ -35,13 +35,17 @@ function Matchresult() {
 
   const resultData = {
     ...mockData,
-    hobby: mapHobbiesWithIcons(mockData.hobby), // 아이콘과 매핑된 취미 리스트
+    hobby: mapHobbiesWithIcons(mockData.hobby),
   };
 
   // 다시뽑기 버튼 핸들러
   const handleRematch = () => {
     navigate("/match");
   };
+
+  const handleSendText = () => {
+    alert('아직 준비중인 기능이에요!');
+  }
 
   return (
     <div>
@@ -125,7 +129,7 @@ function Matchresult() {
               <button className="Retry-button" onClick={handleRematch}>
                 다시뽑기
               </button>
-              <button className="Retry-button" onClick={handleRematch}>
+              <button className="SendText-button" onClick={handleSendText}>
                 쪽지 보내기
               </button>
             </div>
