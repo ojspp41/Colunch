@@ -9,7 +9,8 @@ function UserInfoRrev({ user, ifMainpage }) {
   const navigate = useNavigate();
   const sliderRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
-  const isInstagram = user.contact_id.startsWith('@')
+  const isInstagram = user.contact_id && user.contact_id.startsWith('@');
+
   const scroll = (pageIndex) => {
     if (sliderRef.current) {
       sliderRef.current.scrollLeft = sliderRef.current.offsetWidth * pageIndex;
