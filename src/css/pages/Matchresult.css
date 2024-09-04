@@ -13,6 +13,8 @@
 
 .MatchResult-Container {
   display: flex;
+  flex-direction: row;
+  justify-content: start;
 }
 .matchresult-content {
   text-align: center;
@@ -52,11 +54,49 @@
 
 .MatchResult-Hobby,
 .MatchResult-Major,
-.MatchResult-Age,
-.MatchResult-MBTI,
-.MatchResult-Frequency,
 .MatchResult-Contact {
   width: 100%;
+}
+
+.MatchResult-Age,
+.MatchResult-MBTI,
+.MatchResult-Frequency {
+  width: 33%
+}
+
+.MatchResult-Text-Hobby {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: left;
+  margin: 12px 0;
+}
+
+.hobby-box {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #DBDBDB;
+  width: auto;
+}
+
+.hobby-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.hobby-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: black;
+}
+
+.MatchResult-Container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .MatchResult-Major,
