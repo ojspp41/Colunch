@@ -86,41 +86,66 @@ function Matching() {
       // 다음 단계로 이동 로직 추가
     }
     console.log(MatchState);
-    const FormData = {
-      ageOption: MatchState.isUseOption[0]
-        ? MatchState.formData.age_option
-        : "UNSELECTED",
-      //   mbti_option: MatchState.selectedMBTI.join(""),
-      mbti: MatchState.selectedMBTI
-        .filter((letter) => letter !== "X")
-        .join(","),
-      //   ai_option_count: aiOptionCount,
-      hobbyOption: MatchState.isUseOption[2]
-        ? MatchState.formData.hobby_option
-        : ["UNSELECTED"],
-      contactFrequencyOption: MatchState.isUseOption[1]
-        ? MatchState.formData.contact_frequency_option
-        : "UNSELECTED",
-      sameMajorOption: MatchState.isUseOption[3] ? true : false,
-      //   match_code: MatchState.formData.match_code,
-      // campus: "Catholic National University",
-      uuid: "efc3044fc84d4f1e94209d784e8b2615",
-    };
-    console.log("FormData: ", FormData);
+    // const FormData = {
+    //   ageOption: MatchState.isUseOption[0]
+    //     ? MatchState.formData.age_option
+    //     : "UNSELECTED",
+    //   //   mbti_option: MatchState.selectedMBTI.join(""),
+    //   mbti: MatchState.selectedMBTI
+    //     .filter((letter) => letter !== "X")
+    //     .join(","),
+    //   //   ai_option_count: aiOptionCount,
+    //   hobbyOption: MatchState.isUseOption[2]
+    //     ? MatchState.formData.hobby_option
+    //     : ["UNSELECTED"],
+    //   contactFrequencyOption: MatchState.isUseOption[1]
+    //     ? MatchState.formData.contact_frequency_option
+    //     : "UNSELECTED",
+    //   sameMajorOption: MatchState.isUseOption[3] ? true : false,
+    //   //   match_code: MatchState.formData.match_code,
+    //   // campus: "Catholic National University",
+    //   uuid: "efc3044fc84d4f1e94209d784e8b2615",
+    // };
+    setMatchState((prev) => ({
+      ...prev,
+      formData: {
+        ageOption: MatchState.isUseOption[0]
+          ? MatchState.formData.age_option
+          : "UNSELECTED",
+        //   mbti_option: MatchState.selectedMBTI.join(""),
+        mbti: MatchState.selectedMBTI
+          .filter((letter) => letter !== "X")
+          .join(","),
+        //   ai_option_count: aiOptionCount,
+        hobbyOption: MatchState.isUseOption[2]
+          ? MatchState.formData.hobby_option
+          : ["UNSELECTED"],
+        contactFrequencyOption: MatchState.isUseOption[1]
+          ? MatchState.formData.contact_frequency_option
+          : "UNSELECTED",
+        sameMajorOption: MatchState.isUseOption[3] ? true : false,
+        //   match_code: MatchState.formData.match_code,
+        // campus: "Catholic National University",
+        uuid: "efc3044fc84d4f1e94209d784e8b2615",
+      },
+    }));
+    console.log("FormData: ", MatchState.formData);
     try {
       const accessToken = Cookies.get("Authorization");
       setLoading(true);
       const response = await axios.post(
         "https://backend.comatching.site/api/match/match-request",
-        FormData,
+        MatchState.formData,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
           },
         }
       );
-      console.log(response);
+      console.log("response:", response);
       if (response.status === 200) {
+        setMatchPageResult(response.data.data);
+        navigate("/match-result");
         // navigate("/loading");
       } else {
         alert("가입 실패");
@@ -255,7 +280,6 @@ function Matching() {
 
   return (
     <>
-      {" "}
       {loading ? (
         <Loading />
       ) : (
