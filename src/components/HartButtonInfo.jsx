@@ -93,7 +93,7 @@ function HartButtonInfo({
                     onChange={handleHeartsChange}
                     min="0"
                     className="heart-input"
-                    placeholder="1"
+                    placeholder="0"
                 />
             </div>
 

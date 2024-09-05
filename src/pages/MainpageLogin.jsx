@@ -14,6 +14,7 @@ import ChargeButtonInfo from "../components/ChargeButtonInfo";
 import NavBar from "../components/Navbar";
 import TutorialSlides from "../components/TutorialSlides";
 import HartButtonInfo from "../components/HartButtonInfo";
+import Background from "../components/Background";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
@@ -70,7 +71,7 @@ function MainpageLogin() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        
+        console.log(response);
 
         if (response.status === 200) {
           setUserInfo((prev) => ({
@@ -82,7 +83,7 @@ function MainpageLogin() {
             mbti: response.data.data.mbti,
             point: response.data.data.point,
             pickMe: response.data.data.pickMe,
-            contact_id : 'jseok_492',
+            contact_id : response.data.data.contactId,
             canRequestCharge: response.data.data.canRequestCharge,
           }));
         }
@@ -106,7 +107,7 @@ function MainpageLogin() {
     navigate("/hart-charge-request");
   };
   const handleClickmatch = () => {
-    navigate("/QR-generator");
+    navigate("/matching");
   };
   const handleVisitcheckresult = () => {
     navigate("/check-result");
@@ -136,6 +137,7 @@ function MainpageLogin() {
   return (
     <div className="container">
       <HeaderMain />
+      <Background/>
       <div className="welcome">
         {userInfo.username}님,<br />
         환영합니다.
@@ -143,12 +145,12 @@ function MainpageLogin() {
       <div className="Mainpage__Login">
         <UserInfoRrev
           user={userInfo}
-          // ifMainpage={true}
-          numParticipants={userInfo.numParticipants}
+          //ifMainpage={true}
+          
         />
         <div
-          //onClick={handleClickmatch}
-          onClick={handleNotService}
+          onClick={handleClickmatch}
+          // onClick={handleNotService}
         >
           <button className="matching-button">
             AI 매칭하기 ▶
@@ -242,7 +244,7 @@ function MainpageLogin() {
             buttonText="가이드북"
           />
         </div>
-        <div  style={{ height: '50px' }}></div>
+        {/* <div  style={{ height: '50px' }}></div> */}
         
       </div>
       

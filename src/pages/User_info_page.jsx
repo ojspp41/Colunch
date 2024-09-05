@@ -21,6 +21,7 @@ import ProgressBar from "../components/Progressbar";
 import Modal from "react-modal"; // Import react-modal
 import TermsAgreementModal from "../components/TermsAgreementModal"; 
 import { endFileScope } from "@vanilla-extract/css/fileScope";
+
 Modal.setAppElement("#root");
 
 function Userinfo() {
