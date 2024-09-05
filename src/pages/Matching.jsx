@@ -12,6 +12,7 @@ import MatchOptionButton from "../components/MatchOptionButton";
 import hobbyIcons from "../data/hobbyIcons"; // 취미 아이콘 데이터 가져오기
 import Cookies from "js-cookie";
 import "../css/pages/Matching.css";
+import Loading from "./Loading.jsx";
 
 function Matching() {
   const [MatchState, setMatchState] = useRecoilState(MatchPickState); // 뽑은 선택 리스트
@@ -22,6 +23,7 @@ function Matching() {
   const [matchPageResult, setMatchPageResult] =
     useRecoilState(MatchResultState); // 뽑기 결과 상태 관리
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleHobbyClick = (index) => {
     const isAlreadySelected = MatchState.formData.hobby_option.includes(index);
@@ -83,12 +85,15 @@ function Matching() {
       alert("다음 단계로 이동합니다."); // 이동 완료 후 원하는 동작 수행
       // 다음 단계로 이동 로직 추가
     }
+    console.log(MatchState);
     const FormData = {
       ageOption: MatchState.isUseOption[0]
         ? MatchState.formData.age_option
         : "UNSELECTED",
       //   mbti_option: MatchState.selectedMBTI.join(""),
-      mbti: MatchState.selectedMBTI.filter((letter) => letter !== "X").join(""),
+      mbti: MatchState.selectedMBTI
+        .filter((letter) => letter !== "X")
+        .join(","),
       //   ai_option_count: aiOptionCount,
       hobbyOption: MatchState.isUseOption[2]
         ? MatchState.formData.hobby_option
@@ -104,7 +109,7 @@ function Matching() {
     console.log("FormData: ", FormData);
     try {
       const accessToken = Cookies.get("Authorization");
-
+      setLoading(true);
       const response = await axios.post(
         "https://backend.comatching.site/api/match/match-request",
         FormData,
@@ -114,8 +119,9 @@ function Matching() {
           },
         }
       );
-      if (response.data.status === 200) {
-        navigate("/loading");
+      console.log(response);
+      if (response.status === 200) {
+        // navigate("/loading");
       } else {
         alert("가입 실패");
       }
@@ -248,260 +254,280 @@ function Matching() {
   };
 
   return (
-    <div className="container">
-      <Background />
-      <HeaderPoint />
-      <div className="matchcontent">
-        <div className="match-title">
-          <div className="match-title-text">Matching</div>
-          <div className="match-title-inst-txt">
-            매칭되고 싶은 상대를 입력하세요
+    <>
+      {" "}
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="container">
+          <Background />
+          <HeaderPoint />
+          <div className="matchcontent">
+            <div className="match-title">
+              <div className="match-title-text">Matching</div>
+              <div className="match-title-inst-txt">
+                매칭되고 싶은 상대를 입력하세요
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="matchcontent_mbti">
-        <div className="match-title">
-          <div className="match-title-text">
-            MBTI <span className="match-required-text">필수</span>
-          </div>
-          <div className="match-title-inst-txt">
-            상대방의 MBTI 2개를 골라주세요.
-          </div>
-        </div>
-        <MBTISection
-          user={MatchState.selectedMBTI}
-          onClick={handleMBTISelection}
-          name="MBTIButton"
-        />
-      </div>
-      <div className="matchcontent_detail">
-        <div className="match-title">
-          <div
-            className="match-premium-option"
-            onClick={() => handleButtonClick(0, 100)}
-          >
-            <div>
+          <div className="matchcontent_mbti">
+            <div className="match-title">
               <div className="match-title-text">
-                나이<span className="match-required-text">선택</span>
+                MBTI <span className="match-required-text">필수</span>
               </div>
               <div className="match-title-inst-txt">
-                상대의 나이를 골라주세요
+                상대방의 MBTI 2개를 골라주세요.
               </div>
             </div>
-            <MatchOptionButton
-              state={MatchState.isUseOption[0]}
-              num={0}
-              money={100}
-              handleButtonClick={(e) => {
-                e.stopPropagation(); // 이벤트 전파 중지
-                handleButtonClick(0, -100);
-              }}
+            <MBTISection
+              user={MatchState.selectedMBTI}
+              onClick={handleMBTISelection}
+              name="MBTIButton"
             />
           </div>
-        </div>
-        {/* MatchOptionButton 클릭 시만 나이 선택 버튼 표시 */}
-        {MatchState.isUseOption[0] && (
-          <div className="match-select-button">
-            <AgeButton
-              formData={MatchState.formData.age_option}
-              value="YOUNGER"
-              text="연하"
-              onClick={() => handleAgeSelection("YOUNGER", "age_option")}
-              isClickable={MatchState.isUseOption[0]}
-            />
-            <AgeButton
-              formData={MatchState.formData.age_option}
-              value="EQUAL"
-              text="동갑"
-              onClick={() => handleAgeSelection("EQUAL", "age_option")}
-              isClickable={MatchState.isUseOption[0]}
-            />
-            <AgeButton
-              formData={MatchState.formData.age_option}
-              text="연상"
-              value="OLDER"
-              onClick={() => handleAgeSelection("OLDER", "age_option")}
-              isClickable={MatchState.isUseOption[0]}
-            />
-          </div>
-        )}
-      </div>
-      <div className="matchcontent_detail">
-        <div className="match-title">
-          <div
-            className="match-premium-option"
-            onClick={() => handleButtonClick(1, 100)} // 클릭 이벤트 추가
-          >
-            <div>
-              <div className="match-title-text">
-                연락 빈도<span className="match-required-text">선택</span>
-              </div>
-              <div className="match-title-inst-txt">원하는 연락 빈도 선택</div>
-            </div>
-            <MatchOptionButton
-              state={MatchState.isUseOption[1]}
-              num={1}
-              money={100}
-              handleButtonClick={(e) => {
-                e.stopPropagation(); // 이벤트 전파 중지
-                handleButtonClick(0, 100);
-              }}
-            />
-          </div>
-        </div>
-        {MatchState.isUseOption[1] && (
-          <div className="match-select-button">
-            <AgeButton
-              formData={MatchState.formData.contact_frequency_option}
-              text="자주"
-              value="FREQUENT"
-              onClick={() =>
-                handleAgeSelection("FREQUENT", "contact_frequency_option")
-              }
-              isClickable={MatchState.isUseOption[1]}
-            />
-            <AgeButton
-              formData={MatchState.formData.contact_frequency_option}
-              text="보통"
-              value="NORMAL"
-              onClick={() =>
-                handleAgeSelection("NORMAL", "contact_frequency_option")
-              }
-              isClickable={MatchState.isUseOption[1]}
-            />
-            <AgeButton
-              formData={MatchState.formData.contact_frequency_option}
-              text="가끔"
-              value="NOT_FREQUENT"
-              onClick={() =>
-                handleAgeSelection("NOT_FREQUENT", "contact_frequency_option")
-              }
-              isClickable={MatchState.isUseOption[1]}
-            />
-          </div>
-        )}
-      </div>
-      <div className="matchcontent_detail">
-        <div className="match-title">
-          <div
-            className="match-premium-option"
-            onClick={() => handleButtonClick(2, 100)}
-          >
-            <div>
-              <div className="match-title-text">
-                취미<span className="match-required-text">선택</span>
-              </div>
-              <div className="match-title-inst-txt">
-                상대의 취미를 5개를 골라주세요
-              </div>
-            </div>
-            <MatchOptionButton
-              state={MatchState.isUseOption[2]}
-              num={2}
-              money={100}
-              handleButtonClick={(e) => {
-                e.stopPropagation();
-                handleButtonClick(2, 100);
-              }}
-            />
-          </div>
-        </div>
-        {MatchState.isUseOption[2] && (
-          <div className="match-hobby-grid">
-            {hobbyIcons.map((hobby, index) => (
-              <button
-                type="button"
-                key={index}
-                className={`hobby-item ${
-                  MatchState.isUseOption[2]
-                    ? `${
-                        MatchState.formData.hobby_option.includes(hobby.label)
-                          ? "selected"
-                          : ""
-                      }`
-                    : " "
-                }`}
-                onClick={() => handleHobbyClick(hobby.label)}
-                disabled={!MatchState.isUseOption[2]}
+          <div className="matchcontent_detail">
+            <div className="match-title">
+              <div
+                className="match-premium-option"
+                onClick={() => handleButtonClick(0, 100)}
               >
-                <img src={hobby.image} alt={hobby.alt} />
-                <div>{hobby.label}</div>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-      <div className="matchcontent_detail matchfinalcontent">
-        <div className="match-title">
-          <div
-            className="match-premium-option"
-            onClick={() => handleButtonClick(3, 200)} // 클릭 이벤트 추가
-          >
-            <div>
-              <div className="match-title-text">
-                같은과는 싫어요<span className="match-required-text">선택</span>
+                <div>
+                  <div className="match-title-text">
+                    나이<span className="match-required-text">선택</span>
+                  </div>
+                  <div className="match-title-inst-txt">
+                    상대의 나이를 골라주세요
+                  </div>
+                </div>
+                <MatchOptionButton
+                  state={MatchState.isUseOption[0]}
+                  num={0}
+                  money={100}
+                  handleButtonClick={(e) => {
+                    e.stopPropagation(); // 이벤트 전파 중지
+                    handleButtonClick(0, -100);
+                  }}
+                />
               </div>
-              <div className="match-title-inst-txt">과 CC를 피할 수 있어요</div>
             </div>
-            <MatchOptionButtonclass
-              state={MatchState.isUseOption[3]}
-              num={3}
-              money={200}
-              handleButtonClick={(e) => {
-                e.stopPropagation(); // 이벤트 전파 중지
-                handleButtonClick(0, 100);
-              }}
-            />
+            {/* MatchOptionButton 클릭 시만 나이 선택 버튼 표시 */}
+            {MatchState.isUseOption[0] && (
+              <div className="match-select-button">
+                <AgeButton
+                  formData={MatchState.formData.age_option}
+                  value="YOUNGER"
+                  text="연하"
+                  onClick={() => handleAgeSelection("YOUNGER", "age_option")}
+                  isClickable={MatchState.isUseOption[0]}
+                />
+                <AgeButton
+                  formData={MatchState.formData.age_option}
+                  value="EQUAL"
+                  text="동갑"
+                  onClick={() => handleAgeSelection("EQUAL", "age_option")}
+                  isClickable={MatchState.isUseOption[0]}
+                />
+                <AgeButton
+                  formData={MatchState.formData.age_option}
+                  text="연상"
+                  value="OLDER"
+                  onClick={() => handleAgeSelection("OLDER", "age_option")}
+                  isClickable={MatchState.isUseOption[0]}
+                />
+              </div>
+            )}
           </div>
-        </div>
-      </div>
-      <div
-        className="cost-bubble"
-        style={{
-          display: isMBTISelected && MatchState.point > 0 ? "block" : "none",
-        }}
-      >
-        <img src="/assets/footercoin.svg" alt="coin" />
-        <span>{MatchState.point}P 소모</span>
-      </div>
-
-      <div
-        className="footer_btn"
-        onMouseMove={handleMove}
-        onMouseUp={handleEnd}
-        onTouchMove={handleMove}
-        onTouchEnd={handleEnd}
-      >
-        <div
-          className="footer_btn_box"
-          style={{
-            backgroundColor: isMBTISelected ? "white" : "lightgray",
-            opacity: isMBTISelected ? 1 : 0.5, // 선택되기 전에는 흐릿하게, 선택되면 선명하게
-            boxShadow: isMBTISelected
-              ? "0px 4px 12px rgba(0, 0, 0, 0.1)"
-              : "none", // 선택되면 박스쉐도우 추가
-          }}
-        >
-          <img
-            src={
-              isMBTISelected
-                ? "/assets/slider_active.svg"
-                : "/assets/slider.svg"
-            } // 이미지 변경
-            alt=""
+          <div className="matchcontent_detail">
+            <div className="match-title">
+              <div
+                className="match-premium-option"
+                onClick={() => handleButtonClick(1, 100)} // 클릭 이벤트 추가
+              >
+                <div>
+                  <div className="match-title-text">
+                    연락 빈도<span className="match-required-text">선택</span>
+                  </div>
+                  <div className="match-title-inst-txt">
+                    원하는 연락 빈도 선택
+                  </div>
+                </div>
+                <MatchOptionButton
+                  state={MatchState.isUseOption[1]}
+                  num={1}
+                  money={100}
+                  handleButtonClick={(e) => {
+                    e.stopPropagation(); // 이벤트 전파 중지
+                    handleButtonClick(0, 100);
+                  }}
+                />
+              </div>
+            </div>
+            {MatchState.isUseOption[1] && (
+              <div className="match-select-button">
+                <AgeButton
+                  formData={MatchState.formData.contact_frequency_option}
+                  text="자주"
+                  value="FREQUENT"
+                  onClick={() =>
+                    handleAgeSelection("FREQUENT", "contact_frequency_option")
+                  }
+                  isClickable={MatchState.isUseOption[1]}
+                />
+                <AgeButton
+                  formData={MatchState.formData.contact_frequency_option}
+                  text="보통"
+                  value="NORMAL"
+                  onClick={() =>
+                    handleAgeSelection("NORMAL", "contact_frequency_option")
+                  }
+                  isClickable={MatchState.isUseOption[1]}
+                />
+                <AgeButton
+                  formData={MatchState.formData.contact_frequency_option}
+                  text="가끔"
+                  value="NOT_FREQUENT"
+                  onClick={() =>
+                    handleAgeSelection(
+                      "NOT_FREQUENT",
+                      "contact_frequency_option"
+                    )
+                  }
+                  isClickable={MatchState.isUseOption[1]}
+                />
+              </div>
+            )}
+          </div>
+          <div className="matchcontent_detail">
+            <div className="match-title">
+              <div
+                className="match-premium-option"
+                onClick={() => handleButtonClick(2, 100)}
+              >
+                <div>
+                  <div className="match-title-text">
+                    취미<span className="match-required-text">선택</span>
+                  </div>
+                  <div className="match-title-inst-txt">
+                    상대의 취미를 5개를 골라주세요
+                  </div>
+                </div>
+                <MatchOptionButton
+                  state={MatchState.isUseOption[2]}
+                  num={2}
+                  money={100}
+                  handleButtonClick={(e) => {
+                    e.stopPropagation();
+                    handleButtonClick(2, 100);
+                  }}
+                />
+              </div>
+            </div>
+            {MatchState.isUseOption[2] && (
+              <div className="match-hobby-grid">
+                {hobbyIcons.map((hobby, index) => (
+                  <button
+                    type="button"
+                    key={index}
+                    className={`hobby-item ${
+                      MatchState.isUseOption[2]
+                        ? `${
+                            MatchState.formData.hobby_option.includes(
+                              hobby.label
+                            )
+                              ? "selected"
+                              : ""
+                          }`
+                        : " "
+                    }`}
+                    onClick={() => handleHobbyClick(hobby.label)}
+                    disabled={!MatchState.isUseOption[2]}
+                  >
+                    <img src={hobby.image} alt={hobby.alt} />
+                    <div>{hobby.label}</div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="matchcontent_detail matchfinalcontent">
+            <div className="match-title">
+              <div
+                className="match-premium-option"
+                onClick={() => handleButtonClick(3, 200)} // 클릭 이벤트 추가
+              >
+                <div>
+                  <div className="match-title-text">
+                    같은과는 싫어요
+                    <span className="match-required-text">선택</span>
+                  </div>
+                  <div className="match-title-inst-txt">
+                    과 CC를 피할 수 있어요
+                  </div>
+                </div>
+                <MatchOptionButtonclass
+                  state={MatchState.isUseOption[3]}
+                  num={3}
+                  money={200}
+                  handleButtonClick={(e) => {
+                    e.stopPropagation(); // 이벤트 전파 중지
+                    handleButtonClick(0, 100);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="cost-bubble"
             style={{
-              left: `${imagePosition}px`,
-              cursor: isMBTISelected ? "pointer" : "not-allowed",
-            }} // 커서 변경
-            onMouseDown={handleStart}
-            onTouchStart={handleStart}
-          />
-          <p>{isMBTISelected ? "밀어서 커플되기" : "조건을 선택해 주세요"}</p>
-        </div>
-      </div>
+              display:
+                isMBTISelected && MatchState.point > 0 ? "block" : "none",
+            }}
+          >
+            <img src="/assets/footercoin.svg" alt="coin" />
+            <span>{MatchState.point}P 소모</span>
+          </div>
 
-      <div className="footer"></div>
-    </div>
+          <div
+            className="footer_btn"
+            onMouseMove={handleMove}
+            onMouseUp={handleEnd}
+            onTouchMove={handleMove}
+            onTouchEnd={handleEnd}
+          >
+            <div
+              className="footer_btn_box"
+              style={{
+                backgroundColor: isMBTISelected ? "white" : "lightgray",
+                opacity: isMBTISelected ? 1 : 0.5, // 선택되기 전에는 흐릿하게, 선택되면 선명하게
+                boxShadow: isMBTISelected
+                  ? "0px 4px 12px rgba(0, 0, 0, 0.1)"
+                  : "none", // 선택되면 박스쉐도우 추가
+              }}
+            >
+              <img
+                src={
+                  isMBTISelected
+                    ? "/assets/slider_active.svg"
+                    : "/assets/slider.svg"
+                } // 이미지 변경
+                alt=""
+                style={{
+                  left: `${imagePosition}px`,
+                  cursor: isMBTISelected ? "pointer" : "not-allowed",
+                }} // 커서 변경
+                onMouseDown={handleStart}
+                onTouchStart={handleStart}
+              />
+              <p>
+                {isMBTISelected ? "밀어서 커플되기" : "조건을 선택해 주세요"}
+              </p>
+            </div>
+          </div>
+
+          <div className="footer"></div>
+        </div>
+      )}
+    </>
   );
 }
 
