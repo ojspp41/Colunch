@@ -36,6 +36,7 @@ function AdminRequestList() {
       const client = Stomp.over(socket);
       const token = getTokenFromCookie();
 
+      console.log("ee");
       client.connect(
         { Authorization: `Bearer ${token}` },
         (frame) => {

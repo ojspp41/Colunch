@@ -86,6 +86,7 @@ function Matching() {
       // 다음 단계로 이동 로직 추가
     }
     console.log(MatchState);
+
     const FormData = {
       ageOption: MatchState.isUseOption[0]
         ? MatchState.formData.age_option
@@ -106,6 +107,12 @@ function Matching() {
       // campus: "Catholic National University",
       uuid: "efc3044fc84d4f1e94209d784e8b2615",
     };
+    setMatchState((prev) => ({
+      ...prev,
+      formData: {
+        FormData,
+      },
+    }));
     console.log("FormData: ", FormData);
     try {
       const accessToken = Cookies.get("Authorization");
@@ -119,9 +126,10 @@ function Matching() {
           },
         }
       );
-      console.log(response);
+      console.log("response: ", response);
       if (response.status === 200) {
-        // navigate("/loading");
+        await setMatchPageResult(response.data.data);
+        navigate("/match-result");
       } else {
         alert("가입 실패");
       }
@@ -200,7 +208,6 @@ function Matching() {
 
   return (
     <>
-      {" "}
       {loading ? (
         <Loading />
       ) : (
