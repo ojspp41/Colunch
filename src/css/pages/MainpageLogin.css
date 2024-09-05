@@ -230,4 +230,7 @@ label {
   .charge-request-unclicked {
     font-size: 13px;
   }
+  .charge-request-clicked-top{
+    font-size: 16px;
+  }
 }

@@ -13,7 +13,7 @@ import hobbyIcons from "../data/hobbyIcons"; // 취미 아이콘 데이터 가�
 import Cookies from "js-cookie";
 import "../css/pages/Matching.css";
 import Loading from "./Loading.jsx";
-
+import HeaderBack from "../components/HeaderBack.jsx";
 function Matching() {
   const [MatchState, setMatchState] = useRecoilState(MatchPickState); // 뽑은 선택 리스트
   const [imagePosition, setImagePosition] = useState(0);
@@ -261,7 +261,7 @@ function Matching() {
       ) : (
         <div className="container">
           <Background />
-          <HeaderPoint />
+          <HeaderBack />
           <div className="matchcontent">
             <div className="match-title">
               <div className="match-title-text">Matching</div>
@@ -489,10 +489,10 @@ function Matching() {
 
           <div
             className="footer_btn"
-            onMouseMove={handleMove}
-            onMouseUp={handleEnd}
-            onTouchMove={handleMove}
-            onTouchEnd={handleEnd}
+            onMouseMove={isMBTISelected ? handleMove : null}
+            onMouseUp={isMBTISelected ? handleEnd : null}
+            onTouchMove={isMBTISelected ? handleMove : null}
+            onTouchEnd={isMBTISelected ? handleEnd : null}
           >
             <div
               className="footer_btn_box"

@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
 import { useNavigate } from "react-router-dom";
 import "../css/pages/ChargeRequestPage.css"; // 스타일링을 위한 CSS 파일 생성
-import HeaderMain from "../components/HeaderMain";
+import HeaderBack from "../components/HeaderBack.jsx";
 import { charge } from "../Atoms";
 import axios from "axios";
 import NavBar from "../components/Navbar.jsx";
@@ -71,9 +71,9 @@ function ChargeRequestPage() {
 
   return (
     <div className="container">
-      <HeaderMain />
+      <HeaderBack />
       <Background />
-      <NavBar />
+
       <div className="charge-request-clicked">
         <div className="charge-request-clicked-top-page">
           💁 부스에 충전 요청하기

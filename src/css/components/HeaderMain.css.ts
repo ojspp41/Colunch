@@ -7,7 +7,19 @@ export const header = style({
     alignItems: 'center',
     margin: 'auto',
 });
-
+export const left = style({
+    width: '112px',
+    height: '20px',
+    zIndex: 30, 
+    backgroundColor: 'white',
+    cursor: 'pointer',
+    borderRadius: '24px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    padding: '8px 16px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+});
 export const logoImg = style({
     width: '140px',
     height: '40px',

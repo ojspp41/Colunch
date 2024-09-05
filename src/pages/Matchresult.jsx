@@ -1,6 +1,6 @@
 import React from "react";
 import Background from "../components/Background.jsx";
-import HeaderPoint from "../components/Headerpoint.jsx";
+import HeaderBack from "../components/HeaderBack.jsx";
 import Footer from "../components/Footer";
 import { useRecoilState } from "recoil";
 import { MatchResultState, MatchPickState } from "../Atoms";
@@ -106,7 +106,7 @@ function Matchresult() {
     <div>
       <div className="container">
         <Background />
-        <HeaderPoint />
+        <HeaderBack />
 
         <div className="circle-icon">💟</div>
 

@@ -13,12 +13,21 @@ function Mainpage() {
     // 쿼리 파라미터에서 accessToken과 userRole 추출
     const urlParams = new URLSearchParams(window.location.search);
     const accessToken = urlParams.get('accessToken');
+    const refreshToken = urlParams.get('refreshToken'); 
     const userRole = urlParams.get('userRole');
-
+    const setCookieWithExpiry = (name, value, hours) => {
+      const date = new Date();
+      date.setTime(date.getTime() + hours * 60 * 60 * 1000); // 1 hour in milliseconds
+      const expires = `expires=${date.toUTCString()}`;
+      document.cookie = `${name}=${value}; path=/; ${expires};`;
+    };
     // accessToken이 있다면 쿠키에 저장
     if (accessToken) {
-      document.cookie = `Authorization=${accessToken}; path=/;`;
+      setCookieWithExpiry('Authorization', accessToken, 1);
       setIsLoggedIn(true);
+      if (refreshToken) {
+        setCookieWithExpiry('RefreshToken', refreshToken, 1);
+      }
       
       // userRole이 'SOCIAL'이면 /hobby로 리다이렉션
       if (userRole === 'SOCIAL') {

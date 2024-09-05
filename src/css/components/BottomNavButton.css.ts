@@ -16,6 +16,13 @@ export const bottomNavButton = style({
   fontSize: '18px',
   fontWeight: 'bold',
   color: '#000000',
+  '@media': {
+    'screen and (max-width: 400px)': {
+      fontSize: '13px',
+    },
+    
+  },
+  
 });
 
 export const img = style({
