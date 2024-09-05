@@ -1,9 +1,7 @@
 // import React from "react";
 import { RecoilRoot } from "recoil";
 import Mainpage from "./pages/Mainpage.jsx";
-import Register from "./pages/Register.jsx";
 import Hobbyform from "./pages/Hobbyform.jsx";
-import Match from "./pages/Match.jsx";
 import Matchresult from "./pages/Matchresult.jsx";
 import Checkresult from "./pages/Checkresult.jsx";
 import Loading from "./pages/Loading.jsx";
@@ -25,8 +23,6 @@ import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";
 import ChargeRequestPage from "./pages/ChargeRequestPage.jsx";
 export default function App() {
-  
-  
   return (
     <RecoilRoot>
       <div className="App">
@@ -34,27 +30,26 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Mainpage />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/hobby" element={<Hobbyform />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/match-result" element={<Matchresult />} />
-            <Route path="/match" element={<Match />} />
             <Route path="/check-result" element={<Checkresult />} />
-            
-            <Route path="/adminpage" element={<Adminpageunlogin />} />   
-            <Route path="/adminpage/charge-requests" element={<AdminRequestList />} />           
-            
+
+            <Route path="/adminpage" element={<Adminpageunlogin />} />
+            <Route
+              path="/adminpage/charge-requests"
+              element={<AdminRequestList />}
+            />
+
             <Route path="/loading" element={<Loading />} />
             <Route path="/charge-request" element={<ChargeRequestPage />} />
             <Route path="/code-reader" element={<CodeReader />} />
             <Route path="/QR-generator" element={<QRGenerator />} />
             <Route path="/profile-builder" element={<ProfileBuilder />} />
             <Route path="/redirection" element={<Redirection />} />
-            <Route path="/userinfo" element={<Userinfo/>} />
-            <Route path="/matching" element={<Matching/>} />
-            <Route path="/describe" element={<Describe/>} />
-            
-            
+            <Route path="/userinfo" element={<Userinfo />} />
+            <Route path="/matching" element={<Matching />} />
+            <Route path="/describe" element={<Describe />} />
           </Routes>
         </BrowserRouter>
       </div>
