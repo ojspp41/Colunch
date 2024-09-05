@@ -33,7 +33,7 @@ function MainpageLogin() {
     canRequestCharge: true,
     hobby: [],
     comment: "",
-    numParticipants: 100,
+    numParticipants: 0,
   });
   // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
   const [chargeclick, setchargeclick] = useRecoilState(charge);
@@ -64,15 +64,14 @@ function MainpageLogin() {
         if (!accessToken) {
           throw new Error('No access token found in cookies');
         }
-
         // Authorization 헤더에 토큰을 추가하여 요청
         const response = await axios.get("http://backend.comatching.site:8080/auth/user/api/info", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
+        
         console.log(response);
-
         if (response.status === 200) {
           setUserInfo((prev) => ({
             ...prev,
@@ -85,6 +84,7 @@ function MainpageLogin() {
             pickMe: response.data.data.pickMe,
             contact_id : response.data.data.contactId,
             canRequestCharge: response.data.data.canRequestCharge,
+            numParticipants:response.data.data.participations,
           }));
         }
       } catch (error) {
