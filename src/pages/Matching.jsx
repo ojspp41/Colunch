@@ -129,61 +129,6 @@ function Matching() {
       console.error("오류 발생:", error);
     }
   };
-  // const handleEnd = async () => {
-  //     setIsDragging(false);
-  //     if (imagePosition >= 252) {
-
-  //         const aiOptionCount = MatchState.isUseOption.filter(
-  //             (option) => option
-  //         ).length;
-
-  //         const updatedFormData = {
-  //             ...MatchState.formData,
-  //             mbti_option: MatchState.selectedMBTI.join(""),
-  //             ai_option_count: aiOptionCount,
-  //             age_option: MatchState.isUseOption[0]
-  //                 ? MatchState.formData.age_option
-  //                 : "NONE",
-  //             contact_frequency_option: MatchState.isUseOption[1]
-  //                 ? MatchState.formData.contact_frequency_option
-  //                 : "NONE",
-  //             no_same_major_option: MatchState.isUseOption[3] ? true : false,
-  //             match_code: MatchState.formData.match_code,
-  //         };
-
-  //         setMatchState((prev) => ({
-  //             ...prev,
-  //             formData: updatedFormData,
-  //         }));
-
-  //         try {
-  //             const response = await axios.post("/comatching/match", updatedFormData);
-  //             console.log(response.data.data);
-  //             if (response.data.status === 200) {
-
-  //                 setMatchPageResult({
-  //                     major: response.data.data.major,
-  //                     age: response.data.data.age,
-  //                     hobby: response.data.data.hobby,
-  //                     mbti: response.data.data.mbti,
-  //                     song: response.data.data.song,
-  //                     contactFrequency: response.data.data.contactFrequency,
-  //                     contactId: response.data.data.contactId,
-  //                     word: response.data.data.word,
-  //                 });
-  //                 setMatchState((prev) => ({
-  //                     ...prev,
-  //                     balance: response.data.data.currentPoint,
-  //                 }));
-  //                 navigate("/loading");
-  //             } else {
-  //                 throw new Error("Unexpected response code or status");
-  //             }
-  //         } catch (error) {
-  //             console.error("Error during match request", error);
-  //         }
-  //     }
-  // };
 
   // MBTI 선택 핸들러
   const handleMBTISelection = (value) => {
