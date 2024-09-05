@@ -65,7 +65,7 @@ function MainpageLogin() {
           throw new Error('No access token found in cookies');
         }
         // Authorization 헤더에 토큰을 추가하여 요청
-        const response = await axios.get("http://backend.comatching.site:8080/auth/user/api/info", {
+        const response = await axios.get("https://backend.comatching.site/auth/user/api/info", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -161,12 +161,21 @@ function MainpageLogin() {
           </button>
         </div>
         <div className="button-group">
-          <MyInfoButton
-            imgSrc={`../../assets/point.svg`}
-            infoText={`${userInfo.point}P`}
-            buttonText="잔여포인트"
-            handleCharge={handleCharge}
-          />
+            {userInfo.canRequestCharge ? (
+              <MyInfoButton
+                imgSrc={`../../assets/point.svg`}
+                infoText={`${userInfo.point}P`}
+                buttonText="잔여포인트"
+                handleCharge={handleCharge} // canRequestCharge가 true일 때 handleCharge 전달
+              />
+            ) : (
+              <MyInfoButton
+                imgSrc={`../../assets/point.svg`}
+                infoText={`${userInfo.point}P`}
+                buttonText="잔여포인트"
+                handleCharge={null} // canRequestCharge가 false일 때 handleCharge는 null
+              />
+          )}
           <MyInfoButton
             imgSrc={`../../assets/heart.svg`}
             infoText={`${userInfo.pickMe}회`}

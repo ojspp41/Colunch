@@ -176,7 +176,7 @@ function Userinfo() {
             // 쿠키에서 ACCESSTOKEN 가져오기
             const accessToken = Cookies.get('Authorization');
             
-            const response = await axios.post("http://backend.comatching.site:8080/auth/social/api/user/info", postData, {
+            const response = await axios.post("https://backend.comatching.site/auth/social/api/user/info", postData, {
                 
                 headers: {
                     Authorization: `Bearer ${accessToken}`  // ACCESSTOKEN을 Authorization 헤더에 추가

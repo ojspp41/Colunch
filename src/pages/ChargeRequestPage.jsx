@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
 import { useNavigate } from "react-router-dom";
@@ -58,7 +58,7 @@ function ChargeRequestPage() {
         alert(
           "충전 요청이 성공적으로 전송되었습니다. 부스에 가서 계좌 입금 확인 해주세요!"
         );
-        navigate("/");
+        navigate("/",{ replace: true });
         // 이후 리디렉션 또는 다른 로직 추가 가능
       } else {
         alert("충전 요청에 실패했습니다.");
@@ -66,6 +66,7 @@ function ChargeRequestPage() {
     } catch (error) {
       console.error("Error submitting charge request:", error);
       alert("충전 요청 중 오류가 발생했습니다.");
+      navigate("/",{ replace: true });
     }
   };
 
