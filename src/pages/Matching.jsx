@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import "../css/pages/Matching.css";
 import Loading from "./Loading.jsx";
 import HeaderBack from "../components/HeaderBack.jsx";
+import instance from "../axiosConfig.jsx";
 function Matching() {
   const [MatchState, setMatchState] = useRecoilState(MatchPickState); // 뽑은 선택 리스트
   const [imagePosition, setImagePosition] = useState(0);
@@ -26,18 +27,18 @@ function Matching() {
   const [loading, setLoading] = useState(false);
 
   const handleHobbyClick = (index) => {
-    const isAlreadySelected = MatchState.formData.hobby_option.includes(index);
+    const isAlreadySelected = MatchState.formData.hobbyOption.includes(index);
     const updatedHobbies = isAlreadySelected
-      ? MatchState.formData.hobby_option.filter((hobby) => hobby !== index)
-      : MatchState.formData.hobby_option.length < 5
-      ? [...MatchState.formData.hobby_option, index]
-      : MatchState.formData.hobby_option;
+      ? MatchState.formData.hobbyOption.filter((hobby) => hobby !== index)
+      : MatchState.formData.hobbyOption.length < 5
+      ? [...MatchState.formData.hobbyOption, index]
+      : MatchState.formData.hobbyOption;
 
     setMatchState((prev) => ({
       ...prev,
       formData: {
         ...prev.formData,
-        hobby_option: updatedHobbies,
+        hobbyOption: updatedHobbies,
       },
     }));
   };
@@ -69,7 +70,7 @@ function Matching() {
       ? MatchState.formData.contact_frequency_option !== ""
       : true;
     const isHobbySelected = MatchState.isUseOption[2]
-      ? MatchState.formData.hobby_option.length > 0
+      ? MatchState.formData.hobbyOption.length > 0
       : true;
 
     if (!isAgeSelected) {
@@ -97,7 +98,7 @@ function Matching() {
         .join(","),
       //   ai_option_count: aiOptionCount,
       hobbyOption: MatchState.isUseOption[2]
-        ? MatchState.formData.hobby_option
+        ? MatchState.formData.hobbyOption
         : ["UNSELECTED"],
       contactFrequencyOption: MatchState.isUseOption[1]
         ? MatchState.formData.contact_frequency_option
@@ -115,16 +116,20 @@ function Matching() {
     }));
     console.log("FormData: ", FormData);
     try {
-      const accessToken = Cookies.get("Authorization");
+      // const accessToken = Cookies.get("Authorization");
       setLoading(true);
-      const response = await axios.post(
-        "https://backend.comatching.site/api/match/match-request",
-        FormData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
-          },
-        }
+      // const response = await axios.post(
+      //   "https://backend.comatching.site/api/match/match-request",
+      //   FormData,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
+      //     },
+      //   }
+      // );
+      const response = await instance.post(
+        "/api/match/match-request",
+        FormData
       );
       console.log("response: ", response);
       if (response.status === 200) {
@@ -383,7 +388,7 @@ function Matching() {
                     className={`hobby-item ${
                       MatchState.isUseOption[2]
                         ? `${
-                            MatchState.formData.hobby_option.includes(
+                            MatchState.formData.hobbyOption.includes(
                               hobby.label
                             )
                               ? "selected"

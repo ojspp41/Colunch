@@ -34,7 +34,7 @@ function AdminRequestList() {
   }, [requests]);
   useEffect(() => {
     const connectWebSocket = async () => {
-      const socket = new SockJS("https://backend.comatching.site/wss");
+      const socket = new SockJS("https://backend.comatching.site/ws");
       const client = Stomp.over(socket);
       const token = getTokenFromCookie();
 
