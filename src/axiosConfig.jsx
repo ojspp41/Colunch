@@ -12,11 +12,12 @@ instance.interceptors.request.use(
     // 엑세스 토큰 및 리프레시 토큰을 쿠키에서 가져옴
     const accessToken = Cookies.get("Authorization");
     const refreshToken = Cookies.get("RefreshToken"); // 리프레시 토큰도 같이 보냄
+    
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     if (refreshToken) {
-      config.headers["x-refresh-token"] = refreshToken; // 필요에 따라 리프레시 토큰을 헤더에 추가
+      config.headers["Refresh-Token"] = refreshToken; // 필요에 따라 리프레시 토큰을 헤더에 추가
     }
     return config;
   },
@@ -28,20 +29,28 @@ instance.interceptors.request.use(
 // 응답 인터셉터 설정
 instance.interceptors.response.use(
   (response) => {
+    console.log("response",response);
     // 서버 응답 헤더에 새 토큰이 있으면 업데이트
-    const newAccessToken = response.headers["new-access-token"];
-    const newRefreshToken = response.headers["new-refresh-token"];
+    const newAccessToken = response.headers["authorization"];
+    const newRefreshToken = response.headers["refresh-token"];
+    
+    if (newAccessToken && newAccessToken.startsWith("Bearer ")) {
+      const newAccessTokenWithoutBearer = newAccessToken.slice(7);
+      // 기존 Authorization 쿠키 삭제
+      Cookies.remove("Authorization", { path: "/" });
 
-    if (newAccessToken) {
-      Cookies.set("Authorization", newAccessToken); // 새로운 엑세스 토큰을 쿠키에 저장
+      // 새로운 Authorization 쿠키 설정
+      Cookies.set("Authorization", newAccessTokenWithoutBearer, { path: "/" });
     }
+    console.log("newRefreshToken",newRefreshToken);
     if (newRefreshToken) {
+      Cookies.remove("RefreshToken", { path: "/" });
       Cookies.set("RefreshToken", newRefreshToken); // 새로운 리프레시 토큰을 쿠키에 저장
     }
 
     return response;
   },
-  (error) => {
+  async (error) => {
     if (!error.response) {
       // 서버 응답이 없을 때 (네트워크 에러 등)
       console.error("Network error or server is down");
@@ -50,7 +59,7 @@ instance.interceptors.response.use(
     }
 
     const { status, data } = error.response;
-
+    
     // 리프레시 토큰 만료 시, 쿠키를 삭제하고 메인 페이지로 리다이렉트
     if (status === 401 && (data.code === "SEC-001" || data.code === "SEC-002")) {
       // 인증 실패 시 쿠키 삭제 및 리다이렉트
@@ -60,7 +69,7 @@ instance.interceptors.response.use(
       alert("세션이 만료되었습니다. 다시 로그인해 주세요.");
       window.location.href = "/"; // 메인 페이지로 리다이렉트
     }
-
+    
     // 기타 전역적으로 처리해야 하는 에러 처리
     if (status === 500) {
       console.error("Server error:", data);
