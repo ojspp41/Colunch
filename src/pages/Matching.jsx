@@ -46,7 +46,7 @@ function Matching() {
 
   const handleStart = (e) => {
     if (MatchState.point > userPoint.point) {
-      alert("포인트가 부족합니다!");
+      alert("포인트가 부족합니다!!");
       return; // 동작 중단
     }
     if (!isMBTISelected) return; // MBTI 2개가 선택되지 않으면 드래그 불가
