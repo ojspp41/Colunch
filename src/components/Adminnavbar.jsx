@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/components/AdminNavbar.css";
 
 function AdminNavbar() {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [chargeRequestCount, setChargeRequestCount] = useState(3);
   const navigate = useNavigate();
 
   const handleMenuClick = (menu, path) => {
@@ -17,8 +16,6 @@ function AdminNavbar() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  // This useEffect hook will simulate fetching data from the backend
 
   return (
     <div className="admin-navbar">
@@ -45,14 +42,13 @@ function AdminNavbar() {
           }
         >
           충전요청
-          {chargeRequestCount > 0 && <span className="request-count">0 </span>}
         </div>
         <div
           className={`menu-item ${
             activeMenu === "user-management" ? "active" : ""
           }`}
           onClick={() =>
-            handleMenuClick("user-management", "/adminpage/charge-requests")
+            handleMenuClick("user-management", "/adminpage/user-management")
           }
         >
           가입자관리
@@ -62,12 +58,14 @@ function AdminNavbar() {
             activeMenu === "team-management" ? "active" : ""
           }`}
           onClick={() =>
-            handleMenuClick("team-management", "/adminpage/charge-requests")
+            handleMenuClick("team-management", "/adminpage/team-management")
           }
         >
           팀관리
         </div>
       </div>
+
+      {/* 관리자 정보 */}
       <div className={`admin-info ${menuOpen ? "open" : ""}`}>
         <p className="admin-info_admin">관리자 오준석님</p>
         <p className="admin-info_class">가톨릭대학교</p>

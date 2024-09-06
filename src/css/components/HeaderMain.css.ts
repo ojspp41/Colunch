@@ -6,6 +6,7 @@ export const header = style({
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: 'auto',
+    zIndex:'3',
 });
 export const left = style({
     width: '112px',

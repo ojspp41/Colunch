@@ -33,6 +33,9 @@ function Mainpage() {
       if (userRole === 'SOCIAL') {
         navigate('/hobby');
       }
+      if(userRole === 'USER'){
+        navigate('/');
+      }
     } else {
       // 쿠키에서 토큰 확인
       const checkTokenInCookies = () => {

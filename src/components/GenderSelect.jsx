@@ -16,15 +16,15 @@ function GenderSelect({ user, setUser, setIsGenderSelected  }) {
       <h3>성별</h3>
       <div className={styles.genderContainer}>
         <GenderButton
-          isActive={user.gender === "MALE"}
-          value="MALE"
-          onClick={() => handleGenderSelection("MALE")}
+          isActive={user.gender === "남자"}
+          value="남자"
+          onClick={() => handleGenderSelection("남자")}
           label="남자"
         />
         <GenderButton
-          isActive={user.gender === "FEMALE"}
-          value="FEMALE"
-          onClick={() => handleGenderSelection("FEMALE")}
+          isActive={user.gender === "여자"}
+          value="여자"
+          onClick={() => handleGenderSelection("여자")}
           label="여자"
         />
       </div>

@@ -56,7 +56,7 @@ export const MatchPickState = atom({
     formData: {
       ageOption: "",
       mbti: "",
-      hobbyOption: [""],
+      hobbyOption: [],
       contactFrequencyOption: "",
       sameMajorOption: false,
       uuid: "efc3044fc84d4f1e94209d784e8b2615",

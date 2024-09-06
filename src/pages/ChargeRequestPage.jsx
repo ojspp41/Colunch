@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
 import { useNavigate } from "react-router-dom";
 import "../css/pages/ChargeRequestPage.css"; // 스타일링을 위한 CSS 파일 생성
 import HeaderBack from "../components/HeaderBack.jsx";
 import { charge } from "../Atoms";
-import axios from "axios";
-import NavBar from "../components/Navbar.jsx";
+
+import instance from "../axiosConfig.jsx"; // axios 인스턴스 불러오기
+
 function ChargeRequestPage() {
   const [amount, setAmount] = useState("");
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
@@ -29,28 +30,11 @@ function ChargeRequestPage() {
     setChargeState({ chargeclick: true });
 
     try {
-      // 쿠키에서 Authorization 토큰을 가져오기
-      const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
-        const [name, value] = cookie.split("=");
-        acc[name] = value;
-        return acc;
-      }, {});
-      const accessToken = cookies.Authorization;
-
-      if (!accessToken) {
-        throw new Error("No access token found in cookies");
-      }
-
       // 백엔드로 POST 요청 보내기
-      const response = await axios.post(
-        "https://backend.comatching.site/auth/user/api/charge",
+      const response = await instance.post(
+        "/auth/user/api/charge",
         {
           amount: parseInt(amount), // amount를 integer로 변환하여 전송
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
         }
       );
 
@@ -58,7 +42,7 @@ function ChargeRequestPage() {
         alert(
           "충전 요청이 성공적으로 전송되었습니다. 부스에 가서 계좌 입금 확인 해주세요!"
         );
-        navigate("/");
+        navigate("/", { replace: true });
         // 이후 리디렉션 또는 다른 로직 추가 가능
       } else {
         alert("충전 요청에 실패했습니다.");
@@ -66,6 +50,7 @@ function ChargeRequestPage() {
     } catch (error) {
       console.error("Error submitting charge request:", error);
       alert("충전 요청 중 오류가 발생했습니다.");
+      navigate("/", { replace: true });
     }
   };
 
