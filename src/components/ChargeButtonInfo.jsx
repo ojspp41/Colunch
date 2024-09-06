@@ -5,6 +5,7 @@ function ChargeButtonInfo({
   handleChargeRequest,
   chargeclick,
   handleToggleClick,
+
 }) {
   return (
     <div className="charge-request-clicked">

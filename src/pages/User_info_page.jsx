@@ -266,30 +266,30 @@ function Userinfo() {
                         <button
                             type="button"
                             className={`form-AgeMaker ${
-                                user.contactFrequency === "FREQUENT" ? "selected" : ""
+                                user.contactFrequency === "자주" ? "selected" : ""
                             }`}
-                            value={"FREQUENT"}
-                            onClick={() => handleAgeClick("FREQUENT")}
+                            value={"자주"}
+                            onClick={() => handleAgeClick("자주")}
                         >
                             자주
                         </button>
                         <button
                             type="button"
                             className={`form-AgeMaker ${
-                                user.contactFrequency === "NORMAL" ? "selected" : ""
+                                user.contactFrequency === "보통" ? "selected" : ""
                             }`}
-                            value={"NORMAL"}
-                            onClick={() => handleAgeClick("NORMAL")}
+                            value={"보통"}
+                            onClick={() => handleAgeClick("보통")}
                         >
                             보통
                         </button>
                         <button
                             type="button"
                             className={`form-AgeMaker ${
-                                user.contactFrequency === "NOT_FREQUENT" ? "selected" : ""
+                                user.contactFrequency === "가끔" ? "selected" : ""
                             }`}
-                            value={"NOT_FREQUENT"}
-                            onClick={() => handleAgeClick("NOT_FREQUENT")}
+                            value={"가끔"}
+                            onClick={() => handleAgeClick("가끔")}
                         >
                             가끔
                         </button>
