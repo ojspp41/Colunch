@@ -81,6 +81,9 @@ function Matchresult() {
   const handleSendText = () => {
     alert("아직 준비중인 기능이에요!");
   };
+  const handleHome = () => {
+    navigate("/");
+  };
 
   return (
     <>
@@ -181,8 +184,11 @@ function Matchresult() {
                   <button className="Retry-button" onClick={handleRematch}>
                     다시뽑기
                   </button>
-                  <button className="SendText-button" onClick={handleSendText}>
+                  {/* <button className="SendText-button" onClick={handleSendText}>
                     쪽지 보내기
+                  </button> */}
+                  <button className="SendText-button" onClick={handleHome}>
+                    메인화면으로 가기
                   </button>
                 </div>
               </div>

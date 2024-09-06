@@ -28,6 +28,7 @@ export const userState = atom({
     hobby: [],
     comment: "",
     numParticipants: 0,
+    contact: "kakao",
   },
 });
 
@@ -56,7 +57,6 @@ export const MatchPickState = atom({
       hobbyOption: [],
       contactFrequencyOption: "",
       sameMajorOption: false,
-      uuid: "efc3044fc84d4f1e94209d784e8b2615",
     },
   },
 });

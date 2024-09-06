@@ -143,7 +143,8 @@ function Matching() {
         }));
         navigate("/match-result");
       } else {
-        alert("가입 실패");
+        alert("실패하였습니다");
+        navigate("/");
       }
     } catch (error) {
       console.error("오류 발생:", error);
@@ -444,7 +445,9 @@ function Matching() {
             className="cost-bubble"
             style={{
               display:
-                isMBTISelected && MatchState.point > 0 ? "block" : "none",
+                MatchState.selectedMBTI.length > 1 && MatchState.point > 0
+                  ? "block"
+                  : "none",
             }}
           >
             <img src="/assets/footercoin.svg" alt="coin" />
@@ -453,37 +456,44 @@ function Matching() {
 
           <div
             className="footer_btn"
-            onMouseMove={isMBTISelected ? handleMove : null}
-            onMouseUp={isMBTISelected ? handleEnd : null}
-            onTouchMove={isMBTISelected ? handleMove : null}
-            onTouchEnd={isMBTISelected ? handleEnd : null}
+            onMouseMove={MatchState.selectedMBTI.length > 1 ? handleMove : null}
+            onMouseUp={MatchState.selectedMBTI.length > 1 ? handleEnd : null}
+            onTouchMove={MatchState.selectedMBTI.length > 1 ? handleMove : null}
+            onTouchEnd={MatchState.selectedMBTI.length > 1 ? handleEnd : null}
           >
             <div
               className="footer_btn_box"
               style={{
-                backgroundColor: isMBTISelected ? "white" : "lightgray",
-                opacity: isMBTISelected ? 1 : 0.5, // 선택되기 전에는 흐릿하게, 선택되면 선명하게
-                boxShadow: isMBTISelected
-                  ? "0px 4px 12px rgba(0, 0, 0, 0.1)"
-                  : "none", // 선택되면 박스쉐도우 추가
+                backgroundColor:
+                  MatchState.selectedMBTI.length > 1 ? "white" : "lightgray",
+                opacity: MatchState.selectedMBTI.length > 1 ? 1 : 0.5, // 선택되기 전에는 흐릿하게, 선택되면 선명하게
+                boxShadow:
+                  MatchState.selectedMBTI.length > 1
+                    ? "0px 4px 12px rgba(0, 0, 0, 0.1)"
+                    : "none", // 선택되면 박스쉐도우 추가
               }}
             >
               <img
                 src={
-                  isMBTISelected
+                  MatchState.selectedMBTI.length > 1
                     ? "/assets/slider_active.svg"
                     : "/assets/slider.svg"
                 } // 이미지 변경
                 alt=""
                 style={{
                   left: `${imagePosition}px`,
-                  cursor: isMBTISelected ? "pointer" : "not-allowed",
+                  cursor:
+                    MatchState.selectedMBTI.length > 1
+                      ? "pointer"
+                      : "not-allowed",
                 }} // 커서 변경
                 onMouseDown={handleStart}
                 onTouchStart={handleStart}
               />
               <p>
-                {isMBTISelected ? "밀어서 커플되기" : "조건을 선택해 주세요"}
+                {MatchState.selectedMBTI.length > 1
+                  ? "밀어서 커플되기"
+                  : "조건을 선택해 주세요"}
               </p>
             </div>
           </div>

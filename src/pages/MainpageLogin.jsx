@@ -41,7 +41,7 @@ function MainpageLogin() {
     const fetchData = async () => {
       try {
         const response = await instance.get("/auth/user/api/info"); // instance로 요청
-
+        console.log(response);
         if (response.status === 200) {
           setUserInfo((prev) => ({
             ...prev,
