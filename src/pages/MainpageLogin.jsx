@@ -19,23 +19,9 @@ import instance from "../axiosConfig";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
-  
   const [isHeartClicked, setIsHeartClicked] = useState(false); // 하트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
   const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
-  
-  const [userInfo, setUserInfo] = useState({
-    username: "",
-    major: "",
-    admissionYear: 19,
-    song: "",
-    mbti: "",
-    point: 0,
-    pickMe: 0,
-    canRequestCharge: true,
-    hobby: [],
-    comment: "",
-    numParticipants: 0,
-  });
+  const [userInfo, setUserInfo] = useRecoilState(userState);
   // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
   const [chargeclick, setchargeclick] = useRecoilState(charge);
   const handleToggleClick = () => {
@@ -95,7 +81,6 @@ function MainpageLogin() {
   const handleVisitcheckresult = () => {
     navigate("/check-result");
   };
-  
 
   // 충전 요청
   const handleChargeRequest = async () => {
@@ -110,16 +95,16 @@ function MainpageLogin() {
   return (
     <div className="container">
       <HeaderMain />
-      <Background/>
+      <Background />
       <div className="welcome">
-        {userInfo.username}님,<br />
+        {userInfo.username}님,
+        <br />
         환영합니다.
       </div>
       <div className="Mainpage__Login">
         <UserInfoRrev
           user={userInfo}
           //ifMainpage={true}
-          
         />
         <div
           onClick={handleClickmatch}
@@ -134,20 +119,20 @@ function MainpageLogin() {
           </button>
         </div>
         <div className="button-group">
-            {userInfo.canRequestCharge ? (
-              <MyInfoButton
-                imgSrc={`../../assets/point.svg`}
-                infoText={`${userInfo.point}P`}
-                buttonText="잔여포인트"
-                handleCharge={handleCharge} // canRequestCharge가 true일 때 handleCharge 전달
-              />
-            ) : (
-              <MyInfoButton
-                imgSrc={`../../assets/point.svg`}
-                infoText={`${userInfo.point}P`}
-                buttonText="잔여포인트"
-                handleCharge={null} // canRequestCharge가 false일 때 handleCharge는 null
-              />
+          {userInfo.canRequestCharge ? (
+            <MyInfoButton
+              imgSrc={`../../assets/point.svg`}
+              infoText={`${userInfo.point}P`}
+              buttonText="잔여포인트"
+              handleCharge={handleCharge} // canRequestCharge가 true일 때 handleCharge 전달
+            />
+          ) : (
+            <MyInfoButton
+              imgSrc={`../../assets/point.svg`}
+              infoText={`${userInfo.point}P`}
+              buttonText="잔여포인트"
+              handleCharge={null} // canRequestCharge가 false일 때 handleCharge는 null
+            />
           )}
           <MyInfoButton
             imgSrc={`../../assets/heart.svg`}
@@ -181,9 +166,7 @@ function MainpageLogin() {
                 />
               </button>
             ) : (
-              <div className="charge-request-disabled">
-                요청완료
-              </div>
+              <div className="charge-request-disabled">요청완료</div>
             )}
           </div>
         )}
@@ -199,17 +182,17 @@ function MainpageLogin() {
           <div className="charge-request-unclicked">
             ❤️ 포인트 하트로 교환하기
             <button
-                className="charge-request-unclicked-img"
-                type="button"
-                onClick={handleHeartToggleClick}
-              >
-                <img
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }../../assets/arrowbottom.svg`}
-                  alt="충전요청 열기"
-                />
-              </button>
+              className="charge-request-unclicked-img"
+              type="button"
+              onClick={handleHeartToggleClick}
+            >
+              <img
+                src={`${
+                  import.meta.env.VITE_PUBLIC_URL
+                }../../assets/arrowbottom.svg`}
+                alt="충전요청 열기"
+              />
+            </button>
           </div>
         )}
         <div className="button-group">
@@ -227,9 +210,8 @@ function MainpageLogin() {
           />
         </div>
         {/* <div  style={{ height: '50px' }}></div> */}
-        
       </div>
-      
+
       {/* <NavBar/> */}
 
       {showTutorial && (

@@ -4,23 +4,24 @@ import { userState } from "../Atoms";
 import LoginUserInfoTop from "./LoginUserInfoTop";
 import * as styles from "../css/components/UserInfoRrev.css.ts";
 import UserInfoContainer from "./UserInfoContainer";
-import { useNavigate } from "react-router-dom";
-function UserInfoRrev({ user, ifMainpage }) {
-  const navigate = useNavigate();
+// import { useNavigate } from "react-router-dom";
+function UserInfoRrev({ ifMainpage }) {
+  // const navigate = useNavigate();
+  const Info = useRecoilValue(userState);
   const sliderRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  const isInstagram = user.contact_id && user.contact_id.startsWith('@');
+  // const [currentPage, setCurrentPage] = useState(0);
+  const isInstagram = Info.contact_id && Info.contact_id.startsWith("@");
 
-  const scroll = (pageIndex) => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollLeft = sliderRef.current.offsetWidth * pageIndex;
-      setCurrentPage(pageIndex);
-    }
-  };
+  // const scroll = (pageIndex) => {
+  //   if (sliderRef.current) {
+  //     sliderRef.current.scrollLeft = sliderRef.current.offsetWidth * pageIndex;
+  //     setCurrentPage(pageIndex);
+  //   }
+  // };
 
   return (
     <Fragment>
-      {ifMainpage && <LoginUserInfoTop username={user.username} />}
+      {ifMainpage && <LoginUserInfoTop username={Info.username} />}
       <div className={styles.userInfoRrev}>
         {/* {currentPage > 0 && (
           <div
@@ -34,15 +35,15 @@ function UserInfoRrev({ user, ifMainpage }) {
           <div className={styles.sliderPage}>
             <UserInfoContainer
               FirstTopic="전공"
-              FirstText={user.major}
+              FirstText={Info.major}
               SecoundTopic="나이"
-              SecondText={user.age}
+              SecondText={Info.age}
             />
             <UserInfoContainer
               FirstTopic="좋아하는 노래"
-              FirstText={user.song}
+              FirstText={Info.song}
               SecoundTopic="MBTI"
-              SecondText={user.mbti}
+              SecondText={Info.mbti}
             />
           </div>
           {/* <div className={`${styles.sliderPage} ${styles.sliderPageSecond}`}>
@@ -65,12 +66,9 @@ function UserInfoRrev({ user, ifMainpage }) {
         {/* )} */}
         <div className={styles.userContact}>
           <div>
-              <span>
-                {isInstagram ? 'InstagramID : ' : 'KakaoTalkID : '}
-              </span>
-              <span> {user.contact_id}</span>
+            <span>{isInstagram ? "InstagramID : " : "KakaoTalkID : "}</span>
+            <span> {Info.contact_id}</span>
           </div>
-          
         </div>
       </div>
     </Fragment>

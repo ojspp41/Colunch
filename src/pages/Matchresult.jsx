@@ -4,7 +4,7 @@ import Background from "../components/Background.jsx";
 import HeaderBack from "../components/HeaderBack.jsx";
 import Footer from "../components/Footer";
 import { useRecoilState } from "recoil";
-import { MatchResultState, MatchPickState } from "../Atoms";
+import { MatchResultState, MatchPickState, userState } from "../Atoms";
 import "../css/pages/Matchresult.css";
 import { useNavigate } from "react-router-dom";
 import hobbyIcons from "../data/hobbyIcons";
@@ -15,15 +15,39 @@ function Matchresult() {
   const navigate = useNavigate();
   const [MatchState, setMatchState] = useRecoilState(MatchPickState);
   const [MatchResult, setMatchResult] = useRecoilState(MatchResultState);
+  const [resultPoint, setResultPoint] = useRecoilState(userState);
   const [loading, setLoading] = useState(false);
   // 같은 조건으로 다시 매칭하기 핸들러
   const handleSubmit = async () => {
+    if (MatchState.point > resultPoint.point) {
+      alert("포인트가 부족합니다!");
+      return; // 동작 중단
+    }
     try {
       setLoading(true);
-      const response = await instance.post("/api/match/match-request", MatchState.formData);
-      
+      const response = await instance.post(
+        "/auth/user/api/match/request",
+        MatchState.formData
+      );
+
       if (response.data.status === 200) {
-        await setMatchResult(response.data.data);
+        await setMatchResult((prev) => ({
+          ...prev,
+          age: response.data.age,
+          comment: response.data.comment,
+          contactFrequency: response.data.contactFrequency,
+          currentPoint: response.data.currentPoint,
+          gender: response.data.gender,
+          hobby: response.data.hobby,
+          major: response.data.major,
+          mbti: response.data.mbti,
+          socialId: response.data.socialId,
+          song: response.data.song,
+        }));
+        await setResultPoint((prev) => ({
+          ...prev,
+          point: response.data.point,
+        }));
         setLoading(false);
       } else {
         throw new Error("Unexpected response code or status");
@@ -145,7 +169,7 @@ function Matchresult() {
                         }../../assets/point.svg`}
                         alt="cost"
                       />
-                      1000P
+                      {MatchState.point}P
                     </div>
                     같은 조건으로 한번 더 뽑기
                   </button>

@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import HeaderPoint from "../components/Headerpoint";
 import Background from "../components/Background";
-import { MatchPickState, MatchResultState } from "../Atoms";
+import { MatchPickState, MatchResultState, userState } from "../Atoms";
 import MatchOptionButtonclass from "../components/MatchOptionButton_Class";
 import MBTISection from "../components/MBTISection";
 import AgeButton from "../components/AgeButton";
@@ -17,6 +17,7 @@ import HeaderBack from "../components/HeaderBack.jsx";
 import instance from "../axiosConfig.jsx";
 function Matching() {
   const [MatchState, setMatchState] = useRecoilState(MatchPickState); // 뽑은 선택 리스트
+  const [userPoint, setUserPoint] = useRecoilState(userState);
   const [imagePosition, setImagePosition] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isMBTISelected, setIsMBTISelected] = useState(false); // MBTI 2개 선택 여부를 추적
@@ -44,6 +45,10 @@ function Matching() {
   };
 
   const handleStart = (e) => {
+    if (MatchState.point > userPoint.point) {
+      alert("포인트가 부족합니다!");
+      return; // 동작 중단
+    }
     if (!isMBTISelected) return; // MBTI 2개가 선택되지 않으면 드래그 불가
     setIsDragging(true);
     const clientX = e.type === "mousedown" ? e.clientX : e.touches[0].clientX;
@@ -92,11 +97,9 @@ function Matching() {
       ageOption: MatchState.isUseOption[0]
         ? MatchState.formData.age_option
         : "UNSELECTED",
-      //   mbti_option: MatchState.selectedMBTI.join(""),
-      mbti: MatchState.selectedMBTI
+      mbtiOption: MatchState.selectedMBTI
         .filter((letter) => letter !== "X")
         .join(","),
-      //   ai_option_count: aiOptionCount,
       hobbyOption: MatchState.isUseOption[2]
         ? MatchState.formData.hobbyOption
         : ["UNSELECTED"],
@@ -104,9 +107,6 @@ function Matching() {
         ? MatchState.formData.contact_frequency_option
         : "UNSELECTED",
       sameMajorOption: MatchState.isUseOption[3] ? true : false,
-      //   match_code: MatchState.formData.match_code,
-      // campus: "Catholic National University",
-      uuid: "efc3044fc84d4f1e94209d784e8b2615",
     };
     setMatchState((prev) => ({
       ...prev,
@@ -116,24 +116,30 @@ function Matching() {
     }));
     console.log("FormData: ", FormData);
     try {
-      // const accessToken = Cookies.get("Authorization");
       setLoading(true);
-      // const response = await axios.post(
-      //   "https://backend.comatching.site/api/match/match-request",
-      //   FormData,
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
-      //     },
-      //   }
-      // );
       const response = await instance.post(
-        "/api/match/match-request",
+        "/auth/user/api/match/request",
         FormData
       );
       console.log("response: ", response);
       if (response.status === 200) {
-        await setMatchPageResult(response.data.data);
+        await setMatchPageResult((prev) => ({
+          ...prev,
+          age: response.data.age,
+          comment: response.data.comment,
+          contactFrequency: response.data.contactFrequency,
+          currentPoint: response.data.currentPoint,
+          gender: response.data.gender,
+          hobby: response.data.hobby,
+          major: response.data.major,
+          mbti: response.data.mbti,
+          socialId: response.data.socialId,
+          song: response.data.song,
+        }));
+        await setUserPoint((prev) => ({
+          ...prev,
+          point: response.data.point,
+        }));
         navigate("/match-result");
       } else {
         alert("가입 실패");
