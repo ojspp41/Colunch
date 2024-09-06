@@ -13,7 +13,8 @@ const Loading = () => {
   //   }, 15);
   //   const redirectTimeout = setTimeout(() => {
   //     navigate("/match-result");
-  //   }, 3000);
+
+  //   }, 2000);
 
   //   return () => {
   //     clearInterval(interval);

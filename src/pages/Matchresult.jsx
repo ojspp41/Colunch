@@ -1,80 +1,62 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Background from "../components/Background.jsx";
-import HeaderPoint from "../components/Headerpoint.jsx";
+import HeaderBack from "../components/HeaderBack.jsx";
 import Footer from "../components/Footer";
 import { useRecoilState } from "recoil";
-import { MatchResultState, MatchPickState } from "../Atoms";
+import { MatchResultState, MatchPickState, userState } from "../Atoms";
 import "../css/pages/Matchresult.css";
 import { useNavigate } from "react-router-dom";
 import hobbyIcons from "../data/hobbyIcons";
 import Cookies from "js-cookie";
 import Loading from "./Loading.jsx";
 
+import instance from "../axiosConfig"; // axios 인스턴스 불러오기
+
 function Matchresult() {
   const navigate = useNavigate();
   const [MatchState, setMatchState] = useRecoilState(MatchPickState);
   const [MatchResult, setMatchResult] = useRecoilState(MatchResultState);
+
+  const [resultPoint, setResultPoint] = useRecoilState(userState);
   const [loading, setLoading] = useState(false);
-
-  // 현재 목업 값으로 보임. 실데이터 사용할 경우 주석처리.
-  const mockData = {
-    major: "컴퓨터정보공학부",
-    age: 25,
-    hobby: ["음악감상", "독서", "게임", "스포츠시청"],
-    mbti: "INTJ",
-    song: "Young Man - 혁오",
-    contactFrequency: "적음",
-    contactId: ["@", "mock_instagram"],
-    generatedCode: 2001,
-  };
-
   // 같은 조건으로 다시 매칭하기 핸들러
   const handleSubmit = async () => {
-    // if (MatchState.balance < MatchState.point) {
-    //   alert("돈이 부족합니다");
-    //   return false;
-    // }
+    if (MatchState.point > resultPoint.point) {
+      alert("포인트가 부족합니다!!");
+      return; // 동작 중단
+    }
     try {
-      const accessToken = Cookies.get("Authorization");
       setLoading(true);
-      const response = await axios.post(
-        "https://backend.comatching.site/api/match/match-request",
-        MatchState.formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
-          },
-        }
+      const response = await instance.post(
+        "/auth/user/api/match/request",
+        MatchState.formData
       );
 
-      if (
-        response.data.code[0] === "SEC-001" ||
-        response.data.code[0] === "SEC-002"
-      ) {
-        localStorage.removeItem("token");
-        navigate("/");
-      } else if (response.data.status === 200) {
+      if (response.data.status === 200) {
+        await setMatchResult((prev) => ({
+          ...prev,
+          age: response.data.age,
+          comment: response.data.comment,
+          contactFrequency: response.data.contactFrequency,
+          currentPoint: response.data.currentPoint,
+          gender: response.data.gender,
+          hobby: response.data.hobby,
+          major: response.data.major,
+          mbti: response.data.mbti,
+          socialId: response.data.socialId,
+          song: response.data.song,
+        }));
+        await setResultPoint((prev) => ({
+          ...prev,
+          point: response.data.point,
+        }));
         setLoading(false);
-        // 다시 결과 값 받아오기
-        setMatchResult({
-          age: response.data.data.age,
-          comment: response.data.data.comment,
-          contactFrequency: response.data.data.contactFrequency,
-          currentPoint: response.data.data.currentPoint,
-          gender: response.data.data.gender,
-          hobby: response.data.data.hobby,
-          major: response.data.data.major,
-          mbti: response.data.data.mbti,
-          socialId: response.data.data.socialId,
-          song: response.data.data.song,
-        });
-        // navigate("/loading");
       } else {
         throw new Error("Unexpected response code or status");
       }
     } catch (error) {
-      console.error("Error during match request", error);
+      console.error("Error during match request:", error);
     }
   };
 
@@ -86,13 +68,6 @@ function Matchresult() {
     });
   };
 
-  // 목업 데이터일 경우
-  // const resultData = {
-  //   ...mockData,
-  //   hobby: mapHobbiesWithIcons(mockData.hobby),
-  // };
-
-  // 실데이터일 경우
   const resultData = {
     ...MatchResult,
     hobby: mapHobbiesWithIcons(MatchResult.hobby),
@@ -100,7 +75,7 @@ function Matchresult() {
 
   // 다시뽑기 버튼 핸들러
   const handleRematch = () => {
-    navigate("/match");
+    navigate("/matching");
   };
 
   const handleSendText = () => {
@@ -115,7 +90,7 @@ function Matchresult() {
         <div>
           <div className="container">
             <Background />
-            <HeaderPoint />
+            <HeaderBack />
 
             <div className="circle-icon">💟</div>
 
@@ -197,7 +172,7 @@ function Matchresult() {
                         }../../assets/point.svg`}
                         alt="cost"
                       />
-                      1000P
+                      {MatchState.point}P
                     </div>
                     같은 조건으로 한번 더 뽑기
                   </button>
@@ -206,10 +181,9 @@ function Matchresult() {
                   <button className="Retry-button" onClick={handleRematch}>
                     다시뽑기
                   </button>
-
-                  {/* <button className="SendText-button" onClick={handleSendText}>
-                쪽지 보내기
-              </button> */}
+                  <button className="SendText-button" onClick={handleSendText}>
+                    쪽지 보내기
+                  </button>
                 </div>
               </div>
             )}

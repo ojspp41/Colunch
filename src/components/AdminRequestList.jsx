@@ -9,6 +9,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
 import AdminNavbar from "./Adminnavbar";
+import { SiDocker } from "react-icons/si";
 
 function getTokenFromCookie() {
   const name = "Authorization=";
@@ -29,13 +30,17 @@ function getTokenFromCookie() {
 function AdminRequestList() {
   const [requests, setRequests] = useRecoilState(adminRequests);
   const [stompClient, setStompClient] = useState(null);
-
+  useEffect(() => {
+    console.log("requests: ", requests);
+  }, [requests]);
   useEffect(() => {
     const connectWebSocket = async () => {
       const socket = new SockJS("https://backend.comatching.site/wss");
+      
       const client = Stomp.over(socket);
       const token = getTokenFromCookie();
 
+      client.debug = null;
       client.connect(
         { Authorization: `Bearer ${token}` },
         (frame) => {
@@ -47,19 +52,36 @@ function AdminRequestList() {
           client.subscribe("/topic/chargeRequests", (message) => {
             const chargeRequests = JSON.parse(message.body);
             console.log(chargeRequests);
-            updateRequestsWithoutDuplicates(chargeRequests);
+            // updateRequestsWithoutDuplicates(chargeRequests);
+            setRequests((prevRequests) => {
+              return [
+                ...prevRequests,
+                ...chargeRequests.filter(
+                  (newReq) =>
+                    !prevRequests.some((req) => req.userId === newReq.userId)
+                ),
+              ];
+            });
           });
 
           // 승인 업데이트 구독
           client.subscribe("/topic/approvalUpdate", (message) => {
             const userId = message.body;
-            setRequests((prevRequests) =>
-              prevRequests.map((request) =>
-                request.contact_id === userId
-                  ? { ...request, isChecked: true }
-                  : request
-              )
-            );
+            console.log("userId:", userId);
+            setRequests((prevRequests) => {
+              return [
+                ...prevRequests.filter((request) => request.userId !== userId),
+              ];
+            });
+          });
+          client.subscribe("/topic/cancelUpdate", (message) => {
+            const userId = message.body;
+            console.log("userId:", userId);
+            setRequests((prevRequests) => {
+              return [
+                ...prevRequests.filter((request) => request.userId !== userId),
+              ];
+            });
           });
         },
         (error) => {
@@ -88,25 +110,32 @@ function AdminRequestList() {
   }, []); // 빈 의존성 배열로 한 번만 실행
   function updateRequestsWithoutDuplicates(newRequests) {
     // 현재 요청에 새 요청을 합칩니다.
-    const combinedRequests = [...requests, ...newRequests];
+    const combinedRequests = [
+      ...requests,
+      ...newRequests.filter(
+        (newRequest) =>
+          !requests.some((request) => request.userId === newRequest.userId)
+      ),
+    ];
 
-    // userId를 키로 사용하여 가장 최근의 요청을 저장하는 객체를 생성합니다.
-    const latestRequestsMap = {};
+    // //userId를 키로 사용하여 가장 최근의 요청을 저장하는 객체를 생성합니다.
+    // const latestRequestsMap = {};
 
-    combinedRequests.forEach((request) => {
-      // 해당 userId의 기존 요청보다 더 최신인 경우에만 객체를 업데이트합니다.
-      if (
-        !latestRequestsMap[request.userId] ||
-        new Date(latestRequestsMap[request.userId].createdAt) <
-          new Date(request.createdAt)
-      ) {
-        latestRequestsMap[request.userId] = request;
-      }
-    });
+    // combinedRequests.forEach((request) => {
+    //   // 해당 userId의 기존 요청보다 더 최신인 경우에만 객체를 업데이트합니다.
+    //   if (
+    //     !latestRequestsMap[request.userId] ||
+    //     new Date(latestRequestsMap[request.userId].createdAt) <
+    //       new Date(request.createdAt)
+    //   ) {
+    //     latestRequestsMap[request.userId] = request;
+    //   }
+    // });
 
-    // 객체의 값들만 추출하여 배열로 변환합니다.
-    const latestRequests = Object.values(latestRequestsMap);
-    setRequests(latestRequests);
+    // // 객체의 값들만 추출하여 배열로 변환합니다.
+    // const latestRequests = Object.values(latestRequestsMap);
+    setRequests(combinedRequests);
+    console.log("combinedRequests: ", combinedRequests);
   }
   function handleAction(userId, amount, actionType) {
     const approvalData = {

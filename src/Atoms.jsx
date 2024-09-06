@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+
 export const charge = atom({
   key: "charge",
   default: {
@@ -10,26 +11,23 @@ export const adminRequests = atom({
   key: "adminRequests",
   default: [],
 });
+
 export const userState = atom({
   key: "userState",
   default: {
-    university: "",
+    username: "",
     major: "",
     age: "",
-    contact: "kakao",
-    contact_id: "",
-    gender: "null",
-    contactFrequency: "",
-    admissionYear: "",
-    mbti: "",
-    hobby: ["운동"],
+    admissionYear: 19,
     song: "",
+    mbti: "",
+    point: 0,
+    pickMe: 0,
+    contact_id: "",
+    canRequestCharge: true,
+    hobby: [],
     comment: "",
-    contact_id_Verified: true,
-    isLoggedIn: false,
-    point: null,
-    pickme: null,
-    token: null,
+    numParticipants: 0,
   },
 });
 
@@ -53,8 +51,9 @@ export const MatchPickState = atom({
     isUseOption: [false, false, false, false],
     formData: {
       ageOption: "",
-      mbti: "",
-      hobbyOption: [""],
+
+      mbtiOption: "",
+      hobbyOption: [],
       contactFrequencyOption: "",
       sameMajorOption: false,
       uuid: "efc3044fc84d4f1e94209d784e8b2615",
@@ -65,16 +64,16 @@ export const MatchPickState = atom({
 export const MatchResultState = atom({
   key: "MatchResultState",
   default: {
-    age: null,
+    age: 0,
     comment: "",
     contactFrequency: "",
-    currentPoint: "",
+    currentPoint: 1500,
     gender: "",
     hobby: [],
-    major: null,
-    mbti: null,
-    socialId: null,
-    song: null,
+    major: "",
+    mbti: "",
+    socialId: "",
+    song: "",
   },
 });
 

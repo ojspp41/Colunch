@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import HeaderPoint from "../components/Headerpoint";
 import Background from "../components/Background";
-import { MatchPickState, MatchResultState } from "../Atoms";
+import { MatchPickState, MatchResultState, userState } from "../Atoms";
 import MatchOptionButtonclass from "../components/MatchOptionButton_Class";
 import MBTISection from "../components/MBTISection";
 import AgeButton from "../components/AgeButton";
@@ -13,9 +13,11 @@ import hobbyIcons from "../data/hobbyIcons"; // 취미 아이콘 데이터 가�
 import Cookies from "js-cookie";
 import "../css/pages/Matching.css";
 import Loading from "./Loading.jsx";
-
+import HeaderBack from "../components/HeaderBack.jsx";
+import instance from "../axiosConfig.jsx";
 function Matching() {
   const [MatchState, setMatchState] = useRecoilState(MatchPickState); // 뽑은 선택 리스트
+  const [userPoint, setUserPoint] = useRecoilState(userState);
   const [imagePosition, setImagePosition] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [isMBTISelected, setIsMBTISelected] = useState(false); // MBTI 2개 선택 여부를 추적
@@ -26,23 +28,27 @@ function Matching() {
   const [loading, setLoading] = useState(false);
 
   const handleHobbyClick = (index) => {
-    const isAlreadySelected = MatchState.formData.hobby_option.includes(index);
+    const isAlreadySelected = MatchState.formData.hobbyOption.includes(index);
     const updatedHobbies = isAlreadySelected
-      ? MatchState.formData.hobby_option.filter((hobby) => hobby !== index)
-      : MatchState.formData.hobby_option.length < 5
-      ? [...MatchState.formData.hobby_option, index]
-      : MatchState.formData.hobby_option;
+      ? MatchState.formData.hobbyOption.filter((hobby) => hobby !== index)
+      : MatchState.formData.hobbyOption.length < 5
+      ? [...MatchState.formData.hobbyOption, index]
+      : MatchState.formData.hobbyOption;
 
     setMatchState((prev) => ({
       ...prev,
       formData: {
         ...prev.formData,
-        hobby_option: updatedHobbies,
+        hobbyOption: updatedHobbies,
       },
     }));
   };
 
   const handleStart = (e) => {
+    if (MatchState.point > userPoint.point) {
+      alert("포인트가 부족합니다!!");
+      return; // 동작 중단
+    }
     if (!isMBTISelected) return; // MBTI 2개가 선택되지 않으면 드래그 불가
     setIsDragging(true);
     const clientX = e.type === "mousedown" ? e.clientX : e.touches[0].clientX;
@@ -69,7 +75,7 @@ function Matching() {
       ? MatchState.formData.contact_frequency_option !== ""
       : true;
     const isHobbySelected = MatchState.isUseOption[2]
-      ? MatchState.formData.hobby_option.length > 0
+      ? MatchState.formData.hobbyOption.length > 0
       : true;
 
     if (!isAgeSelected) {
@@ -86,67 +92,56 @@ function Matching() {
       // 다음 단계로 이동 로직 추가
     }
     console.log(MatchState);
-    // const FormData = {
-    //   ageOption: MatchState.isUseOption[0]
-    //     ? MatchState.formData.age_option
-    //     : "UNSELECTED",
-    //   //   mbti_option: MatchState.selectedMBTI.join(""),
-    //   mbti: MatchState.selectedMBTI
-    //     .filter((letter) => letter !== "X")
-    //     .join(","),
-    //   //   ai_option_count: aiOptionCount,
-    //   hobbyOption: MatchState.isUseOption[2]
-    //     ? MatchState.formData.hobby_option
-    //     : ["UNSELECTED"],
-    //   contactFrequencyOption: MatchState.isUseOption[1]
-    //     ? MatchState.formData.contact_frequency_option
-    //     : "UNSELECTED",
-    //   sameMajorOption: MatchState.isUseOption[3] ? true : false,
-    //   //   match_code: MatchState.formData.match_code,
-    //   // campus: "Catholic National University",
-    //   uuid: "efc3044fc84d4f1e94209d784e8b2615",
-    // };
+
+    const FormData = {
+      ageOption: MatchState.isUseOption[0]
+        ? MatchState.formData.age_option
+        : "UNSELECTED",
+      mbtiOption: MatchState.selectedMBTI
+        .filter((letter) => letter !== "X")
+        .join(","),
+      hobbyOption: MatchState.isUseOption[2]
+        ? MatchState.formData.hobbyOption
+        : ["UNSELECTED"],
+      contactFrequencyOption: MatchState.isUseOption[1]
+        ? MatchState.formData.contact_frequency_option
+        : "UNSELECTED",
+      sameMajorOption: MatchState.isUseOption[3] ? true : false,
+    };
     setMatchState((prev) => ({
       ...prev,
       formData: {
-        ageOption: MatchState.isUseOption[0]
-          ? MatchState.formData.age_option
-          : "UNSELECTED",
-        //   mbti_option: MatchState.selectedMBTI.join(""),
-        mbti: MatchState.selectedMBTI
-          .filter((letter) => letter !== "X")
-          .join(","),
-        //   ai_option_count: aiOptionCount,
-        hobbyOption: MatchState.isUseOption[2]
-          ? MatchState.formData.hobby_option
-          : ["UNSELECTED"],
-        contactFrequencyOption: MatchState.isUseOption[1]
-          ? MatchState.formData.contact_frequency_option
-          : "UNSELECTED",
-        sameMajorOption: MatchState.isUseOption[3] ? true : false,
-        //   match_code: MatchState.formData.match_code,
-        // campus: "Catholic National University",
-        uuid: "efc3044fc84d4f1e94209d784e8b2615",
+        FormData,
       },
     }));
-    console.log("FormData: ", MatchState.formData);
+    console.log("FormData: ", FormData);
+
     try {
-      const accessToken = Cookies.get("Authorization");
       setLoading(true);
-      const response = await axios.post(
-        "https://backend.comatching.site/api/match/match-request",
-        MatchState.formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
-          },
-        }
+      const response = await instance.post(
+        "/auth/user/api/match/request",
+        FormData
       );
-      console.log("response:", response);
+      console.log("response: ", response);
       if (response.status === 200) {
-        setMatchPageResult(response.data.data);
+        await setMatchPageResult((prev) => ({
+          ...prev,
+          age: response.data.age,
+          comment: response.data.comment,
+          contactFrequency: response.data.contactFrequency,
+          currentPoint: response.data.currentPoint,
+          gender: response.data.gender,
+          hobby: response.data.hobby,
+          major: response.data.major,
+          mbti: response.data.mbti,
+          socialId: response.data.socialId,
+          song: response.data.song,
+        }));
+        await setUserPoint((prev) => ({
+          ...prev,
+          point: response.data.point,
+        }));
         navigate("/match-result");
-        // navigate("/loading");
       } else {
         alert("가입 실패");
       }
@@ -154,61 +149,6 @@ function Matching() {
       console.error("오류 발생:", error);
     }
   };
-  // const handleEnd = async () => {
-  //     setIsDragging(false);
-  //     if (imagePosition >= 252) {
-
-  //         const aiOptionCount = MatchState.isUseOption.filter(
-  //             (option) => option
-  //         ).length;
-
-  //         const updatedFormData = {
-  //             ...MatchState.formData,
-  //             mbti_option: MatchState.selectedMBTI.join(""),
-  //             ai_option_count: aiOptionCount,
-  //             age_option: MatchState.isUseOption[0]
-  //                 ? MatchState.formData.age_option
-  //                 : "NONE",
-  //             contact_frequency_option: MatchState.isUseOption[1]
-  //                 ? MatchState.formData.contact_frequency_option
-  //                 : "NONE",
-  //             no_same_major_option: MatchState.isUseOption[3] ? true : false,
-  //             match_code: MatchState.formData.match_code,
-  //         };
-
-  //         setMatchState((prev) => ({
-  //             ...prev,
-  //             formData: updatedFormData,
-  //         }));
-
-  //         try {
-  //             const response = await axios.post("/comatching/match", updatedFormData);
-  //             console.log(response.data.data);
-  //             if (response.data.status === 200) {
-
-  //                 setMatchPageResult({
-  //                     major: response.data.data.major,
-  //                     age: response.data.data.age,
-  //                     hobby: response.data.data.hobby,
-  //                     mbti: response.data.data.mbti,
-  //                     song: response.data.data.song,
-  //                     contactFrequency: response.data.data.contactFrequency,
-  //                     contactId: response.data.data.contactId,
-  //                     word: response.data.data.word,
-  //                 });
-  //                 setMatchState((prev) => ({
-  //                     ...prev,
-  //                     balance: response.data.data.currentPoint,
-  //                 }));
-  //                 navigate("/loading");
-  //             } else {
-  //                 throw new Error("Unexpected response code or status");
-  //             }
-  //         } catch (error) {
-  //             console.error("Error during match request", error);
-  //         }
-  //     }
-  // };
 
   // MBTI 선택 핸들러
   const handleMBTISelection = (value) => {
@@ -285,7 +225,7 @@ function Matching() {
       ) : (
         <div className="container">
           <Background />
-          <HeaderPoint />
+          <HeaderBack />
           <div className="matchcontent">
             <div className="match-title">
               <div className="match-title-text">Matching</div>
@@ -455,7 +395,7 @@ function Matching() {
                     className={`hobby-item ${
                       MatchState.isUseOption[2]
                         ? `${
-                            MatchState.formData.hobby_option.includes(
+                            MatchState.formData.hobbyOption.includes(
                               hobby.label
                             )
                               ? "selected"
@@ -513,10 +453,10 @@ function Matching() {
 
           <div
             className="footer_btn"
-            onMouseMove={handleMove}
-            onMouseUp={handleEnd}
-            onTouchMove={handleMove}
-            onTouchEnd={handleEnd}
+            onMouseMove={isMBTISelected ? handleMove : null}
+            onMouseUp={isMBTISelected ? handleEnd : null}
+            onTouchMove={isMBTISelected ? handleMove : null}
+            onTouchEnd={isMBTISelected ? handleEnd : null}
           >
             <div
               className="footer_btn_box"

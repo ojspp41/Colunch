@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import axios from "../axiosConfig";
 // import { validateForm } from "../myfunction/formValidation";
+import instance from "../axiosConfig"; // axiosConfig 인스턴스 불러오기
 import { useRecoilState } from "recoil";
 import { userState, selectedMBTIState } from "../Atoms";
 import { useNavigate } from "react-router-dom";
@@ -143,23 +144,30 @@ function Userinfo() {
 
     const handleSubmit = async (e) => {
         if (e && e.preventDefault) {
-            e.preventDefault();  
+            e.preventDefault();
         }
-        // 입력값 유효성 검사
-        const requiredFields = ['major', 'age', 'mbti', 'gender', 'contactFrequency', 'hobby', 'song', 'comment', 'admissionYear'];
+
+        const requiredFields = [
+            "major",
+            "age",
+            "mbti",
+            "gender",
+            "contactFrequency",
+            "hobby",
+            "song",
+            "comment",
+            "admissionYear",
+        ];
         for (let field of requiredFields) {
             if (!user[field] || (Array.isArray(user[field]) && user[field].length === 0)) {
                 alert(`${fieldLabels[field]} 빈칸을 채워주세요`);
                 return;
             }
-    }
-        // 나이를 정수형으로 변환
-        
+        }
 
-        // POST 요청에 필요한 데이터 구성
         const postData = {
-            university:user.university,
-            contactId:user.contact_id,
+            university: user.university,
+            contactId: user.contact_id,
             major: user.major,
             age: user.age,
             mbti: user.mbti,
@@ -170,37 +178,14 @@ function Userinfo() {
             comment: user.comment,
             admissionYear: user.admissionYear,
         };
-        try {
-            
-            
-            // 쿠키에서 ACCESSTOKEN 가져오기
-            const accessToken = Cookies.get('Authorization');
-            
-            const response = await axios.post("http://backend.comatching.site:8080/auth/social/api/user/info", postData, {
-                
-                headers: {
-                    Authorization: `Bearer ${accessToken}`  // ACCESSTOKEN을 Authorization 헤더에 추가
-                }
-            });
-            if (response.data.status === 200) {
-                // 응답 헤더에서 토큰 추출
-                const newAccessToken = response.headers['authorization'];
-                const refreshToken = response.headers['refresh-token'];
-                
-                
 
-                if (newAccessToken) {
-                    // "Bearer " (7글자)를 제거
-                    const tokenWithoutBearer = newAccessToken.slice(7);
-                
-                    // 쿠키에 저장
-                    Cookies.set('Authorization', tokenWithoutBearer, { path: '/' });
-                }
-                
-        
-                if (refreshToken) {
-                    Cookies.set('RefreshToken', refreshToken, { path: '/' });
-                }
+        try {
+            const response = await instance.post(
+                "/auth/social/api/user/info",
+                postData
+            );
+
+            if (response.data.status === 200) {
                 alert("가입이 완료되었습니다.");
                 navigate("/");
             } else {
@@ -210,6 +195,7 @@ function Userinfo() {
             console.error("오류 발생:", error);
         }
     };
+
 
 
     const isMajorSelectorComplete = checkMethod.school && checkMethod.department && checkMethod.major;
@@ -280,30 +266,30 @@ function Userinfo() {
                         <button
                             type="button"
                             className={`form-AgeMaker ${
-                                user.contactFrequency === "FREQUENT" ? "selected" : ""
+                                user.contactFrequency === "자주" ? "selected" : ""
                             }`}
-                            value={"FREQUENT"}
-                            onClick={() => handleAgeClick("FREQUENT")}
+                            value={"자주"}
+                            onClick={() => handleAgeClick("자주")}
                         >
                             자주
                         </button>
                         <button
                             type="button"
                             className={`form-AgeMaker ${
-                                user.contactFrequency === "NORMAL" ? "selected" : ""
+                                user.contactFrequency === "보통" ? "selected" : ""
                             }`}
-                            value={"NORMAL"}
-                            onClick={() => handleAgeClick("NORMAL")}
+                            value={"보통"}
+                            onClick={() => handleAgeClick("보통")}
                         >
                             보통
                         </button>
                         <button
                             type="button"
                             className={`form-AgeMaker ${
-                                user.contactFrequency === "NOT_FREQUENT" ? "selected" : ""
+                                user.contactFrequency === "가끔" ? "selected" : ""
                             }`}
-                            value={"NOT_FREQUENT"}
-                            onClick={() => handleAgeClick("NOT_FREQUENT")}
+                            value={"가끔"}
+                            onClick={() => handleAgeClick("가끔")}
                         >
                             가끔
                         </button>
