@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import hobbyIcons from "../data/hobbyIcons";
 import Cookies from "js-cookie";
 import Loading from "./Loading.jsx";
+import instance from "../axiosConfig"; // axios 인스턴스 불러오기
 function Matchresult() {
   const navigate = useNavigate();
   const [MatchState, setMatchState] = useRecoilState(MatchPickState);
@@ -17,38 +18,18 @@ function Matchresult() {
   const [loading, setLoading] = useState(false);
   // 같은 조건으로 다시 매칭하기 핸들러
   const handleSubmit = async () => {
-    // if (MatchState.balance < MatchState.point) {
-    //   alert("돈이 부족합니다");
-    //   return false;
-    // }
     try {
-      const accessToken = Cookies.get("Authorization");
       setLoading(true);
-      const response = await axios.post(
-        "https://backend.comatching.site/api/match/match-request",
-        MatchState.formData,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // ACCESSTOKEN을 Authorization 헤더에 추가
-          },
-        }
-      );
-      console.log("response: ", response);
-      if (
-        response.data.code[0] === "SEC-001" ||
-        response.data.code[0] === "SEC-002"
-      ) {
-        localStorage.removeItem("token");
-        navigate("/");
-      } else if (response.data.status === 200) {
-        // 다시 결과 값 받아오기
+      const response = await instance.post("/api/match/match-request", MatchState.formData);
+      
+      if (response.data.status === 200) {
         await setMatchResult(response.data.data);
         setLoading(false);
       } else {
         throw new Error("Unexpected response code or status");
       }
     } catch (error) {
-      console.error("Error during match request", error);
+      console.error("Error during match request:", error);
     }
   };
 

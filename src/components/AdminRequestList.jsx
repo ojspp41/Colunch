@@ -9,6 +9,7 @@ import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
 import AdminNavbar from "./Adminnavbar";
+import { SiDocker } from "react-icons/si";
 
 function getTokenFromCookie() {
   const name = "Authorization=";
@@ -34,11 +35,12 @@ function AdminRequestList() {
   }, [requests]);
   useEffect(() => {
     const connectWebSocket = async () => {
-      const socket = new SockJS("https://backend.comatching.site/ws");
+      const socket = new SockJS("https://backend.comatching.site/wss");
+      
       const client = Stomp.over(socket);
       const token = getTokenFromCookie();
 
-      console.log("ee");
+      client.debug = null;
       client.connect(
         { Authorization: `Bearer ${token}` },
         (frame) => {

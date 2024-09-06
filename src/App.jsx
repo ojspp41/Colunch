@@ -45,7 +45,7 @@ export default function App() {
             <Route path="/charge-request" element={<ChargeRequestPage />} />
             <Route path="/code-reader" element={<CodeReader />} />
             <Route path="/QR-generator" element={<QRGenerator />} />
-            <Route path="/profile-builder" element={<ProfileBuilder />} />
+            {/* <Route path="/profile-builder" element={<ProfileBuilder />} /> */}
             <Route path="/redirection" element={<Redirection />} />
             <Route path="/userinfo" element={<Userinfo />} />
             <Route path="/matching" element={<Matching />} />

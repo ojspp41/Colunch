@@ -15,6 +15,7 @@ import NavBar from "../components/Navbar";
 import TutorialSlides from "../components/TutorialSlides";
 import HartButtonInfo from "../components/HartButtonInfo";
 import Background from "../components/Background";
+import instance from "../axiosConfig";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
@@ -53,25 +54,8 @@ function MainpageLogin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 쿠키에서 Authorization 토큰을 가져오기
-        const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
-          const [name, value] = cookie.split('=');
-          acc[name] = value;
-          return acc;
-        }, {});
-        const accessToken = cookies.Authorization;
+        const response = await instance.get("/auth/user/api/info"); // instance로 요청
 
-        if (!accessToken) {
-          throw new Error('No access token found in cookies');
-        }
-        // Authorization 헤더에 토큰을 추가하여 요청
-        const response = await axios.get("https://backend.comatching.site/auth/user/api/info", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        
-        console.log(response);
         if (response.status === 200) {
           setUserInfo((prev) => ({
             ...prev,
@@ -82,9 +66,9 @@ function MainpageLogin() {
             mbti: response.data.data.mbti,
             point: response.data.data.point,
             pickMe: response.data.data.pickMe,
-            contact_id : response.data.data.contactId,
+            contact_id: response.data.data.contactId,
             canRequestCharge: response.data.data.canRequestCharge,
-            numParticipants:response.data.data.participations,
+            numParticipants: response.data.data.participations,
           }));
         }
       } catch (error) {
@@ -92,8 +76,7 @@ function MainpageLogin() {
       }
     };
     fetchData();
-  }, []); 
-
+  }, []);
   const handleNotService = () => {
     alert("서비스가 종료되었습니다.");
   };
@@ -112,17 +95,7 @@ function MainpageLogin() {
   const handleVisitcheckresult = () => {
     navigate("/check-result");
   };
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-
-    // 쿠키 삭제인데 지금보면 필요없어 보이긴합니다.
-    document.cookie.split(";").forEach((cookie) => {
-      const [name] = cookie.split("=");
-      document.cookie = `${name.trim()}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-    });
-
-    window.location.reload();
-  };
+  
 
   // 충전 요청
   const handleChargeRequest = async () => {
