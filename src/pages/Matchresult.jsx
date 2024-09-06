@@ -20,7 +20,7 @@ function Matchresult() {
   // 같은 조건으로 다시 매칭하기 핸들러
   const handleSubmit = async () => {
     if (MatchState.point > resultPoint.point) {
-      alert("포인트가 부족합니다!");
+      alert("포인트가 부족합니다!!");
       return; // 동작 중단
     }
     try {
