@@ -4,33 +4,33 @@ import { userState } from "../Atoms";
 import LoginUserInfoTop from "./LoginUserInfoTop";
 import * as styles from "../css/components/UserInfoRrev.css.ts";
 import UserInfoContainer from "./UserInfoContainer";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function UserInfoRrev({ ifMainpage }) {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const Info = useRecoilValue(userState);
   const sliderRef = useRef(null);
-  // const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const isInstagram = Info.contact_id && Info.contact_id.startsWith("@");
 
-  // const scroll = (pageIndex) => {
-  //   if (sliderRef.current) {
-  //     sliderRef.current.scrollLeft = sliderRef.current.offsetWidth * pageIndex;
-  //     setCurrentPage(pageIndex);
-  //   }
-  // };
+  const scroll = (pageIndex) => {
+    if (sliderRef.current) {
+      sliderRef.current.scrollLeft = sliderRef.current.offsetWidth * pageIndex;
+      setCurrentPage(pageIndex);
+    }
+  };
 
   return (
     <Fragment>
-      {ifMainpage && <LoginUserInfoTop username={Info.username} />}
+      
       <div className={styles.userInfoRrev}>
-        {/* {currentPage > 0 && (
+        {currentPage > 0 && (
           <div
             className={`${styles.sliderArrow} ${styles.sliderArrowLeft}`}
             onClick={() => scroll(currentPage - 1)}
           >
             ◀
           </div>
-        )} */}
+        )}
         <div className={styles.slider} ref={sliderRef}>
           <div className={styles.sliderPage}>
             <UserInfoContainer
@@ -46,24 +46,24 @@ function UserInfoRrev({ ifMainpage }) {
               SecondText={Info.mbti}
             />
           </div>
-          {/* <div className={`${styles.sliderPage} ${styles.sliderPageSecond}`}>
-            <UserInfoContainer FirstTopic="취미" FirstText={user.hobby} />
+          <div className={`${styles.sliderPage} ${styles.sliderPageSecond}`}>
+            <UserInfoContainer FirstTopic="취미" FirstText={Info.hobby} />
             <UserInfoContainer
               FirstTopic="나를 표현하는 한마디"
-              FirstText={user.comment}
+              FirstText={Info.comment}
               SecoundTopic="연락빈도"
-              SecondText={user.contact_frequency}
+              SecondText={Info.contact_frequency}
             />
-          </div> */}
+          </div>
         </div>
-        {/* {currentPage < 1 && (
+        {currentPage < 1 && (
           <div
             className={`${styles.sliderArrow} ${styles.sliderArrowRight}`}
             onClick={() => scroll(currentPage + 1)}
           >
             ▶
-          </div> */}
-        {/* )} */}
+          </div>
+        )}
         <div className={styles.userContact}>
           <div>
             <span>{isInstagram ? "InstagramID : " : "KakaoTalkID : "}</span>

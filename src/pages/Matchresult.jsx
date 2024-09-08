@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Background from "../components/Background.jsx";
-import HeaderBack from "../components/HeaderBack.jsx";
+import HeaderBackPoint from "../components/HeaderBackPoint.jsx";
 import Footer from "../components/Footer";
 import { useRecoilState } from "recoil";
 import { MatchResultState, MatchPickState, userState } from "../Atoms";
@@ -22,8 +22,13 @@ function Matchresult() {
   const [loading, setLoading] = useState(false);
   // 같은 조건으로 다시 매칭하기 핸들러
   const handleSubmit = async () => {
+    console.log("MatchState.point",MatchState.point);
+    
+    console.log("resultPoint.point",resultPoint.point);
     if (MatchState.point > resultPoint.point) {
       alert("포인트가 부족합니다!!");
+      navigate("/charge-request", { replace: true }); 
+      navigate
       return; // 동작 중단
     }
     try {
@@ -33,7 +38,7 @@ function Matchresult() {
         "/auth/user/api/match/request",
         MatchState.formData.FormData
       );
-
+      console.log(response);
       if (response.data.status === 200) {
         await setMatchResult((prev) => ({
           ...prev,
@@ -94,7 +99,7 @@ function Matchresult() {
         <div>
           <div className="container">
             <Background />
-            <HeaderBack />
+            <HeaderBackPoint currentPoint={resultPoint.point} />
 
             <div className="circle-icon">💟</div>
 

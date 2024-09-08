@@ -12,11 +12,13 @@ import BottomNavButton from "../components/BottomNavButton";
 import MyInfoButton from "../components/MyInfoButton";
 import ChargeButtonInfo from "../components/ChargeButtonInfo";
 import NavBar from "../components/Navbar";
+import Footer from "../components/Footer";
 import TutorialSlides from "../components/TutorialSlides";
 import HartButtonInfo from "../components/HartButtonInfo";
 import Background from "../components/Background";
 import instance from "../axiosConfig";
 import AccountButtonInfo from "../components/AccountButtonInfo";
+import Cookies from "js-cookie"; // js-cookie import 추가
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isAccountClicked, setIsAccountClicked] = useState(false);
@@ -29,6 +31,7 @@ function MainpageLogin() {
   const handleToggleClick = () => {
     setIsClicked((prevIsClicked) => !prevIsClicked);
   };
+  
   const handleAccountToggleClick = () => {
     setIsAccountClicked((prevIsClicked) => !prevIsClicked);
   };
@@ -41,12 +44,19 @@ function MainpageLogin() {
   const handleHeartToggleClick = () => {
     setIsHeartClicked((prevIsClicked) => !prevIsClicked);
   };
+  const handleLogout = () => {
+    // 쿠키에서 Authorization, RefreshToken 제거
+    Cookies.remove("Authorization");
+    Cookies.remove("RefreshToken");
+    
+    window.location.reload();
+  };
   // 사용자 정보를 가져오는 비동기 함수
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await instance.get("/auth/user/api/info"); // instance로 요청
-        console.log(response);
+        
         if (response.status === 200) {
           setUserInfo((prev) => ({
             ...prev,
@@ -57,6 +67,9 @@ function MainpageLogin() {
             mbti: response.data.data.mbti,
             point: response.data.data.point,
             pickMe: response.data.data.pickMe,
+            hobby:response.data.data.hobbies,
+            comment:response.data.data.comment,
+            contact_frequency:response.data.data.contactFrequency,
             contact_id: response.data.data.contactId,
             canRequestCharge: response.data.data.canRequestCharge,
             numParticipants: response.data.data.participations,
@@ -181,7 +194,7 @@ function MainpageLogin() {
           />
         ) : (
           <div className="charge-request-unclicked">
-            💸임금 계좌 확인하기
+            💸입금 계좌 확인하기
             <button
                 className="charge-request-unclicked-img"
                 type="button"
@@ -237,7 +250,12 @@ function MainpageLogin() {
         </div>
         {/* <div  style={{ height: '50px' }}></div> */}
       </div>
-
+      <div className="logout-container">
+        <a href="#" onClick={handleLogout} className="logout-link">
+          로그아웃
+        </a>
+      </div>
+      <Footer/>
       {/* <NavBar/> */}
 
       {showTutorial && (
