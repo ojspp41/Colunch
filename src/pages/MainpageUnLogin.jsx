@@ -29,7 +29,7 @@ function MainpageUnLogin() {
     // 컴포넌트가 마운트될 때 API 요청을 보냄
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://backend.comatching.site/api/participations");
+        const response = await axios.get("https://cuk.comatching.site/api/participations");
         
         if (response.status === 200) {
           setNumParticipants(response.data.data);

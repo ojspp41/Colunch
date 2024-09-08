@@ -22,7 +22,7 @@ import ProgressBar from "../components/Progressbar";
 import Modal from "react-modal"; // Import react-modal
 import TermsAgreementModal from "../components/TermsAgreementModal"; 
 import { endFileScope } from "@vanilla-extract/css/fileScope";
-
+import HeaderMain from "../components/HeaderMain";
 Modal.setAppElement("#root");
 
 function Userinfo() {
@@ -55,15 +55,23 @@ function Userinfo() {
             [category]: value,
         }));
     
-        setUser((prevUser) => ({
-            ...prevUser,
-            mbti: `${category === "EI" ? value : selectedMBTI.EI}${
-                category === "SN" ? value : selectedMBTI.SN
-        }${category === "TF" ? value : selectedMBTI.TF}${
-            category === "PJ" ? value : selectedMBTI.PJ
-        }`,
-        isLoggedIn: true,
-        }));
+        setUser((prevUser) => {
+            const updatedMBTI = {
+                EI: category === "EI" ? value : selectedMBTI.EI,
+                SN: category === "SN" ? value : selectedMBTI.SN,
+                TF: category === "TF" ? value : selectedMBTI.TF,
+                PJ: category === "PJ" ? value : selectedMBTI.PJ,
+            };
+    
+            // All MBTI parts concatenated
+            const mbtiString = `${updatedMBTI.EI || ""}${updatedMBTI.SN || ""}${updatedMBTI.TF || ""}${updatedMBTI.PJ || ""}`;
+    
+            return {
+                ...prevUser,
+                mbti: mbtiString,
+                isLoggedIn: true,
+            };
+        });
     };
 
     const [isGenderSelectable, setIsGenderSelectable] = useState(false); 
@@ -174,13 +182,13 @@ function Userinfo() {
             comment: user.comment,
             admissionYear: user.admissionYear,
         };
-
+        console.log(postData);
         try {
             const response = await instance.post(
                 "/auth/social/api/user/info",
                 postData
             );
-
+            
             if (response.data.status === 200) {
                 alert("가입이 완료되었습니다.");
                 navigate("/");

@@ -109,7 +109,7 @@ function MainpageLogin() {
       <div className="Mainpage__Login">
         <UserInfoRrev
           user={userInfo}
-          //ifMainpage={true}
+          ifMainpage={true}
         />
         <div
           onClick={handleClickmatch}

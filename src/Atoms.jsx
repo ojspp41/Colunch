@@ -18,7 +18,7 @@ export const userState = atom({
     username: "",
     major: "",
     age: "",
-    admissionYear: 19,
+    admissionYear: 0,
     song: "",
     mbti: "",
     point: 0,

@@ -11,14 +11,14 @@ instance.interceptors.request.use(
   (config) => {
     // 엑세스 토큰 및 리프레시 토큰을 쿠키에서 가져옴
     const accessToken = Cookies.get("Authorization");
-    const refreshToken = Cookies.get("RefreshToken"); // 리프레시 토큰도 같이 보냄
+    // const refreshToken = Cookies.get("RefreshToken"); // 리프레시 토큰도 같이 보냄
     
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
-    if (refreshToken) {
-      config.headers["Refresh-Token"] = refreshToken; // 필요에 따라 리프레시 토큰을 헤더에 추가
-    }
+    // if (refreshToken) {
+    //   config.headers["Refresh-Token"] = refreshToken; // 필요에 따라 리프레시 토큰을 헤더에 추가
+    // }
     return config;
   },
   (error) => {
