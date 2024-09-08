@@ -16,8 +16,10 @@ import TutorialSlides from "../components/TutorialSlides";
 import HartButtonInfo from "../components/HartButtonInfo";
 import Background from "../components/Background";
 import instance from "../axiosConfig";
+import AccountButtonInfo from "../components/AccountButtonInfo";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
+  const [isAccountClicked, setIsAccountClicked] = useState(false);
   const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
   const [isHeartClicked, setIsHeartClicked] = useState(false); // 하트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
   const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
@@ -26,6 +28,9 @@ function MainpageLogin() {
   const [chargeclick, setchargeclick] = useRecoilState(charge);
   const handleToggleClick = () => {
     setIsClicked((prevIsClicked) => !prevIsClicked);
+  };
+  const handleAccountToggleClick = () => {
+    setIsAccountClicked((prevIsClicked) => !prevIsClicked);
   };
   // 포인트 충전 토글 클릭 핸들러
   const handlePointToggleClick = () => {
@@ -168,6 +173,27 @@ function MainpageLogin() {
             ) : (
               <div className="charge-request-disabled">요청완료</div>
             )}
+          </div>
+        )}
+        {isAccountClicked ? (
+          <AccountButtonInfo
+            handleToggleClick={handleAccountToggleClick}
+          />
+        ) : (
+          <div className="charge-request-unclicked">
+            💸임금 계좌 확인하기
+            <button
+                className="charge-request-unclicked-img"
+                type="button"
+                onClick={handleAccountToggleClick}
+              >
+                <img
+                  src={`${
+                    import.meta.env.VITE_PUBLIC_URL
+                  }../../assets/arrowbottom.svg`}
+                  alt="충전요청 열기"
+                />
+              </button>
           </div>
         )}
         {isHeartClicked ? (

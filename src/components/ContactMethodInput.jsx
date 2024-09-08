@@ -39,7 +39,6 @@ function ContactMethodInput({ handleChange, setIsContactVerified,user, setUser  
       }
       alert('입력한 정보는 사용 가능합니다.');
       setIsContactVerified(true);
-      alert('입력한 정보는 사용 가능합니다.');
     } else if (user.contact === "instagram") {
       if (!instagramPattern.test(user.contact_id)) {
         console.log(user.contact_id);

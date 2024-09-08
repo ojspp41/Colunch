@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { userState, selectedMBTIState } from "../Atoms";
 import { useNavigate } from "react-router-dom";
 import MyInput from "../components/MyInput";
-import HeaderMain from "../components/HeaderMain";
+import HeaderBack from "../components/HeaderBack";
 import MajorSelector from "../components/MajorSelector";
 import Cookies from 'js-cookie';
 import "../css/pages/User_info.css";
@@ -91,11 +91,7 @@ function Userinfo() {
                 if (value.length <= 5) { // 'comment' 필드가 최대 5글자까지만 입력되도록 제한
                     setUser((prevUser) => ({ ...prevUser, comment: value }));
                     setIsCommentVisible(true); // 'comment' 필드가 표시되도록 설정
-                    if (value.length === 5) { // 'comment' 필드가 정확히 5글자일 때
-                        setIsFiveChars(true); // 다섯 글자가 입력되었음을 설정
-                    } else {
-                        setIsFiveChars(false); // 다섯 글자가 입력되지 않았음을 설정
-                    }
+                    setIsFiveChars(true); 
                 }
                 
                 break;
