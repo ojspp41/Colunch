@@ -128,8 +128,8 @@ function MainpageLogin() {
           ifMainpage={true}
         />
         <div
-          // onClick={handleClickmatch}
-          onClick={handleNotService}
+          onClick={handleClickmatch}
+          // onClick={handleNotService}
         >
           <button className="matching-button">
             AI 매칭하기 ▶
