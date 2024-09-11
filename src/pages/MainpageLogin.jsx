@@ -56,7 +56,7 @@ function MainpageLogin() {
     const fetchData = async () => {
       try {
         const response = await instance.get("/auth/user/api/info"); // instance로 요청
-        
+        console.log(response);
         if (response.status === 200) {
           setUserInfo((prev) => ({
             ...prev,
@@ -85,7 +85,7 @@ function MainpageLogin() {
     fetchData();
   }, []);
   const handleNotService = () => {
-    alert("해당 서비스는 9/11일 10:00에 오픈됩니다 축제까지 기다려주세요!");
+    alert("해당 서비스는 9/12일 10:00에 오픈됩니다 축제까지 기다려주세요!");
   };
   const handleVisitGuide = () => {
     navigate("/guide");
@@ -128,8 +128,8 @@ function MainpageLogin() {
           ifMainpage={true}
         />
         <div
-          onClick={handleClickmatch}
-          // onClick={handleNotService}
+          // onClick={handleClickmatch}
+          onClick={handleNotService}
         >
           <button className="matching-button">
             AI 매칭하기 ▶
@@ -145,7 +145,7 @@ function MainpageLogin() {
               imgSrc={`../../assets/point.svg`}
               infoText={`${userInfo.point}P`}
               buttonText="잔여포인트"
-              //handleCharge={handleCharge} 
+              // handleCharge={handleCharge} 
               // canRequestCharge가 true일 때 handleCharge 전달
               handleCharge={handleNotService}
             />
@@ -161,15 +161,15 @@ function MainpageLogin() {
             imgSrc={`../../assets/heart.svg`}
             infoText={`${userInfo.pickMe}회`}
             buttonText="내가 뽑힐 횟수"
-            // handleCharge={handleHeartToggleClick}
-            handleCharge={handleNotService}
+            handleCharge={handleHeartToggleClick}
+            // handleCharge={handleNotService}
           />
         </div>
 
         {isPointClicked ? (
           <ChargeButtonInfo
             handleNotService={handleNotService}
-            // handleChargeRequest={handleCharge}
+            handleChargeRequest={handleCharge}
             handleToggleClick={handlePointToggleClick}
             chargeclick={chargeclick}
           />
@@ -205,8 +205,8 @@ function MainpageLogin() {
             <button
                 className="charge-request-unclicked-img"
                 type="button"
-                // onClick={handleAccountToggleClick}
-                onClick={handleNotService}
+                onClick={handleAccountToggleClick}
+                // onClick={handleNotService}
               >
                 <img
                   src={`${
@@ -219,7 +219,7 @@ function MainpageLogin() {
         )}
         {isHeartClicked ? (
           <HartButtonInfo
-            //handleNotService={handleNotService}
+            // handleNotService={handleNotService}
             point={userInfo.point}
             
             handleChargeRequest={handlehartCharge}
@@ -232,8 +232,8 @@ function MainpageLogin() {
             <button
               className="charge-request-unclicked-img"
               type="button"
-              // onClick={handleHeartToggleClick}
-              onClick={handleNotService}
+              onClick={handleHeartToggleClick}
+              // onClick={handleNotService}
             >
               <img
                 src={`${
@@ -246,8 +246,8 @@ function MainpageLogin() {
         )}
         <div className="button-group">
           <BottomNavButton
-            onClick={handleNotService}
-            // onClick={handleVisitcheckresult}
+            // onClick={handleNotService}
+            onClick={handleVisitcheckresult}
             imgSrc={`../../assets/checkresult.svg`}
             imgText="조회버튼"
             buttonText="조회하기"

@@ -13,7 +13,7 @@ function ChargeRequestPage() {
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
-  const accountNumber = "카카오뱅크 3333-17-9418736"; // 계좌번호를 여기에 입력
+  const accountNumber = "토스뱅크 1001-4935-3543"; // 계좌번호를 여기에 입력
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
@@ -43,7 +43,7 @@ function ChargeRequestPage() {
         alert(
           "충전 요청이 성공적으로 전송되었습니다. 부스에 가서 계좌 입금 확인 해주세요!"
         );
-        alert("카카오뱅크 3333-17-9418736\n계좌번호가 복사되었습니다.");
+        alert("토스뱅크 1001-4935-3543\n계좌번호가 복사되었습니다.");
         navigate("/", { replace: true });
         // 이후 리디렉션 또는 다른 로직 추가 가능
       } else {

@@ -134,7 +134,8 @@ function Matching() {
       alert("취미를 선택해 주세요.(최대 5개");
       setImagePosition(0); // 이미지 위치 초기화
     } else if (imagePosition >= 252) {
-      alert("다음 단계로 이동합니다."); // 이동 완료 후 원하는 동작 수행
+      alert("해당 서비스는 9월 12일 10:00시에 열립니다"); // 이동 완료 후 원하는 동작 수행
+      navigate("/");
       // 다음 단계로 이동 로직 추가
     }
 
@@ -169,31 +170,31 @@ function Matching() {
       );
       
       if (response.status === 200) {
-        await setMatchPageResult((prev) => ({
-          ...prev,
-          age: response.data.data.age,
-          comment: response.data.data.comment,
-          contactFrequency: response.data.data.contactFrequency,
-          currentPoint: response.data.data.currentPoint,
-          gender: response.data.data.gender,
-          hobby: response.data.data.hobby,
-          major: response.data.data.major,
-          mbti: response.data.data.mbti,
-          socialId: response.data.data.contactId,
-          song: response.data.data.song,
-        }));
-        await setUserPoint((prev) => ({
-          ...prev,
-          point: response.data.data.currentPoint,
-        }));
-        
+        // await setMatchPageResult((prev) => ({
+        //   ...prev,
+        //   age: response.data.data.age,
+        //   comment: response.data.data.comment,
+        //   contactFrequency: response.data.data.contactFrequency,
+        //   currentPoint: response.data.data.currentPoint,
+        //   gender: response.data.data.gender,
+        //   hobby: response.data.data.hobby,
+        //   major: response.data.data.major,
+        //   mbti: response.data.data.mbti,
+        //   socialId: response.data.data.contactId,
+        //   song: response.data.data.song,
+        // }));
+        // await setUserPoint((prev) => ({
+        //   ...prev,
+        //   point: response.data.data.currentPoint,
+        // }));
+        alert("해당 서비스는 9월 12일 10:00시에 열립니다");
         navigate("/match-result",{ replace: true });
       } else {
-        alert("실패하였습니다");
+        alert("해당 서비스는 9월 12일 10:00시에 열립니다");
         navigate("/");
       }
     } catch (error) {
-      console.error("오류 발생:", error);
+      console.error("해당 서비스는 9월 12일 10:00시에 열립니다 :", error);
     }
   };
 
