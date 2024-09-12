@@ -31,8 +31,8 @@ function Mainpage() {
       
       // userRole이 'SOCIAL'이면 /hobby로 리다이렉션
       if (userRole === 'SOCIAL') {
-        // navigate('/hobby');
-        navigate('/');
+        navigate('/hobby');
+        
       }
       if(userRole === 'USER'){
         navigate('/');

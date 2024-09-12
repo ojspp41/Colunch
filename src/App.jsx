@@ -18,6 +18,7 @@ import "./App.css";
 import "./axiosConfig.jsx";
 import Matching from "./pages/Matching.jsx";
 import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
+import EventModal from "./components/EventModal.jsx";
 // import ChargeRequestsPage from "./pages/ChargeRequestsPage.jsx";
 // import ChargeRequestMonitor from "./components/admintest.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";

@@ -9,6 +9,7 @@ import { charge } from "../Atoms";
 import instance from "../axiosConfig.jsx"; // axios 인스턴스 불러오기
 
 function ChargeRequestPage() {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [amount, setAmount] = useState("");
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
   const navigate = useNavigate();
@@ -29,11 +30,16 @@ function ChargeRequestPage() {
       });
   };
   const handleSubmit = async () => {
+    if (amount == "" || parseInt(amount) <= 0) {
+      alert("충전할 금액을 1원 이상 입력해 주세요.");
+      return; // 유효하지 않으면 함수 종료
+    }
     // Recoil 상태 업데이트
     setChargeState({ chargeclick: true });
-
+    setIsButtonDisabled(true);
     try {
       // 백엔드로 POST 요청 보내기
+      
       const response = await instance.post("/auth/user/api/charge", {
         amount: parseInt(amount), // amount를 integer로 변환하여 전송
       });
@@ -48,6 +54,7 @@ function ChargeRequestPage() {
         // 이후 리디렉션 또는 다른 로직 추가 가능
       } else {
         alert("충전 요청에 실패했습니다.");
+        setIsButtonDisabled(false);
       }
     } catch (error) {
       console.error("Error submitting charge request:", error);
@@ -89,29 +96,12 @@ function ChargeRequestPage() {
         <button
           className="charge-request-clicked-button"
           onClick={handleSubmit} // 버튼 클릭 시 handleSubmit 함수 호출
+          disabled={isButtonDisabled}
         >
           충전 요청하기
         </button>
       </div>
-      {/* <div className="charge-request-clicked">
-        <p className="account_name">계좌번호: 오준석</p>
-        <p className="account">{accountNumber}</p>
-        <img 
-          src="/assets/clipboard.png" 
-          alt="Copy to clipboard" 
-          onClick={handleCopy} 
-          className="clipboard-icon"
-        />
-        <li className="charge-request-clicked-text">
-          클립보드 아이콘을 누르면 계좌번호가 복사되요
-        </li>
-        <li className="charge-request-clicked-text">
-          충전 요청후 해당 계좌로 돈을 입금 후 부스에서 확인해 주세요!
-        </li>
-        
-        {copied && <span className="copied-message">copy</span>}
-
-      </div> */}
+      
     </div>
   );
 }

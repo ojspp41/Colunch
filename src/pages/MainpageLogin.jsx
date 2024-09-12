@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import axios from "axios";
-import axiosInstance from "../axiosConfig";
+
 import HeaderMain from "../components/HeaderMain";
 import UserInfoRrev from "../components/UserInfoRrev";
 import { charge, userState } from "../Atoms";
@@ -11,7 +10,7 @@ import TotalUsersCounter from "../components/TotalUsersCounter";
 import BottomNavButton from "../components/BottomNavButton";
 import MyInfoButton from "../components/MyInfoButton";
 import ChargeButtonInfo from "../components/ChargeButtonInfo";
-import NavBar from "../components/Navbar";
+
 import Footer from "../components/Footer";
 import TutorialSlides from "../components/TutorialSlides";
 import HartButtonInfo from "../components/HartButtonInfo";
@@ -19,6 +18,7 @@ import Background from "../components/Background";
 import instance from "../axiosConfig";
 import AccountButtonInfo from "../components/AccountButtonInfo";
 import Cookies from "js-cookie"; // js-cookie import 추가
+import EventModal from "../components/EventModal";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
   const [isAccountClicked, setIsAccountClicked] = useState(false);
@@ -28,6 +28,7 @@ function MainpageLogin() {
   const [userInfo, setUserInfo] = useRecoilState(userState);
   // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
   const [chargeclick, setchargeclick] = useRecoilState(charge);
+  const [showEventModal, setShowEventModal] = useState(false);
   const handleToggleClick = () => {
     setIsClicked((prevIsClicked) => !prevIsClicked);
   };
@@ -51,12 +52,50 @@ function MainpageLogin() {
     
     window.location.reload();
   };
+  useEffect(() => {
+    // eventokay가 false일 때만 모달을 띄웁니다.
+    if (userInfo.eventokay === false) {
+      setShowEventModal(true);
+    }
+  }, [userInfo.eventokay]);
+  const handleCancel = async () => {
+    try {
+      const response = await instance.get("/auth/user/api/event/no-pickMe");
+      if (response.status === 200) {
+        setUserInfo((prev) => ({
+          ...prev,
+          eventokay: true, // Set eventokay to false after participation
+        }));
+        setShowEventModal(false); // Close modal after successful participation
+      }
+    } catch (error) {
+      console.error("Error participating in event:", error);
+    }
+  };
+  
+  const handleParticipate = async () => {
+    try {
+      const response = await instance.get("/auth/user/api/event/pickMe");
+      if (response.status === 200) {
+        setUserInfo((prev) => ({
+          ...prev,
+          eventokay: true, // Set eventokay to false after participation
+        }));
+        setShowEventModal(false); // Close modal after successful participation
+        window.location.reload(); 
+      }
+    } catch (error) {
+      console.error("Error participating in event:", error);
+    }
+  };
+  
+
   // 사용자 정보를 가져오는 비동기 함수
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await instance.get("/auth/user/api/info"); // instance로 요청
-        console.log(response);
+        
         if (response.status === 200) {
           setUserInfo((prev) => ({
             ...prev,
@@ -73,6 +112,7 @@ function MainpageLogin() {
             contact_id: response.data.data.contactId,
             canRequestCharge: response.data.data.canRequestCharge,
             numParticipants: response.data.data.participations,
+            eventokay: response.data.data.event1,
           }));
         }
       } catch (error) {
@@ -105,7 +145,7 @@ function MainpageLogin() {
 
   // 충전 요청
   const handleChargeRequest = async () => {
-    const response = await axiosInstance.get("/user/charge/request");
+    const response = await instance.get("/user/charge/request");
     setchargeclick({
       chargeclick: true, // 클릭된 것으로 상태 변경, 클릭시 관리자 페이지에 뜹니다.
     });
@@ -128,8 +168,8 @@ function MainpageLogin() {
           ifMainpage={true}
         />
         <div
-          // onClick={handleClickmatch}
-          onClick={handleNotService}
+          onClick={handleClickmatch}
+          // onClick={handleNotService}
         >
           <button className="matching-button">
             AI 매칭하기 ▶
@@ -145,9 +185,9 @@ function MainpageLogin() {
               imgSrc={`../../assets/point.svg`}
               infoText={`${userInfo.point}P`}
               buttonText="잔여포인트"
-              // handleCharge={handleCharge} 
+              handleCharge={handleCharge} 
               // canRequestCharge가 true일 때 handleCharge 전달
-              handleCharge={handleNotService}
+              // handleCharge={handleNotService}
             />
           ) : (
             <MyInfoButton
@@ -168,7 +208,7 @@ function MainpageLogin() {
 
         {isPointClicked ? (
           <ChargeButtonInfo
-            handleNotService={handleNotService}
+            // handleNotService={handleNotService}
             handleChargeRequest={handleCharge}
             handleToggleClick={handlePointToggleClick}
             chargeclick={chargeclick}
@@ -180,8 +220,8 @@ function MainpageLogin() {
               <button
                 className="charge-request-unclicked-img"
                 type="button"
-                // onClick={handlePointToggleClick}
-                onClick={handleNotService}
+                onClick={handlePointToggleClick}
+                // onClick={handleNotService}
               >
                 <img
                   src={`${
@@ -268,7 +308,13 @@ function MainpageLogin() {
       </div>
       <Footer/>
       {/* <NavBar/> */}
-
+      {showEventModal && userInfo.eventokay === false && (
+        <EventModal
+          onParticipate={handleParticipate}
+          onCancel={handleCancel}
+          
+        />
+      )}
       {showTutorial && (
         <TutorialSlides onComplete={() => setShowTutorial(false)} />
       )}
