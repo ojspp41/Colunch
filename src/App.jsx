@@ -23,6 +23,7 @@ import EventModal from "./components/EventModal.jsx";
 // import ChargeRequestMonitor from "./components/admintest.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";
 import ChargeRequestPage from "./pages/ChargeRequestPage.jsx";
+import Charge from "./pages/Charge.jsx";
 export default function App() {
   return (
     <RecoilRoot>
@@ -51,6 +52,7 @@ export default function App() {
             <Route path="/userinfo" element={<Userinfo />} />
             <Route path="/matching" element={<Matching />} />
             <Route path="/describe" element={<Describe />} />
+            <Route path="/charge" element={<Charge />} />
           </Routes>
         </BrowserRouter>
       </div>
