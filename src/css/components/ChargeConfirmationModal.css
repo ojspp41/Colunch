@@ -1,0 +1,72 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: flex-end; /* Aligns modal at the bottom */
+    align-items: flex-end;
+  }
+  
+  .modal-content {
+    background-color: white;
+    border-radius: 20px 20px 0 0; /* Round the top corners only */
+    width: 100%;
+    height: 40%; /* Take up 40% of the screen height */
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow */
+  }
+  
+  .modal-charge-img {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+  }
+  
+  .modal-message {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .modal-amount {
+    font-size: 16px;
+  }
+  
+  .modal-amount-value {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .modal-warning {
+    font-size: 14px;
+    color: red;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .modal-confirm-button,
+  .modal-cancel-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .modal-confirm-button {
+    background-color: green;
+    color: white;
+  }
+  
+  .modal-cancel-button {
+    background-color: gray;
+    color: white;
+  }
+  

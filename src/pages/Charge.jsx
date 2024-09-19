@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
 import { useNavigate } from "react-router-dom";
@@ -7,45 +7,40 @@ import HeaderBack from "../components/HeaderBack.jsx";
 import { charge } from "../Atoms";
 import AccountButtonInfo from "../components/AccountButtonInfo.jsx";
 import instance from "../axiosConfig.jsx"; // axios 인스턴스 불러오기
+import ChargeConfirmationModal from "../components/ChargeConfirmationModal.jsx";// Modal 컴포넌트 불러오기
 
 function Charge() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [amount, setAmount] = useState("");
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
   const [isAccountClicked, setIsAccountClicked] = useState(false);
+  const [showModal, setShowModal] = useState(false); // Modal 상태 추가
   const navigate = useNavigate();
-  const [copied, setCopied] = useState(false);
   const accountNumber = "토스뱅크 1001-4935-3543"; // 계좌번호를 여기에 입력
+
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
+
   const handleAccountToggleClick = () => {
     setIsAccountClicked((prevIsClicked) => !prevIsClicked);
   };
-  const handleCopy = () => {
-    navigator.clipboard
-      .writeText(accountNumber)
-      .then(() => {
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000); // 2초 후에 "Copied!" 메시지 사라지게
-      })
-      .catch((err) => {
-        console.error("Failed to copy!", err);
-      });
-  };
+
   const handleSubmit = async () => {
     if (amount == "" || parseInt(amount) <= 0) {
       alert("충전할 금액을 1원 이상 입력해 주세요.");
       return; // 유효하지 않으면 함수 종료
     }
-    // Recoil 상태 업데이트
-    setChargeState({ chargeclick: true });
+    setShowModal(true); // Modal 표시
+  };
+
+  const handleConfirm = async () => {
+    setShowModal(false); // Modal 닫기
     setIsButtonDisabled(true);
+
     try {
-      // 백엔드로 POST 요청 보내기
-      
       const response = await instance.post("/auth/user/api/charge", {
-        amount: parseInt(amount), // amount를 integer로 변환하여 전송
+        amount: parseInt(amount),
       });
 
       if (response.status === 200) {
@@ -55,7 +50,6 @@ function Charge() {
         );
         alert("토스뱅크 1001-4935-3543\n계좌번호가 복사되었습니다.");
         navigate("/", { replace: true });
-        // 이후 리디렉션 또는 다른 로직 추가 가능
       } else {
         alert("충전 요청에 실패했습니다.");
         setIsButtonDisabled(false);
@@ -63,8 +57,12 @@ function Charge() {
     } catch (error) {
       console.error("Error submitting charge request:", error);
       alert("충전 요청 중 오류가 발생했습니다.");
-      navigate("/", { replace: true });
+      setIsButtonDisabled(false);
     }
+  };
+
+  const handleCancel = () => {
+    setShowModal(false); // Modal 닫기
   };
 
   return (
@@ -72,36 +70,23 @@ function Charge() {
       <HeaderBack />
       <Background />
       {isAccountClicked ? (
-          <AccountButtonInfo
-            handleToggleClick={handleAccountToggleClick}
-            accountNumber={accountNumber}
-          />
-        ) : (
-          <div className="charge-request-unclicked">
-            💸입금 계좌 확인하기
-            <button
-                className="charge-request-unclicked-img"
-                type="button"
-                onClick={handleAccountToggleClick}
-                // onClick={handleNotService}
-              >
-                <img
-                  src={`${
-                    import.meta.env.VITE_PUBLIC_URL
-                  }../../assets/arrowbottom.svg`}
-                  alt="충전요청 열기"
-                />
-              </button>
-          </div>
-        )}
+        <AccountButtonInfo
+          handleToggleClick={handleAccountToggleClick}
+          accountNumber={accountNumber}
+        />
+      ) : (
+        <div className="charge-request-unclicked">
+          💸입금 계좌 확인하기
+          <button className="charge-request-unclicked-img" onClick={handleAccountToggleClick}>
+            <img src={`${
+                import.meta.env.VITE_PUBLIC_URL
+              }../../assets/arrowbottom.svg`} alt="충전요청 열기" />
+          </button>
+        </div>
+      )}
       <div className="charge-request-clicked">
-        <div className="charge-clicked-top-page">
-          포인트 충전 요청하기
-          
-        </div>
-        <div className="request-text">
-          입금 후 입금 금액을 입력해주세요
-        </div>
+        <div className="charge-clicked-top-page">포인트 충전 요청하기</div>
+        <div className="request-text">입금 후 입금 금액을 입력해주세요</div>
         <div className="charge-input-container">
           <img src="/assets/chargepoint.svg" alt="Charge Point" className="charge-img" />
           <input
@@ -113,33 +98,19 @@ function Charge() {
           />
           <span className="currency-circle">원</span>
         </div>
-        <button
-          className="charge-button"
-          onClick={handleSubmit}
-          disabled={isButtonDisabled}
-        >
+        <button className="charge-button" onClick={handleSubmit} disabled={isButtonDisabled}>
           충전 요청
         </button>
 
-        <hr className="gray-divider" />
-
-        {/* 주의 사항 텍스트 추가 */}
-        <div className="caution-text">주의 사항</div>
-
-        <li className="charge-request-clicked-text">
-          입금 후 포인트 충전을 원하거나
-        </li>
-        <li className="charge-request-clicked-text">
-          포인트를 PickMe로 바꾸고 싶을때 
-        </li>
-        <li className="charge-request-clicked-text">
-          요청 후에는 입금 화면과 아이디를 보여 주세요.
-        </li>
-        <li className="charge-request-clicked-text">
-          버튼 남용 시 이용이 제한될 수 있으니 
-        </li>
+        
       </div>
-      
+      {showModal && (
+          <ChargeConfirmationModal
+            amount={amount}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+          />
+        )}
     </div>
   );
 }

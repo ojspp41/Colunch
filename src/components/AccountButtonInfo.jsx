@@ -4,7 +4,7 @@ function AccountButtonInfo({handleToggleClick,accountNumber}) {
     
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText();
+        navigator.clipboard.writeText(accountNumber);
         alert("계좌 번호가 복사되었습니다!");
     };
 
