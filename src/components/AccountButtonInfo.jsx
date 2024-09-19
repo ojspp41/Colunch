@@ -1,6 +1,6 @@
 import React from 'react';
 import "../css/components/AccountButtonInfo.css";
-function AccountButtonInfo({handleToggleClick}) {
+function AccountButtonInfo({handleToggleClick,accountNumber}) {
     
 
     const copyToClipboard = () => {
@@ -25,7 +25,7 @@ function AccountButtonInfo({handleToggleClick}) {
                 </button>
             </div>
             <div className="account-box">
-                <p className="account-number">{}</p>
+                <p className="account-number">{accountNumber}</p>
                 <p className="account-holder">{}</p>
                 
             </div>

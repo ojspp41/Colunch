@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
 import { useNavigate } from "react-router-dom";
-import "../css/pages/ChargeRequestPage.css"; // 스타일링을 위한 CSS 파일 생성
+import "../css/pages/Charge.css"; // 스타일링을 위한 CSS 파일 생성
 import HeaderBack from "../components/HeaderBack.jsx";
 import { charge } from "../Atoms";
 import AccountButtonInfo from "../components/AccountButtonInfo.jsx";
@@ -74,6 +74,7 @@ function Charge() {
       {isAccountClicked ? (
           <AccountButtonInfo
             handleToggleClick={handleAccountToggleClick}
+            accountNumber={accountNumber}
           />
         ) : (
           <div className="charge-request-unclicked">
@@ -94,37 +95,49 @@ function Charge() {
           </div>
         )}
       <div className="charge-request-clicked">
-        <div className="charge-request-clicked-top-page">
-          💁 부스에 충전 요청하기
+        <div className="charge-clicked-top-page">
+          포인트 충전 요청하기
+          
         </div>
+        <div className="request-text">
+          입금 후 입금 금액을 입력해주세요
+        </div>
+        <div className="charge-input-container">
+          <img src="/assets/chargepoint.svg" alt="Charge Point" className="charge-img" />
+          <input
+            type="text"
+            className="charge-inputs"
+            value={amount}
+            onChange={handleAmountChange}
+            placeholder="금액 입력"
+          />
+          <span className="currency-circle">원</span>
+        </div>
+        <button
+          className="charge-button"
+          onClick={handleSubmit}
+          disabled={isButtonDisabled}
+        >
+          충전 요청
+        </button>
 
-        <input
-          type="number"
-          value={amount}
-          onChange={handleAmountChange}
-          placeholder="충전할 금액을 입력하세요"
-          className="charge-input"
-        />
+        <hr className="gray-divider" />
+
+        {/* 주의 사항 텍스트 추가 */}
+        <div className="caution-text">주의 사항</div>
 
         <li className="charge-request-clicked-text">
           입금 후 포인트 충전을 원하거나
         </li>
         <li className="charge-request-clicked-text">
-          포인트를 PickMe로 바꾸고 싶을때 버튼을 눌러 주세요
+          포인트를 PickMe로 바꾸고 싶을때 
         </li>
         <li className="charge-request-clicked-text">
           요청 후에는 입금 화면과 아이디를 보여 주세요.
         </li>
         <li className="charge-request-clicked-text">
-          버튼 남용 시 이용이 제한될 수 있으니 유의 바랍니다.
+          버튼 남용 시 이용이 제한될 수 있으니 
         </li>
-        <button
-          className="charge-request-clicked-button"
-          onClick={handleSubmit}
-          disabled={isButtonDisabled}
-        >
-          충전 요청하기
-        </button>
       </div>
       
     </div>
