@@ -95,7 +95,7 @@ function ChargeRequestPage() {
         </li>
         <button
           className="charge-request-clicked-button"
-          onClick={handleSubmit} // 버튼 클릭 시 handleSubmit 함수 호출
+          onClick={handleSubmit}
           disabled={isButtonDisabled}
         >
           충전 요청하기

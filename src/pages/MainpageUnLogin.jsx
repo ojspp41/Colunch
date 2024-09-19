@@ -15,8 +15,9 @@ function MainpageUnLogin() {
   // 일반적인 형식과 다를텐데 아래 링크로 이동시켜서 백엔드에서 카카오 로그인을 처리한뒤
   // Redirection페이지로 옮겨서 role을 확인하는 과정을 거쳤습니다.
   const handleLogin = () => {
-    window.location.href =
-      "https://cuk.comatching.site/oauth2/authorization/kakao";
+    // window.location.href =
+    //   "https://cuk.comatching.site/oauth2/authorization/kakao";
+    alert("서비스 종료 ㅠㅠㅠㅠ");
   };
   
   // 서비스 이용법 안내 페이지로 이동하는 핸들러
@@ -79,53 +80,7 @@ function MainpageUnLogin() {
           </a>
         </div>  
         <Footer /> 
-        {/* <img
-          src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/helloemoji.svg`}
-          alt="사람 이미지"
-          style={{
-            width: "80%",
-            height: "auto",
-            paddingTop: "30px",
-          }}
-          className="mainpage-unlogin-userimage"
-        /> */}
-        {/* <div>
-          <img
-            src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logoblack.svg`}
-            alt="로고이미지"
-            style={{
-              width: "75%",
-              height: "auto",
-              marginTop: "20px",
-            }}
-            className="mainpage-unlogin-logoimage"
-          />
-        </div>
-
-        <div className="welcome">
-          캠퍼스의 설렘,
-          <br />
-          코매칭에서 만나보세요!
-        </div>
-        <div className="bubble">⚡️10초만에 빠른 가입⚡️</div>
-        <button className="kakao-login" onClick={handleLogin}>
-          <div className="kakao-login-element">
-            <img
-              src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/kakao.svg`}
-              alt="카카오"
-            />
-            <p>카카오로 시작하기</p>
-          </div>
-        </button>
-        <div className="help-text">이용에 도움이 필요하신가요?</div>
-        <div>
-          <button className="privacy-button" onClick={handleVisitGuide}>
-            서비스 이용법 안내
-          </button>
-        </div>
-      </div>
-      <Footer /> */}
-      
+        
     </div>
   );
 }

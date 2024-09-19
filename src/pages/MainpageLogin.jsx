@@ -29,9 +29,6 @@ function MainpageLogin() {
   // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
   const [chargeclick, setchargeclick] = useRecoilState(charge);
   const [showEventModal, setShowEventModal] = useState(false);
-  const handleToggleClick = () => {
-    setIsClicked((prevIsClicked) => !prevIsClicked);
-  };
   
   const handleAccountToggleClick = () => {
     setIsAccountClicked((prevIsClicked) => !prevIsClicked);
@@ -245,8 +242,8 @@ function MainpageLogin() {
             <button
                 className="charge-request-unclicked-img"
                 type="button"
-                onClick={handleAccountToggleClick}
-                // onClick={handleNotService}
+                // onClick={handleAccountToggleClick}
+                onClick={handleNotService}
               >
                 <img
                   src={`${
