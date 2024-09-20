@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/components/HartConfirmModal.css"; // 스타일링 파일 불러오기
 
-function HartConfirmationModal({ amount, onConfirm, onCancel }) {
+function HartConfirmationModal({ totalAmount,heartCount,remainingPoint, onConfirm, onCancel }) {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckClick = () => {
@@ -19,23 +19,29 @@ function HartConfirmationModal({ amount, onConfirm, onCancel }) {
       <div className="heart-modal-content">
         <div className="heart-modal-message">다음 내용이 맞나요?</div>
         <div className="heart-modal-warning">충전 요청 전에 꼭 확인해 주세요!</div>
-        <div className="heart-point_container">
-          <img src="/assets/chargepoint.svg" alt="" className="heart-modal-charge-img" />
-          <span className="heart-modal-amount-value">{amount}원</span>
+        <div className="heart-input-container">
+          <img src="/assets/chargepoint.svg" alt="Charge Point" className="heart-img" />
+          <p className="heart-inputs">{totalAmount}</p>
+          <img src="/assets/heartslash.svg" alt="" className="heartslash"/>
+          <img src="/assets/heartcha.svg" alt="Charge Point" className="heart-img" />
+          <p className="heart-inputs">{heartCount}</p>
+        </div>
+        <div className="remaining-point" style={{ color: 'gray' }}>
+          잔여 포인트: {remainingPoint}원
         </div>
         
-        <div className="heart-terms-container" onClick={handleCheckClick}>
+        <div className="terms-container" onClick={handleCheckClick}>
           <img
             src={isChecked ? "/assets/chargechecked.svg" : "/assets/chargecheck.svg"}
             alt="check"
-            className="heart-modal-check-img"
+            className="modal-check-img"
           />
-          <span className="heart-modal-terms-text">적혀진 계좌로 입금했어요</span>
-          <span className="heart-modal-required-text">필수</span>
-          <img src="/assets/chargemore.svg" alt="check" className="heart-modal-more-img" />
+          <span className="modal-terms-text">약관의 사용동의</span>
+          <span className="modal-required-text">필수</span>
+          <img src="/assets/chargemore.svg" alt="check" className="modal-more-img" />
         </div>
         <button
-          className={`heart-modal-confirm-button ${isChecked ? "active" : "inactive"}`}
+          className={`modal-confirm-button ${isChecked ? "active" : "inactive"}`}
           onClick={isChecked ? onConfirm : undefined}
         >
           {isChecked ? "네 맞아요" : "잠시만요!"}

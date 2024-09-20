@@ -128,10 +128,10 @@ function MainpageLogin() {
     navigate("/guide");
   };
   const handleCharge = () => {
-    navigate("/charge-request");
+    navigate("/charge");
   };
   const handlehartCharge = () => {
-    navigate("/hart-charge-request");
+    navigate("/heart");
   };
   const handleClickmatch = () => {
     navigate("/matching");
@@ -198,7 +198,7 @@ function MainpageLogin() {
             imgSrc={`../../assets/heart.svg`}
             infoText={`${userInfo.pickMe}회`}
             buttonText="내가 뽑힐 횟수"
-            handleCharge={handleHeartToggleClick}
+            handleCharge={handlehartCharge}
             // handleCharge={handleNotService}
           />
         </div>
@@ -261,7 +261,7 @@ function MainpageLogin() {
             
             handleChargeRequest={handlehartCharge}
             handleToggleClick={handleHeartToggleClick}
-            chargeclick={chargeclick}
+            handlehartCharge={handlehartCharge}
           />
         ) : (
           <div className="charge-request-unclicked">

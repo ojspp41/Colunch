@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import { useRecoilState } from "recoil";
 import Background from "../components/Background.jsx";
 import { useNavigate } from "react-router-dom";
 import "../css/pages/Charge.css"; // 스타일링을 위한 CSS 파일 생성
-import HeaderBack from "../components/HeaderBack.jsx";
-import { charge } from "../Atoms";
+import HeaderBackPoint from "../components/HeaderBackPoint.jsx";
+import { charge,userState } from "../Atoms";
 import AccountButtonInfo from "../components/AccountButtonInfo.jsx";
 import instance from "../axiosConfig.jsx"; // axios 인스턴스 불러오기
 import ChargeConfirmationModal from "../components/ChargeConfirmationModal.jsx";// Modal 컴포넌트 불러오기
@@ -12,6 +12,7 @@ import ChargeConfirmationModal from "../components/ChargeConfirmationModal.jsx";
 function Charge() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [amount, setAmount] = useState("");
+  const [userPoint, setUserPoint] = useRecoilState(userState);
   const [chargeState, setChargeState] = useRecoilState(charge); // Recoil 상태 불러오기
   const [isAccountClicked, setIsAccountClicked] = useState(false);
   const [showModal, setShowModal] = useState(false); // Modal 상태 추가
@@ -64,10 +65,31 @@ function Charge() {
   const handleCancel = () => {
     setShowModal(false); // Modal 닫기
   };
+  useEffect(() => {
+      // Fetch currentPoint from backend when component mounts
+      const fetchCurrentPoint = async () => {
+        try {
+          const response = await instance.get("/auth/user/api/currentPoint");
+          
+          // Assuming response.data.currentPoint is the point value you want to set in Recoil
+          setUserPoint((prev) => ({
+            ...prev,
+            point: response.data.data.currentPoint, // Update the point in Recoil
+          }));
+        } catch (error) {
+          console.error("Failed to fetch currentPoint:", error);
+        }
+        // setUserPoint((prev) => ({
+        //       ...prev,
+        //       point: 1000, // Update the point in Recoil
+        //     }));
+      };
 
+      fetchCurrentPoint();
+  }, [setUserPoint]);
   return (
     <div className="container">
-      <HeaderBack />
+      <HeaderBackPoint currentPoint={userPoint.point} />
       <Background />
       {isAccountClicked ? (
         <AccountButtonInfo

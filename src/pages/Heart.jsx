@@ -11,38 +11,54 @@ import instance from "../axiosConfig.jsx"; // axios 인스턴스 불러오기
 
 import "../css/pages/Heart.css"
 function Heart() {
+  const navigate = useNavigate();
   const [userPoint, setUserPoint] = useRecoilState(userState);
   const [heartCount, setHeartCount] = useState(0); // 하트 갯수 상태 관리
   const [showModal, setShowModal] = useState(false); // 모달 상태 관리
-  const heartPrice = 500;  // 하트 하나당 500 포인트
-  const totalAmount = heartCount * heartPrice; // 총 금액 계산
+  const calculateTotalAmount = (count) => {
+    const groupOfThree = Math.floor(count / 3); // Each group of 3 is charged at the 1000 point rate
+    const remainder = count % 3;
+
+    let total = groupOfThree * 1000; // Groups of 3
+    if (remainder > 0) {
+      total += remainder * 500; // Charge remaining hearts at the regular rate
+    }
+    return total;
+  };
+
+  const totalAmount = calculateTotalAmount(heartCount); // 총 금액 계산
   const remainingPoint = userPoint.point - totalAmount; // 잔여 포인트 계산
   useEffect(() => {
       // Fetch currentPoint from backend when component mounts
       const fetchCurrentPoint = async () => {
-        // try {
-        //   const response = await instance.get("/auth/user/api/currentPoint");
+        try {
+          const response = await instance.get("/auth/user/api/currentPoint");
           
-        //   // Assuming response.data.currentPoint is the point value you want to set in Recoil
-        //   setUserPoint((prev) => ({
-        //     ...prev,
-        //     point: response.data.data.currentPoint, // Update the point in Recoil
-        //   }));
-        // } catch (error) {
-        //   console.error("Failed to fetch currentPoint:", error);
-        // }
-        setUserPoint((prev) => ({
-              ...prev,
-              point: 1000, // Update the point in Recoil
-            }));
+          // Assuming response.data.currentPoint is the point value you want to set in Recoil
+          setUserPoint((prev) => ({
+            ...prev,
+            point: response.data.data.currentPoint, // Update the point in Recoil
+          }));
+        } catch (error) {
+          console.error("Failed to fetch currentPoint:", error);
+        }
+        // setUserPoint((prev) => ({
+        //       ...prev,
+        //       point: 1000, // Update the point in Recoil
+        //     }));
       };
 
       fetchCurrentPoint();
   }, [setUserPoint]); 
 
   const handleIncreaseHeart = () => {
-    if (remainingPoint >= heartPrice) {
-      setHeartCount(heartCount + 1); // 하트 갯수 증가
+    // 하트가 증가했을 때의 새로운 하트 개수와 새로운 총 금액을 계산
+    const newHeartCount = heartCount + 1;
+    const newTotalAmount = calculateTotalAmount(newHeartCount);
+  
+    // 사용자의 포인트가 새로운 총 금액 이상인 경우에만 하트 추가 가능
+    if (userPoint.point >= newTotalAmount) {
+      setHeartCount(newHeartCount); // 하트 갯수 증가
     } else {
       alert("잔여 포인트가 부족합니다.");
     }
@@ -83,7 +99,7 @@ function Heart() {
             point: prevState.point - totalAmount,
             pickme: prevState.pickme + heartCount,
           }));
-          window.location.reload();
+          navigate("/", { replace: true });
         } else {
           alert("교환 실패: " + response.data.message);
         }
@@ -146,7 +162,9 @@ function Heart() {
       </div>
       {showModal && (
         <HartConfirmationModal
-          amount={totalAmount}
+          totalAmount={totalAmount}
+          heartCount={heartCount}
+          remainingPoint={remainingPoint}
           onConfirm={handleConfirm}
           onCancel={() => setShowModal(false)}
         />
