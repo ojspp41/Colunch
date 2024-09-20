@@ -101,6 +101,23 @@ function Charge() {
         <button className="charge-button" onClick={handleSubmit} disabled={isButtonDisabled}>
           충전 요청
         </button>
+        <hr className="gray-divider" />
+
+        {/* 주의 사항 텍스트 추가 */}
+        <div className="caution-text">주의 사항</div>
+
+        <li className="charge-request-clicked-text">
+          입금 후 포인트 충전을 원하거나
+        </li>
+        <li className="charge-request-clicked-text">
+          포인트를 PickMe로 바꾸고 싶을때 
+        </li>
+        <li className="charge-request-clicked-text">
+          요청 후에는 입금 화면과 아이디를 보여 주세요.
+        </li>
+        <li className="charge-request-clicked-text">
+          버튼 남용 시 이용이 제한될 수 있으니 
+        </li>
 
         
       </div>
@@ -109,6 +126,7 @@ function Charge() {
             amount={amount}
             onConfirm={handleConfirm}
             onCancel={handleCancel}
+            accountNumber={accountNumber}
           />
         )}
     </div>
