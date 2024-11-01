@@ -6,7 +6,6 @@ COMAtching은 사용자의 취미, 성향, 선호도를 기반으로 최적의 �
 
 ## 프로젝트 시연 GIF
 
-[![COMAtching 시연 영상](./public/assets/youtube.png)](https://www.youtube.com/watch?v=jDAygPgQty0&t=55s)
 
 
 ## 주요 기능
