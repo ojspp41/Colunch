@@ -7,7 +7,7 @@ COMAtching은 사용자의 취미, 성향, 선호도를 기반으로 최적의 �
 ## 프로젝트 시연 GIF
 
 <div style="display: flex; gap: 10px;">
-  <img src="./public/assets/video1.gif" alt="COMAtching 시연 1" width="200" />
+  ![COMAtching 시연](./public/assets/video1.gif)
   <img src="./public/assets/video2.gif" alt="COMAtching 시연 2" width="200" />
   <img src="./public/assets/video3.gif" alt="COMAtching 시연 3" width="200" />
   <img src="./public/assets/video4.gif" alt="COMAtching 시연 4" width="200" />
