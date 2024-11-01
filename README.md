@@ -3,6 +3,17 @@
 
 COMAtching은 사용자의 취미, 성향, 선호도를 기반으로 최적의 매칭을 제공하는 웹 애플리케이션입니다. 이 프로젝트에서 프론트엔드를 담당하였으며, 주된 기술 스택으로 `React`, `Vanilla CSS`, `Recoil`을 사용했습니다.
 
+
+## 프로젝트 시연 GIF
+
+<div style="display: flex; gap: 10px;">
+  <img src="./public/assets/video1.gif" alt="COMAtching 시연 1" width="200" />
+  <img src="./public/assets/video2.gif" alt="COMAtching 시연 2" width="200" />
+  <img src="./public/assets/video3.gif" alt="COMAtching 시연 3" width="200" />
+  <img src="./public/assets/video4.gif" alt="COMAtching 시연 4" width="200" />
+</div>
+
+
 ## 주요 기능
 
 - **카카오 로그인**: 카카오로그인을 통해 로그인합니다.
@@ -139,6 +150,3 @@ export const userState = atom({
 - **유효성 검사**: 사용자 입력 값을 검증하여 최소 충전 금액을 1원 이상으로 제한하고, 올바른 금액만 전송될 수 있도록 합니다.
 
 
-## 프로젝트 시연 GIF
-
-![COMAtching 시연](./public/assets/video.mp4)
