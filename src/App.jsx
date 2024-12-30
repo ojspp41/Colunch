@@ -20,6 +20,7 @@ import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
 import Heart from "./pages/Heart.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";
 import Charge from "./pages/Charge.jsx";
+import EventModal from "./components/EventModal.jsx";
 export default function App() {
   return (
     <RecoilRoot>
@@ -49,6 +50,7 @@ export default function App() {
             <Route path="/describe" element={<Describe />} />
             <Route path="/charge" element={<Charge />} />
             <Route path="/heart" element={<Heart />} />
+            <Route path="/event" element={<EventModal />} />
           </Routes>
         </BrowserRouter>
       </div>
