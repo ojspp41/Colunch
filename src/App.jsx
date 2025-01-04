@@ -21,6 +21,7 @@ import Heart from "./pages/Heart.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";
 import Charge from "./pages/Charge.jsx";
 import EventModal from "./components/EventModal.jsx";
+import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 export default function App() {
   return (
     <RecoilRoot>
@@ -43,7 +44,7 @@ export default function App() {
             <Route path="/loading" element={<Loading />} />
             <Route path="/code-reader" element={<CodeReader />} />
             <Route path="/QR-generator" element={<QRGenerator />} />
-            {/* <Route path="/profile-builder" element={<ProfileBuilder />} /> */}
+            <Route path="/profile-builder" element={<ProfileBuilder />} />
             <Route path="/redirection" element={<Redirection />} />
             <Route path="/userinfo" element={<Userinfo />} />
             <Route path="/matching" element={<Matching />} />
