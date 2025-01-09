@@ -22,6 +22,7 @@ import AdminRequestList from "./components/AdminRequestList.jsx";
 import Charge from "./pages/Charge.jsx";
 import EventModal from "./components/EventModal.jsx";
 import ProfileBuilder from "./pages/ProfileBuilder.jsx";
+import Hobby from "./pages/Hobby.jsx";
 export default function App() {
   return (
     <RecoilRoot>
@@ -30,11 +31,11 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Mainpage />} />
-            <Route path="/hobby" element={<Hobbyform />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/match-result" element={<Matchresult />} />
             <Route path="/check-result" element={<Checkresult />} />
-
+            
+            <Route path="/hobby" element={<Hobby />} />
             <Route path="/adminpage" element={<Adminpageunlogin />} />
             <Route
               path="/adminpage/charge-requests"

@@ -5,8 +5,8 @@ import '../css/components/Background.css'; // Make sure to create and import the
 function Background() {
   return (
     <div className="background">
-      <div className="circle circle1"></div>
-      <div className="circle circle2"></div>
+      <div className="blur-box left-box"></div>
+      <div className="blur-box right-box"></div>
     </div>
   );
 }

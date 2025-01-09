@@ -19,6 +19,7 @@ import ProgressBar from "../components/Progressbar";
 import Modal from "react-modal"; // Import react-modal
 import TermsAgreementModal from "../components/TermsAgreementModal"; 
 import HeaderMain from "../components/HeaderMain";
+import ProgressNav from "../components/ProgressNav";
 Modal.setAppElement("#root");
 
 function Userinfo() {
@@ -26,11 +27,12 @@ function Userinfo() {
     const [user, setUser] = useRecoilState(userState); // 유저 상태 관리
     const [selectedMBTI, setSelectedMBTI] = useRecoilState(selectedMBTIState);
     const [checkMethod, setCheckMethod] = useState({
-        school: "",
-        department: "",
-        major: "",
+        school: null, // 초기값을 null로 설정
+        department: null,
+        major: null,
         contactVerified: true,
     });
+    
     const [registerCheck, setRegisterCheck] = useState({
         terms1: false,
         terms2: false,
@@ -197,10 +199,6 @@ function Userinfo() {
 
 
 
-    const isMajorSelectorComplete = checkMethod.school && checkMethod.department && checkMethod.major;
-    const isAgeInputComplete = user.age;
-
-    const progress = isFiveChars ? 100 : isCommentVisible ? 90 : isSongInputVisible ? 80 : isMajorSelectorComplete ? (isAgeInputComplete ? 60 : 45) : 30;
 
     useEffect(() => {
         checkAllFieldsSelected(); // Initial check on load
@@ -217,12 +215,12 @@ function Userinfo() {
     };
     const checkAllFieldsSelected = () => {
         const isAllSelected =
-            checkMethod.university &&
+            checkMethod.school &&
             checkMethod.department &&
             checkMethod.major &&
             user.age &&
             user.admissionYear && user.admissionYear.length === 2 &&
-            user.mbti && user.mbti.length >= 4 &&
+            
             user.contactFrequency;
 
         if (isAllSelected) {
@@ -235,102 +233,16 @@ function Userinfo() {
     return (
         <div className="container">
             <Background />
-            <HeaderMain />
-            <div className="info-card">
-                <div className="select-hobby-topic">학교를 선택해 주세요.</div>
-                <div className="select-hobby-text">
-                    커플이 되기까지 단 한걸음!
-                </div>
-                <ProgressBar progress={progress} />
+            <ProgressNav step={3}></ProgressNav>
+            <div className="text-container">
+                <div className="main-text">전공이 어떻게 되세요?</div>
+                <div className="sub-text">정보를 정확하게 입력했는지 확인해 주세요. <br />
+                별로 오래 걸리지 않아요! </div>
             </div>
             <form className= "form_container" onSubmit={handleSubmit}>
+
                 <div className="form-inner-content">
-                    <MajorSelector
-                        user={user}
-                        setUser={setUser}
-                        checkMethod={checkMethod}
-                        setCheckMethod={setCheckMethod}
-                    />
-                    <AgeInputInput value={user.age} onChange={handleChange} />
-                    <AdmissionYearInput value={user.admissionYear} onChange={handleChange} />
-                    <h3>MBTI</h3>
-                    <MBTISection
-                        user={user.mbti}
-                        onClick={handleMBTISelection}
-                        name="form-MBTIButton"
-                    />
-                    <div>
-                    <h3>연락빈도</h3>
-                    <div className="match-select-button">
-                        <button
-                            type="button"
-                            className={`form-AgeMaker ${
-                                user.contactFrequency === "자주" ? "selected" : ""
-                            }`}
-                            value={"자주"}
-                            onClick={() => handleAgeClick("자주")}
-                        >
-                            자주
-                        </button>
-                        <button
-                            type="button"
-                            className={`form-AgeMaker ${
-                                user.contactFrequency === "보통" ? "selected" : ""
-                            }`}
-                            value={"보통"}
-                            onClick={() => handleAgeClick("보통")}
-                        >
-                            보통
-                        </button>
-                        <button
-                            type="button"
-                            className={`form-AgeMaker ${
-                                user.contactFrequency === "가끔" ? "selected" : ""
-                            }`}
-                            value={"가끔"}
-                            onClick={() => handleAgeClick("가끔")}
-                        >
-                            가끔
-                        </button>
-                    </div>
-                    </div>
-                    
-                    
-                    {isGenderSelectable && (
-                        <GenderSelect
-                            user={user}
-                            setUser={setUser}
-                            onChange={handleChange}
-                            setIsGenderSelected={setIsGenderSelected}
-                        />
-                    )}
-                    {isGenderSelected && (
-                        <ContactMethod
-                            checkMethod={checkMethod}
-                            setCheckMethod={setCheckMethod}
-                            setIsContactVerified={setIsContactVerified}
-                            user={user}
-                            setUser={setUser}
-                            handleChange={handleChange}
-                        />
-                    )}
-                    {isContactVerified && (
-                        <div>
-                            <label>
-                                <h3 className="music_title">좋아하는 노래</h3>
-                                <div className="music">
-                                    <MyInput
-                                        name="song"
-                                        value={user.song}
-                                        onChange={handleChange}
-                                        placeholder="Young Man"
-                                        className="song-input"
-                                    />
-                                </div>
-                            </label>
-                        </div>
-                    )}
-                    {isCommentVisible && (
+                {isCommentVisible && (
                         <div>
                             <label>
                                 <h3 className="commet_title"> 나를 소개할 다섯글자</h3>
@@ -348,15 +260,120 @@ function Userinfo() {
                         </div>
                     )}
                     
-                    {isFiveChars && (
-                        <button
-                            className="start-button"
-                            type="button"
-                            onClick={openModal} // Open modal on button click
-                        >
-                            코매칭 시작하기
-                        </button>
+
+                {isContactVerified && (
+                        <div>
+                            <label>
+                                <h3 className="music_title">좋아하는 노래</h3>
+                                <div className="music">
+                                    <MyInput
+                                        name="song"
+                                        value={user.song}
+                                        onChange={handleChange}
+                                        placeholder="Young Man"
+                                        className="song-input"
+                                    />
+                                </div>
+                            </label>
+                        </div>
                     )}
+
+                {isGenderSelected && (
+                        <ContactMethod
+                            checkMethod={checkMethod}
+                            setCheckMethod={setCheckMethod}
+                            setIsContactVerified={setIsContactVerified}
+                            user={user}
+                            setUser={setUser}
+                            handleChange={handleChange}
+                        />
+                    )}
+                
+                {isGenderSelectable && (
+                        <GenderSelect
+                            user={user}
+                            setUser={setUser}
+                            onChange={handleChange}
+                            setIsGenderSelected={setIsGenderSelected}
+                        />
+                    )}
+                {checkMethod.school &&
+                        checkMethod.department &&
+                        checkMethod.major &&
+                        user.age &&
+                        user.admissionYear && (
+                        <div>
+                            <h3>연락빈도</h3>
+                            <div className="match-select-button">
+                            <button
+                                type="button"
+                                className={`form-AgeMaker ${
+                                user.contactFrequency === "자주" ? "selected" : ""
+                                }`}
+                                value={"자주"}
+                                onClick={() => handleAgeClick("자주")}
+                            >
+                                자주
+                            </button>
+                            <button
+                                type="button"
+                                className={`form-AgeMaker ${
+                                user.contactFrequency === "보통" ? "selected" : ""
+                                }`}
+                                value={"보통"}
+                                onClick={() => handleAgeClick("보통")}
+                            >
+                                보통
+                            </button>
+                            <button
+                                type="button"
+                                className={`form-AgeMaker ${
+                                user.contactFrequency === "가끔" ? "selected" : ""
+                                }`}
+                                value={"가끔"}
+                                onClick={() => handleAgeClick("가끔")}
+                            >
+                                가끔
+                            </button>
+                            </div>
+                        </div>
+                    )}
+                    {checkMethod.school &&
+                        checkMethod.department &&
+                        checkMethod.major &&
+                        user.age && (
+                        <AdmissionYearInput value={user.admissionYear} onChange={handleChange} />
+                    )}
+
+                    {checkMethod.school && checkMethod.department && checkMethod.major && (
+                        <AgeInputInput value={user.age} onChange={handleChange} />
+                    )}
+
+                    <MajorSelector
+                        user={user}
+                        setUser={setUser}
+                        checkMethod={checkMethod}
+                        setCheckMethod={setCheckMethod}
+                    />
+                    
+                    
+                    
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <button
+                        className={`start-button ${isFiveChars ? "active" : ""}`}
+                        type="button"
+                        onClick={openModal}
+                    >
+                        코매칭 시작하기
+                    </button>
+
                     
                 </div>
             </form>

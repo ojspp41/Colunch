@@ -1,33 +1,29 @@
 .background {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    position: relative;
+  position: fixed; /* 화면에 고정 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* 배경을 콘텐츠 뒤로 보냄 */
+  pointer-events: none; /* 클릭 이벤트가 백그라운드에서 발생하지 않도록 설정 */
+}
 
-  }
-  
-  .circle {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(150px);
-    transition: all 5s ease-in-out;
-  }
-  
-  .circle1 {
-    width: 80%;
-    height: 455px;
-    left: 0px;
-    top: -400px;
-    background: rgba(255, 119, 94, 0.5);
-    animation: swap 10s infinite;
-    
-  }
-  
-  .circle2 {
-    width: 40%;
-    height: 710px;
-    left: 181px;
-    top: -600px;
-    background: rgba(255, 176, 215, 0.5);
-    animation: swap 10s infinite;
-  }
+.blur-box {
+  position: absolute;
+  width: 150px;
+  height: 200px;
+  filter: blur(80px);
+  border-radius: 50%; /* 부드러운 원형 */
+}
+
+.left-box {
+  bottom: -50px;
+  left: -50px;
+  background: rgba(255, 119, 94, 0.5);
+}
+
+.right-box {
+  bottom: -50px;
+  right: -50px;
+  background: rgba(255, 176, 215, 0.5);
+}
