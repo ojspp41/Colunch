@@ -65,7 +65,7 @@ function Charge() {
   const handleCancel = () => {
     setShowModal(false); // Modal 닫기
   };
-  useEffect(() => {
+  /*useEffect(() => {
       // Fetch currentPoint from backend when component mounts
       const fetchCurrentPoint = async () => {
         try {
@@ -86,7 +86,7 @@ function Charge() {
       };
 
       fetchCurrentPoint();
-  }, [setUserPoint]);
+  }, [setUserPoint]);*/
   return (
     <div className="container">
       <HeaderBackPoint currentPoint={userPoint.point} />
