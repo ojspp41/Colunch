@@ -5,7 +5,7 @@
   display: inline-block;
   border-radius: 16px;
   margin-bottom: 8px;
-  padding: 20px 24px;
+  padding: 16px;
 
   backdrop-filter: blur(100px); /* Background Blur */
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25); /* Drop Shadow */
@@ -17,13 +17,13 @@
 }
 
 .ProfileBuilder-answer {
-  text-align: left;
+  text-align: right;
   background-image: linear-gradient(135deg, #ff775e, #ff4d61, #e83abc);
-  width: calc(95% - 48px);
+  align-self: flex-end; /* 부모 컨테이너 기준 오른쪽 정렬 */
   display: inline-block;
   border-radius: 16px;
   margin-bottom: 8px;
-  padding: 20px 24px 20px 24px;
+  padding: 16px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25); /* Drop Shadow */
 
   font-family: "Pretendard", sans-serif; /* Pretendard font */
@@ -32,6 +32,9 @@
   color: white; /* Font color white */
 }
 .chat-message {
+  display: flex;
+  flex-direction: column; /* 세로 방향 정렬 */
+  align-items: flex-start; /* 기본적으로 왼쪽 정렬 */
   margin-top: 25px;
   height: 280px;
   overflow-y: auto;
@@ -92,4 +95,21 @@
   font-size: 20px;
   font-weight: bold;
   margin-left: 60%;
+}
+.hearticon {
+  width: 48px; /* div의 너비 */
+  height: 48px; /* div의 높이 */
+  background-color: #ffffff; /* 흰색 배경 */
+  border-radius: 50%; /* 둥근 모서리 */
+  display: flex; /* 플렉스 박스 사용 */
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+}
+
+.hearticon img {
+  max-width: 100%; /* div의 크기에 맞게 이미지 조정 */
+  max-height: 100%; /* div의 크기에 맞게 이미지 조정 */
+  object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+  border-radius: 50%; /* 이미지도 둥글게 적용 (필요시) */
 }

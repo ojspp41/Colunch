@@ -2,17 +2,19 @@
 import { style } from "@vanilla-extract/css";
 
 export const mbtiMaker = style({
+  boxSizing: "border-box", // 올바른 box-sizing 속성
   textAlign: "center",
-  background: "rgba(255, 255, 255, 0.8)", // 기존 배경
-  width: "85%",
+  width: "100%", // 화면 전체 너비를 사용
+  position: "fixed", // 화면 아래에 고정
+  bottom: "10px", // 화면의 아래쪽에 위치
+  left: "0px", // 양쪽 여백 균등하게 설정 (40px 중 절반)
   display: "inline-block",
-  borderRadius: "16px",
-  padding: "24px 20px 15px 20px",
-  backdropFilter: "blur(100px)", // 배경 블러
-  boxShadow: "2px 4px 4px rgba(0, 0, 0, 0.25)", // 그림자
+  borderRadius: "16px 16px 0 0", // 위쪽만 둥글게
+  padding: "16px 20px", // 적절한 패딩
+  boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)", // 위쪽 그림자
   border: "1px solid rgba(255, 255, 255, 0.8)", // 테두리
-  backgroundImage:
-    "linear-gradient(rgba(255, 255, 255, 0.8) 30%, transparent 70%)", // 그라디언트
+  backgroundColor: "transparent", // 배경색 제거
+  backdropFilter: "blur(50px)", // 선택적으로 배경 블러 유지
 });
 
 export const mbtiMakerText = style({
@@ -39,13 +41,14 @@ export const mbtiMakerChooseButton = style({
 });
 
 export const selected = style({
-  backgroundColor: "#ff775e", // 기존 배경색
+  backgroundImage: "linear-gradient(135deg, #ff775e, #ff4d61, #e83abc)", // 사진의 그라데이션 색상
   border: "1px solid rgba(255, 119, 94, 0.8)", // 업데이트된 테두리 색상
   color: "#ffffff",
   boxShadow: `inset 2px 2px 10px rgba(255, 119, 94, 0.5),
               inset 0px 4px 10px rgba(0, 0, 0, 0.15),
               inset 4px 4px 15px rgba(0, 0, 0, 0.2)`, // 내부 그림자
 });
+
 
 export const mbtiMakerButtonTitle = style({
   display: "flex",
@@ -60,7 +63,7 @@ export const mbtiMakerButtonTitle = style({
 });
 
 export const mbtiMakerSubmitButton = style({
-  backgroundColor: "#ff775e",
+  backgroundImage: "linear-gradient(135deg, #ff775e, #ff4d61, #e83abc)",
   borderRadius: "36px",
   height: "40px",
   width: "40%",
@@ -69,4 +72,5 @@ export const mbtiMakerSubmitButton = style({
   fontWeight: "bold",
   marginLeft: "60%",
   boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
+  marginBottom:"10px",
 });

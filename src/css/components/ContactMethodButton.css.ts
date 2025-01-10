@@ -18,12 +18,18 @@ export const phonebutton = style({
 });
 
 export const active = style({
-  backgroundColor: '#ff775e',
   outline: 'none',
   border: 'none',
   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
 });
-
+export const kakaoWrapper = style({
+  backgroundImage: 'linear-gradient(135deg,rgb(255, 235, 106), rgb(255, 235, 106))', 
+  
+});
+export const instagramWrapper = style({
+  backgroundImage: 'linear-gradient(135deg, #ff775e, #ff4d61, #e83abc)', 
+  
+});
 export const inactive = style({
   borderRadius: '40px',
   backgroundColor: '#ffffff',

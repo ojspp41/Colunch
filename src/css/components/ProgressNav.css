@@ -1,0 +1,31 @@
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 50px 0px 10px 0px;
+  }
+  
+  .circles {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* 비활성화 기본 색상 */
+    transition: background-color 0.3s ease;
+  }
+  
+  .circles.active {
+    background-color: #000000; /* 활성화된 색상 */
+  }
+  
+  .bar {
+    flex: 1;
+    height: 4px;
+    background-color: #e0e0e0; /* 비활성화 기본 색상 */
+    transition: background-color 0.3s ease;
+  }
+  
+  .bar.active {
+    background-color: #000000; /* 활성화된 색상 */
+  }
+  

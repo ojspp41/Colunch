@@ -1,6 +1,6 @@
+// AnswerBox.jsx
 import React from "react";
 import MBTIMaker from "./MBTIMaker";
-import ContactFrequencyMaker from "./ContactFrequencyMaker";
 
 const AnswerBox = ({
   showAnswerBox,
@@ -9,24 +9,15 @@ const AnswerBox = ({
   handleQuestionComplete,
   setSelectedMBTI,
   setChooseAnswer,
-  setCurrentUserState,
-  currentUserState,
 }) => {
   if (!showAnswerBox) return null;
 
-  return questionNum < 4 ? (
+  return (
     <MBTIMaker
       mbtiAnswers={showMbtiAnswers}
       questionNum={questionNum}
       handleQuestionComplete={handleQuestionComplete}
       setSelectedMBTI={setSelectedMBTI}
-      setChooseAnswer={setChooseAnswer}
-    />
-  ) : (
-    <ContactFrequencyMaker
-      handleQuestionComplete={handleQuestionComplete}
-      setCurrentUserState={setCurrentUserState}
-      currentUserState={currentUserState}
       setChooseAnswer={setChooseAnswer}
     />
   );

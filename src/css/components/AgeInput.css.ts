@@ -7,9 +7,8 @@ export const age = style({
   fontWeight: 500,
   height: '24px',
   display: 'flex',
-  alignItems: 'center',
-  border: '1px solid #ccc',
-  borderRadius: '15px',
+  
+  alignItems: 'center',// 아래에만 테두리 적용
   padding: '8px 0px',
   marginTop: '6px',
   position: 'relative',
@@ -17,13 +16,19 @@ export const age = style({
 });
 
 export const agetitle = style({
-  marginTop:"0px"
+  marginTop:"25px"
 });
 export const myinput = style({
   flex: 1,
   
+  border: 'none', // 기존 테두리 제거
+  borderBottom: '3px rgb(223, 223, 223) solid', 
+  background: 'none',
+  fontSize: '18px', // 글자 크기
+  fontWeight: '600', // 세미볼드
 });
 export const input = style({
   
+  background: 'none',
   border: 'none',
 });
