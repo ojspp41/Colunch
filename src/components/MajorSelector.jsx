@@ -14,7 +14,7 @@ const MajorSelector = ({ user, setUser, checkMethod, setCheckMethod }) => {
     setSelectedDepartment(""); // 학교가 변경되면 학과 초기화
     setCheckMethod((prevState) => ({
       ...prevState,
-      university: e.target.value,
+      school: value,
       department: "",
       major: "",
     }));
@@ -43,6 +43,7 @@ const MajorSelector = ({ user, setUser, checkMethod, setCheckMethod }) => {
       ...prevUser,
       major: value,
     }));
+    
   };
 
   const getDepartments = () => {

@@ -98,15 +98,17 @@
   align-items: center;
   justify-content: flex-end;
   margin-left: auto;
-  width: fit-content; /* 내용에 맞게 박스 크기 설정 */
-  border-radius: 20%;
-  border: 1px solid gray;
+  width: fit-content;
+  padding: 2px;
+  border-radius: 20px; /* 20% 대신 고정된 값 사용 */
+  border: 2px solid gray;
+  box-sizing: border-box; /* box-sizing 추가 */
 }
 
 .heart-decrease,
 .heart-increase {
   background-color: #ffffff;
-  border: none;
+  
   padding: 10px;
   font-size: 24px;
   cursor: pointer;

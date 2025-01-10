@@ -11,18 +11,13 @@
 }
 .form-inner-content {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.75);
-    width: calc(90% - 40px);
+    width: 100%;
     margin: auto;
     display: inline-block;
     border-radius: 32px;
     margin-top: 25px;
     margin-bottom: 50px;
     position: relative;
-    padding: 40px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), /* 첫 번째 그림자 */
-                0 6px 20px rgba(0, 0, 0, 0.1); /* 두 번째 그림자 */
 }
 .form-inner-content-text {
     text-align: left;
@@ -36,13 +31,19 @@ input {
     box-sizing: border-box;
     width: calc(100% - 44px);
     height: 40px;
-    padding: 5px 8px 5px 8px;
-    border: 1px solid #ccc;
-    border-radius: 15px;
+    padding: 5px 8px;
+    border: none; /* 기존 테두리 제거 */
+    border-bottom: 2px solid #ccc; /* 밑줄만 표시 */
+    border-radius: 0; /* 둥근 모서리 제거 */
+    font-size: 18px; /* 글자 크기 */
+    font-weight: 600; /* 세미볼드 */
+    outline: none; /* 클릭 시 파란 테두리 제거 */
 }
+
 input::placeholder {
     color: #a5a5a5;
 }
+
 
 .music {
     color: #858585;
@@ -52,8 +53,6 @@ input::placeholder {
     height: 24px;
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 15px;
     padding: 8px 0px;
     margin-top: 6px;
     position: relative;
@@ -61,7 +60,6 @@ input::placeholder {
 
 .music input {
     flex: 1;
-    border: none;
 }
 
 button {
@@ -125,20 +123,34 @@ button {
 
 }
 .start-button {
-    background-image: linear-gradient(135deg, #ff775e, #ff4d61, #e83abc);
-    color: #ffffff;
+    background-color: rgba(179, 179, 179, 0.4); /* 비활성 상태 */
+    color: var(--grayscale-lighter); /* 비활성 텍스트 색상 */
     width: 95%;
     height: 54px;
     border-radius: 32px;
     font-size: 22px;
     font-weight: bold;
-    margin: 16px 0px;
-    
+    margin: 16px 0;
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    opacity: 0.7;
 }
 
-.start-button:hover {
-    background-color: #3700b3; 
+/* 활성화 상태 */
+.start-button.active {
+    background-image: linear-gradient(135deg, #ff775e, #ff4d61, #e83abc); /* 활성화 배경 */
+    color: #ffffff; /* 활성화 텍스트 색상 */
+    cursor: pointer; /* 활성화 시 포인터 커서 */
+    opacity: 1;
 }
+
+
 @media (max-width: 400px){
     .select-hobby-topic{
         font-size: 24px;

@@ -20,6 +20,9 @@ import Adminpageunlogin from "./pages/Adminpage_unlogin.jsx";
 import Heart from "./pages/Heart.jsx";
 import AdminRequestList from "./components/AdminRequestList.jsx";
 import Charge from "./pages/Charge.jsx";
+import EventModal from "./components/EventModal.jsx";
+import ProfileBuilder from "./pages/ProfileBuilder.jsx";
+import Hobby from "./pages/Hobby.jsx";
 export default function App() {
   return (
     <RecoilRoot>
@@ -28,11 +31,11 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Mainpage />} />
-            <Route path="/hobby" element={<Hobbyform />} />
             <Route path="/guide" element={<Guide />} />
             <Route path="/match-result" element={<Matchresult />} />
             <Route path="/check-result" element={<Checkresult />} />
-
+            
+            <Route path="/hobby" element={<Hobby />} />
             <Route path="/adminpage" element={<Adminpageunlogin />} />
             <Route
               path="/adminpage/charge-requests"
@@ -42,13 +45,14 @@ export default function App() {
             <Route path="/loading" element={<Loading />} />
             <Route path="/code-reader" element={<CodeReader />} />
             <Route path="/QR-generator" element={<QRGenerator />} />
-            {/* <Route path="/profile-builder" element={<ProfileBuilder />} /> */}
+            <Route path="/profile-builder" element={<ProfileBuilder />} />
             <Route path="/redirection" element={<Redirection />} />
             <Route path="/userinfo" element={<Userinfo />} />
             <Route path="/matching" element={<Matching />} />
             <Route path="/describe" element={<Describe />} />
             <Route path="/charge" element={<Charge />} />
             <Route path="/heart" element={<Heart />} />
+            <Route path="/event" element={<EventModal />} />
           </Routes>
         </BrowserRouter>
       </div>
