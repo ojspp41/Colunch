@@ -112,3 +112,15 @@
     );
     color: #fff;
   }
+
+  .custom-hobby-input {
+    background: none;
+    border: none;
+    width: 120px;
+    height: 10px;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 99px;
+    outline: none;
+  }
+  

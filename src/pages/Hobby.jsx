@@ -13,9 +13,25 @@ function Hobby() {
   const [user, setUser] = useRecoilState(userState);
   const [pickHobby, setPickHobby] = useRecoilState(userState);
   const [searchQuery, setSearchQuery] = useState(""); // State to track search input
+  const [customHobbyInput, setCustomHobbyInput] = useState(""); // 커스텀 관심사 입력값
+  const [customHobbies, setCustomHobbies] = useState([]); // 사용자 추가 관심사 목록
+
+  const handleCustomHobbyChange = (e) => {
+    setCustomHobbyInput(e.target.value);
+  };
 
   const handleSearch = (query) => {
     setSearchQuery(query); // Update the search query
+  };
+  const handleCustomHobbyKeyDown = (e) => {
+    if (e.key === "Enter" && customHobbyInput.trim() !== "") {
+      if (customHobbies.length < 5) {
+        setCustomHobbies((prev) => [...prev, customHobbyInput.trim()]);
+        setCustomHobbyInput(""); // 입력 필드 초기화
+      } else {
+        alert("최대 5개의 관심사만 추가할 수 있습니다.");
+      }
+    }
   };
 
   const filteredHobbyData = hobbyData.map((category) => ({
@@ -117,6 +133,35 @@ function Hobby() {
             )
         )}
         
+      </div>
+      <div className="hobby-container">
+        <div className="hobby-category">
+          <div className="hobby-category-title">내 관심사 추가하기</div>
+          <div className="hobby-list">
+            
+            {customHobbies.map((hobby, index) => (
+              <div
+                key={index}
+                className={`hobby-items ${
+                  pickHobby.hobby.includes(hobby) ? "selected" : ""
+                }`}
+                onClick={() => handleHobbyClick(hobby)}
+              >
+                {hobby}
+              </div>
+            ))}
+            <div className="hobby-items">
+              <input
+                type="text"
+                value={customHobbyInput}
+                onChange={handleCustomHobbyChange}
+                onKeyDown={handleCustomHobbyKeyDown}
+                placeholder="+내 관심사 추가하기"
+                className="custom-hobby-input"
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <div style={{ height: `60px` }} />
       
