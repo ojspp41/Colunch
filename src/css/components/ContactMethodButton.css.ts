@@ -23,7 +23,7 @@ export const active = style({
   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
 });
 export const kakaoWrapper = style({
-  backgroundImage: 'linear-gradient(135deg,rgb(255, 235, 106), rgb(255, 235, 106))', 
+  backgroundImage: 'linear-gradient(135deg,rgba(255, 235, 106, 0.29), rgb(255, 235, 106))', 
   
 });
 export const instagramWrapper = style({

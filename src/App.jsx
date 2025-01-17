@@ -1,7 +1,6 @@
 // import React from "react";
 import { RecoilRoot } from "recoil";
 import Mainpage from "./pages/Mainpage.jsx";
-import Hobbyform from "./pages/Hobbyform.jsx";
 import Matchresult from "./pages/Matchresult.jsx";
 import Checkresult from "./pages/Checkresult.jsx";
 import Loading from "./pages/Loading.jsx";
