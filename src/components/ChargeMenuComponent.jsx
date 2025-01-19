@@ -1,6 +1,6 @@
     import React from 'react';
     import C from '../css/components/ChargeMenuComponentStyle';
-    const ChargeMenuComponent = ({type}) => {
+    const ChargeMenuComponent = ({type, openSecondModal}) => {
         let money = type;
         let discount = 0;
         
@@ -23,7 +23,7 @@
                 <C.Container>
                     <C.StyledDiv>{type} 포인트&nbsp;
                     {discount>0? <C.BonusText>{discount}P 보너스!</C.BonusText>:<></>}</C.StyledDiv>
-                    <C.StyledButton>{money}원</C.StyledButton>
+                    <C.StyledButton onClick={openSecondModal}>{money}원</C.StyledButton>
                 </C.Container>
                 <hr style={{margin:'0'}}/>
             </div>
