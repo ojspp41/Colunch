@@ -1,30 +1,33 @@
 .matchcontent {
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
     width: 100%;
     margin: auto;
     display: inline-block;
-    border-radius: 24px;
-    margin-top: 48px;
+    margin-top: 28px;
     position: relative;
-    border: 1px rgba(255, 255, 255, 0.3);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(12px);
-    padding: 12px 8px 12px 0px;
 }
 .matchcontent_mbti{
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
     width: 100%;
     margin: auto;
     display: inline-block;
-    border-radius: 24px;
-    margin-top: 32px;
+    
     position: relative;
-    border: 1px rgba(255, 255, 255, 0.3);
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(12px);
-    padding: 12px 8px 12px 0px;
+    padding: 12px 0px 12px 0px;
+    border-top: 1px solid #E5E5E5;
+}
+.firstcontent_mbti{
+  text-align: center;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 32px;
+  position: relative;
+  padding: 12px 0px 12px 0px;
+  border-top: 1px solid #E5E5E5;
 }
 .matchcontent_detail{
     text-align: center;
@@ -45,41 +48,45 @@
     font-size: 20px;
     font-weight: bold;
     letter-spacing: 0;
-    text-align: left;
+    text-align: center;
     line-height: normal;
 }
 
 .match-title-text {
     color: #000000;
     font-family: "Pretendard-Bold", Helvetica;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     height: 29px;
     position: relative;
     margin-top: 16px;
-    padding: 0 32px 0 32px;
 }
-
+.match-title-mbti{
+  font-family: "Pretendard-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: normal;
+  text-align: left;
+}
 .match-title-inst-txt {
     color: #858585;
     font-family: "Pretendard-Medium", Helvetica;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     height: 5px;
     position: relative;
     margin-top: 16px;
     margin-bottom: 36px;
-    padding: 0 32px 0 32px;
 }
 .match-required-text {
     margin-left: 5px;
     font-size: 13px;
-    color: gray; 
+    color: rgba(255, 0, 0, 0.596); 
 }
 .match-select-button {
   display: flex;
-  justify-content: space-around;
-  margin-top: 16px;
+  justify-content: space-between;
   
 } 
 

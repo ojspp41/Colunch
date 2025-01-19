@@ -1,0 +1,47 @@
+.point-balance {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(100% - 20px);
+    background: rgba(255, 255, 255, 0.3); /* 배경색 */
+    border-radius: 999px;
+    border: 1px solid #E5E5E5;
+    padding: 7px 10px;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.point-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.point-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.amount {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+}
+
+.charges-button {
+    flex: 1;
+    max-width: 90px; /* 버튼 길이 조정 가능 */
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #F76BA3 0%, #FA78A0 50%, #FC849F 100%);
+}
