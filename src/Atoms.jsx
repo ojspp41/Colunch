@@ -48,7 +48,7 @@ export const MatchPickState = atom({
   default: {
     selectedMBTI: ["X", "X", "X", "X"],
     selectedCategory: [],
-    point: 500,
+    point: 1000,
     balance: null,
     isUseOption: [false, false, false, false],
     formData: {
@@ -81,4 +81,9 @@ export const MatchResultState = atom({
 export const checkresultState = atom({
   key: "checkresultState",
   default: [],
+});
+
+export const priorityListState = atom({
+  key: "priorityListState",
+  default: ["MBTI", "관심사", "나이", "연락빈도"],
 });
