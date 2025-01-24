@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+
 import AOS from 'aos';
 import P from '../css/components/MainPaymentModalStyle';
 import PopularPaymentMenu from './PopularPaymentMenu';
@@ -8,15 +8,22 @@ import ChargeMenuComponent from './ChargeMenuComponent';
 import AllPaymentMenu from './AllPaymentMenu';
 import PointInformationFooter from './PointInformationFooter';
 import PaymentSecondModal from './PaymentSecondModal';
+import { useEffect, useState } from 'react';
 
 const MainPaymentModal = () => {
   const [isOpen, setIsOpen] = useState(false); // 첫 번째 모달 열기/닫기 상태
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false); // 두 번째 모달 열기/닫기 상태
+  const [productName, setProductName] = useState();
+  const [pointPrice, setPointPrice] = useState();
+  const [discount, setDiscount] = useState();
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
   
   // 두 번째 모달 열기
-  const openSecondModal = () => setIsSecondModalOpen(true);
+  const openSecondModal=()=>{
+    console.log("isOpen", isOpen)
+    setIsSecondModalOpen(true);
+  }
   const closeSecondModal = () => setIsSecondModalOpen(false);
 
   useEffect(() => {
@@ -36,21 +43,19 @@ const MainPaymentModal = () => {
   return (
     <div>
       <button onClick={openModal}>모달 열기</button>
-      <P.ModalWrapper show={isOpen} data-aos="fade-up">
-        <P.ModalContent onClick={(e) => e.stopPropagation()}>
+      <P.ModalWrapper show={isOpen} isSecondModalOpen={isSecondModalOpen} data-aos="fade-up">
+        <P.ModalContent onClick={(e) => e.stopPropagation()} isSecondModalOpen={isSecondModalOpen}>
           <P.Header>
             <P.ChargePointText>포인트 충전</P.ChargePointText>
             <P.CloseButton onClick={closeModal}>닫기</P.CloseButton>
           </P.Header>
           <MyPointCharge />
-          <PopularPaymentMenu openSecondModal={openSecondModal} />
-          <AllPaymentMenu openSecondModal={openSecondModal} />
+          <PopularPaymentMenu openSecondModal={openSecondModal} setPointPrice={setPointPrice} setProductName={setProductName} setDiscount={setDiscount}/>
+          <AllPaymentMenu openSecondModal={openSecondModal} setPointPrice={setPointPrice} setProductName={setProductName}setDiscount={setDiscount} />
           <PointInformationFooter />
         </P.ModalContent>
+        <PaymentSecondModal data-aos="fade-up" isOpen={isSecondModalOpen} closeModal={closeSecondModal} productName={productName} pointPrice={pointPrice}discount={discount} />
       </P.ModalWrapper>
-
-      {/* 두 번째 모달 */}
-      <PaymentSecondModal isOpen={isSecondModalOpen} closeModal={closeSecondModal} />
     </div>
   );
 };
