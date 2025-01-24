@@ -58,3 +58,21 @@ export const spanText = style({
     fontSize: '15px',
     marginRight: '8px', // 텍스트와 이미지 사이에 간격 추가
 });
+export const center = style({
+    position: 'absolute',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+    fontSize: '15px',
+    fontWeight: 'bold',
+});
+
+export const logoImage = style({
+    width: '108px',
+    height: '47px',
+    marginRight:'5px',
+    cursor: 'pointer',
+});
