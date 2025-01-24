@@ -1,7 +1,6 @@
 // import React from "react";
 import { RecoilRoot } from "recoil";
 import Mainpage from "./pages/Mainpage.jsx";
-import Hobbyform from "./pages/Hobbyform.jsx";
 import Matchresult from "./pages/Matchresult.jsx";
 import Checkresult from "./pages/Checkresult.jsx";
 import Loading from "./pages/Loading.jsx";
@@ -24,6 +23,7 @@ import EventModal from "./components/EventModal.jsx";
 import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import Hobby from "./pages/Hobby.jsx";
 import MainPaymentModal from "./components/MainPaymentModal.jsx";
+import SuccessPage from "./components/PaymentSuccess.jsx";
 export default function App() {
   return (
     <RecoilRoot>
@@ -55,6 +55,8 @@ export default function App() {
             <Route path="/heart" element={<Heart />} />
             <Route path="/event" element={<EventModal />} />
             <Route path="/test" element={<MainPaymentModal />} />
+            <Route path="/success" element={<SuccessPage/>} />
+
           </Routes>
         </BrowserRouter>
       </div>

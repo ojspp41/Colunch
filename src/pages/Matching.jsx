@@ -11,8 +11,9 @@ import MatchOptionButton from "../components/MatchOptionButton";
 import hobbyIcons from "../data/hobbyIcons"; // 취미 아이콘 데이터 가져오기
 import "../css/pages/Matching.css";
 import Loading from "./Loading.jsx";
-import HeaderBackPoint from "../components/HeaderBackPoint.jsx";
+import HeaderBack from "../components/HeaderBack.jsx";
 import instance from "../axiosConfig.jsx";
+import PointBalance from "../components/PointBalance.jsx";
 function Matching() {
   const [MatchState, setMatchState] = useRecoilState(MatchPickState); // 뽑은 선택 리스트
   const [userPoint, setUserPoint] = useRecoilState(userState);
@@ -28,24 +29,24 @@ function Matching() {
   const resetMatchState = useResetRecoilState(MatchPickState);
   const resetMatchResultState = useResetRecoilState(MatchResultState);
 
-  useEffect(() => {
-    // Fetch currentPoint from backend when component mounts
-    const fetchCurrentPoint = async () => {
-      try {
-        const response = await instance.get("/auth/user/api/currentPoint");
+//   useEffect(() => {
+//     // Fetch currentPoint from backend when component mounts
+//     const fetchCurrentPoint = async () => {
+//       try {
+//         const response = await instance.get("/auth/user/api/currentPoint");
         
-        // Assuming response.data.currentPoint is the point value you want to set in Recoil
-        setUserPoint((prev) => ({
-          ...prev,
-          point: response.data.data.currentPoint, // Update the point in Recoil
-        }));
-      } catch (error) {
-        console.error("Failed to fetch currentPoint:", error);
-      }
-    };
+//         // Assuming response.data.currentPoint is the point value you want to set in Recoil
+//         setUserPoint((prev) => ({
+//           ...prev,
+//           point: response.data.data.currentPoint, // Update the point in Recoil
+//         }));
+//       } catch (error) {
+//         console.error("Failed to fetch currentPoint:", error);
+//       }
+//     };
 
-    fetchCurrentPoint();
-}, [setUserPoint]); 
+//     fetchCurrentPoint();
+// }, [setUserPoint]); 
 
   useEffect(() => {
     const isAgeSelected = MatchState.isUseOption[0] ? (MatchState.formData.age_option || "") !== "" : true;
@@ -270,19 +271,50 @@ function Matching() {
       ) : (
         <div className="container">
           <Background />
-          <HeaderBackPoint currentPoint={userPoint.point} />
+          <HeaderBack />
           <div className="matchcontent">
             <div className="match-title">
-              <div className="match-title-text">Matching</div>
+              <div className="match-title-text">매칭하기</div>
               <div className="match-title-inst-txt">
-                매칭되고 싶은 상대를 입력하세요
+              요즘 관심있는 것들을 3개 이상 선택해주세요. <br />
+              최대 10개까지 선택할 수 있어요.
               </div>
             </div>
           </div>
-          <div className="matchcontent_mbti">
-            <div className="match-title">
+          <PointBalance amount={userPoint.point}/>
+          
+          <div className="firstcontent_mbti">
+            <div className="match-title-mbti">
               <div className="match-title-text">
-                MBTI <span className="match-required-text match-required-text-red">필수</span>
+                우선순위 선택하기<span className="match-required-text match-required-text-red">추천</span>
+              </div>
+              <div className="match-title-inst-txt">
+                AI가 우선순위를 설정해서 골라줘요.
+              </div>
+              </div>
+              <button
+                type="button"
+                className="match-premium-option-unclick-button"
+                onClick={() => {
+                  handleButtonClick(1, 300); // 함수 호출
+                }}
+              >
+                <div className="match-premium-option-cost">
+                  <img
+                    src={`${import.meta.env.VITE_PUBLIC_URL}../../assets/point.svg`}
+                    alt="cost"
+                  />
+                  {300}
+                </div>
+              </button>
+              
+            
+            
+          </div>
+          <div className="matchcontent_mbti">
+            <div className="match-title-mbti">
+              <div className="match-title-text">
+                MBTI 
               </div>
               <div className="match-title-inst-txt">
                 상대방의 MBTI 2개를 골라주세요.
@@ -294,11 +326,10 @@ function Matching() {
               name="MBTIButton"
             />
           </div>
-          <div className="matchcontent_detail">
-            <div className="match-title">
+          <div className="matchcontent_mbti">
+            <div className="match-title-mbti">
               <div
                 className="match-premium-option"
-                onClick={() => handleButtonClick(0, 100)}
               >
                 <div>
                   <div className="match-title-text">
@@ -308,19 +339,11 @@ function Matching() {
                     상대의 나이를 골라주세요
                   </div>
                 </div>
-                <MatchOptionButton
-                  state={MatchState.isUseOption[0]}
-                  num={0}
-                  money={100}
-                  handleButtonClick={(e) => {
-                    e.stopPropagation(); // 이벤트 전파 중지
-                    handleButtonClick(0, 100);
-                  }}
-                />
+                
               </div>
             </div>
             {/* MatchOptionButton 클릭 시만 나이 선택 버튼 표시 */}
-            {MatchState.isUseOption[0] && (
+            
               <div className="match-select-button">
                 <AgeButton
                   formData={MatchState.formData.age_option}
@@ -344,7 +367,7 @@ function Matching() {
                   isClickable={MatchState.isUseOption[0]}
                 />
               </div>
-            )}
+            
           </div>
           <div className="matchcontent_detail">
             <div className="match-title">

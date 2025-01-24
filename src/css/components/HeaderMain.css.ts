@@ -9,13 +9,10 @@ export const header = style({
     zIndex:'3',
 });
 export const left = style({
-    width: '112px',
-    height: '20px',
+    
     zIndex: 30, 
     backgroundColor: 'white',
     cursor: 'pointer',
-    borderRadius: '24px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     padding: '8px 16px',
     display: 'flex',
     alignItems: 'center',

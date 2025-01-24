@@ -28,7 +28,7 @@ C.StyledButton = styled.button`
 
 C.BonusText = styled.span`
     color: #ff4d61;
-    font-size: 12px;
+    font-size: 10px;
 
 `
 export default C;
