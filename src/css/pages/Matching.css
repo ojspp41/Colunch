@@ -1,3 +1,8 @@
+body.modal-open {
+  overflow: hidden;
+}
+
+
 .matchcontent {
     text-align: center;
     width: 100%;
@@ -314,6 +319,7 @@
   flex-direction: column;
   text-align: center;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
 }
 .match-modal-header {
   display: flex;

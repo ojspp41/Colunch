@@ -5,6 +5,14 @@ import interestOptions from "../../data/interestOptions";
 const InterestModal = ({ modalOpen, toggleModal, handleHobbyClick, selectedHobby  }) => {
   const [selectedOption, setSelectedOption] = useState( selectedHobby ); // 하나만 선택 가능
 
+  useEffect(() => {
+      if (modalOpen) {
+        document.body.classList.add("modal-open"); // 스크롤 막기
+      } else {
+        document.body.classList.remove("modal-open"); // 스크롤 해제
+      }
+    }, [modalOpen]);
+    
   // Recoil의 hobbyOption 값을 초기 상태로 반영 (모달이 열릴 때)
   useEffect(() => {
     if (modalOpen) {

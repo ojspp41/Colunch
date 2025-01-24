@@ -1,39 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { priorityState } from "../../Atoms.jsx";
 import "../../css/pages/Matching.css";
 
 const MatchPriorityModal = ({ modalOpen, toggleModal }) => {
+  useEffect(() => {
+    if (modalOpen) {
+      document.body.classList.add("modal-open"); // 스크롤 막기
+    } else {
+      document.body.classList.remove("modal-open"); // 스크롤 해제
+    }
+  }, [modalOpen]);
+
   const [priorities, setPriorities] = useRecoilState(priorityState);
   const [draggingItem, setDraggingItem] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [touchPos, setTouchPos] = useState({ x: 0, y: 0 });
 
   if (!modalOpen) return null;
 
-  // 드래그 시작
-  const onDragStart = (event, index) => {
+  // 📌 터치 시작 (드래그 시작)
+  const onTouchStart = (event, index) => {
+    const touch = event.touches[0]; // 첫 번째 터치 가져오기
     setDraggingItem(index);
     setDragOffset({
-      x: event.clientX - event.target.getBoundingClientRect().left,
-      y: event.clientY - event.target.getBoundingClientRect().top,
+      x: touch.clientX - event.target.getBoundingClientRect().left,
+      y: touch.clientY - event.target.getBoundingClientRect().top,
     });
-    setMousePos({ x: event.clientX, y: event.clientY });
+    setTouchPos({ x: touch.clientX, y: touch.clientY });
   };
 
-  // 드래그 중 (마우스 따라 이동)
-  const onDragMove = (event) => {
+  // 📌 터치 이동 (드래그 중)
+  const onTouchMove = (event) => {
     if (draggingItem === null) return;
-    setMousePos({ x: event.clientX, y: event.clientY });
+    const touch = event.touches[0];
+    setTouchPos({ x: touch.clientX, y: touch.clientY });
 
     const newList = [...priorities];
     const draggedBox = newList[draggingItem];
 
-    // 드래그 위치를 기준으로 새 위치 찾기
-    const newIndex = newList.findIndex((_, i) => {
+    // 📌 드래그 위치를 기준으로 새 위치 찾기
+    let newIndex = newList.findIndex((_, i) => {
       const rect = document.getElementById(`priority-item-${i}`).getBoundingClientRect();
-      return event.clientY < rect.top + rect.height / 2;
+      return touch.clientY < rect.top + rect.height / 2;
     });
+
+    // 📌 맨 아래로 드래그하면 자동으로 4번째로 이동
+    const lastItemRect = document.getElementById(`priority-item-${newList.length - 1}`).getBoundingClientRect();
+    if (touch.clientY > lastItemRect.bottom - 10) {
+      newIndex = newList.length - 1; // 마지막 순서로 이동
+    }
 
     // 위치 변경
     if (newIndex !== -1 && newIndex !== draggingItem) {
@@ -44,13 +60,13 @@ const MatchPriorityModal = ({ modalOpen, toggleModal }) => {
     }
   };
 
-  // 드래그 끝 (위치 확정)
-  const onDragEnd = () => {
+  // 📌 터치 끝 (위치 확정)
+  const onTouchEnd = () => {
     setDraggingItem(null);
   };
 
   return (
-    <div className="match-modal-overlay" onMouseMove={onDragMove} onMouseUp={onDragEnd}>
+    <div className="match-modal-overlay" onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
       <div className="match-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="match-modal-header">
           <p className="modal-title">우선순위 선택</p>
@@ -69,10 +85,10 @@ const MatchPriorityModal = ({ modalOpen, toggleModal }) => {
               key={item.id}
               id={`priority-item-${index}`}
               className={`priority-item ${draggingItem === index ? "dragging" : ""}`}
-              onMouseDown={(event) => onDragStart(event, index)}
+              onTouchStart={(event) => onTouchStart(event, index)}
               style={
                 draggingItem === index
-                  ? { position: "absolute", left: `${mousePos.x - dragOffset.x}px`, top: `${mousePos.y - dragOffset.y}px`, zIndex: 1000 }
+                  ? { position: "absolute", left: `${touchPos.x - dragOffset.x}px`, top: `${touchPos.y - dragOffset.y}px`, zIndex: 1000 }
                   : {}
               }
             >
