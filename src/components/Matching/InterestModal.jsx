@@ -6,12 +6,17 @@ const InterestModal = ({ modalOpen, toggleModal, handleHobbyClick, selectedHobby
   const [selectedOption, setSelectedOption] = useState( selectedHobby ); // 하나만 선택 가능
 
   useEffect(() => {
-      if (modalOpen) {
-        document.body.classList.add("modal-open"); // 스크롤 막기
-      } else {
-        document.body.classList.remove("modal-open"); // 스크롤 해제
-      }
-    }, [modalOpen]);
+    if (modalOpen) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+
+    // 📌 Cleanup: 모달이 언마운트될 때 `modal-open`을 무조건 제거
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
+  }, [modalOpen]);
     
   // Recoil의 hobbyOption 값을 초기 상태로 반영 (모달이 열릴 때)
   useEffect(() => {
@@ -61,7 +66,6 @@ const InterestModal = ({ modalOpen, toggleModal, handleHobbyClick, selectedHobby
           ))}
         </div>
 
-        
 
         <div className="modal-button" onClick={handleConfirmSelection}>
           선택 완료
