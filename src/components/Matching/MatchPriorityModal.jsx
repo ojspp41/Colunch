@@ -6,10 +6,15 @@ import "../../css/pages/Matching.css";
 const MatchPriorityModal = ({ modalOpen, toggleModal }) => {
   useEffect(() => {
     if (modalOpen) {
-      document.body.classList.add("modal-open"); // 스크롤 막기
+      document.body.classList.add("modal-open");
     } else {
-      document.body.classList.remove("modal-open"); // 스크롤 해제
+      document.body.classList.remove("modal-open");
     }
+
+    // 📌 Cleanup: 모달이 언마운트될 때 `modal-open`을 무조건 제거
+    return () => {
+      document.body.classList.remove("modal-open");
+    };
   }, [modalOpen]);
 
   const [priorities, setPriorities] = useRecoilState(priorityState);
