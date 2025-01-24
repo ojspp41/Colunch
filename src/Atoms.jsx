@@ -83,7 +83,12 @@ export const checkresultState = atom({
   default: [],
 });
 
-export const priorityListState = atom({
-  key: "priorityListState",
-  default: ["MBTI", "관심사", "나이", "연락빈도"],
+export const priorityState = atom({
+  key: "priorityState",
+  default: [
+    { id: "1", label: "MBTI" },
+    { id: "2", label: "관심사" },
+    { id: "3", label: "나이" },
+    { id: "4", label: "연락빈도" }
+  ],
 });
