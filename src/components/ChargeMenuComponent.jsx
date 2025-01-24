@@ -27,7 +27,6 @@ import C from '../css/components/ChargeMenuComponentStyle';
             setDiscount(discount)
             console.log("가격: ",money)
             console.log("상품명: ", type)
-            console.log(discount)
             // 두 번째 모달 열기
             openSecondModal();
         };

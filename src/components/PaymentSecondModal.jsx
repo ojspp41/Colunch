@@ -5,8 +5,9 @@ import 'aos/dist/aos.css'; // AOS 스타일 시트 불러오기
 import { PaymentCheckoutPage } from './TossPaymentAPI.jsx';
 const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, discount }) => {
   if (!isOpen) return null;
-
+  const amount = Number(pointPrice.replace(/,/g, '')); // 콤마를 제거하고 숫자로 변환
   // 이미지 상태 관리
+  console.log(amount)
   const [isChecked, setIsChecked] = useState(false);
   const [paymentData, setPaymentData] = useState(null); // 결제 데이터 저장
   // 이미지 클릭 핸들러
@@ -16,12 +17,12 @@ const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, disco
   const handleTossButtonClick = async() => {
     console.log("Toss button clicked");
     try {
-      const response = await fetch('http://localhost:8000/payment', {
+      const response = await fetch('http://13.124.46.181:8080/payments/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ pointPrice, productName }),
+        body: JSON.stringify({ amount, productName }),
       });
 
       if (!response.ok) {
@@ -29,7 +30,7 @@ const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, disco
       }
 
       const data = await response.json(); // 응답받은 데이터
-
+      console.log(data)
       // 응답받은 데이터를 PaymentCheckoutPage에 전달
       setPaymentData(data);
 
@@ -60,13 +61,13 @@ const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, disco
       />
        {paymentData && (
         <PaymentCheckoutPage
-          amount={pointPrice}
+          amount={amount}
           orderName={productName}
           currency="KRW"
-          customerKey={paymentData.customerKey}
-          orderId={paymentData.orderId}
-          email={paymentData.email}
-          username={paymentData.username}
+          customerKey={paymentData.data.customerKey}
+          orderId={paymentData.data.orderId}
+          email={paymentData.data.email}
+          username={paymentData.data.username}
         />
       )}
     </P.SecondModalWrapper>

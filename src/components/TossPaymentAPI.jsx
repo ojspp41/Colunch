@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 const clientKey = import.meta.env.VITE_CLIENT_KEY;
 
 export function PaymentCheckoutPage({amount, orderName, currency, customerKey, orderId, email, username}) {
+  console.log("amount",amount)
+  console.log("orderName",orderName)
+  console.log("customerkey",customerKey)
+  console.log("orderId",orderId)
   const [payment, setPayment] = useState(null);
 //   const [isPaymentRequested, setIsPaymentRequested] = useState(false); 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
