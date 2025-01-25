@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { priorityState } from "../../Atoms.jsx";
 import "../../css/pages/Matching.css";
 
-const MatchPriorityModal = ({ modalOpen, toggleModal }) => {
+const MatchPriorityModal = ({ modalOpen, toggleModal ,togglePrioritySelection}) => {
   useEffect(() => {
     if (modalOpen) {
       document.body.classList.add("modal-open");
@@ -106,7 +106,12 @@ const MatchPriorityModal = ({ modalOpen, toggleModal }) => {
           ))}
         </div>
 
-        <div className="modal-button" onClick={toggleModal}>선택 완료</div>
+        <div className="modal-button" onClick={() => { 
+          toggleModal(); 
+          togglePrioritySelection(); 
+        }}>
+          선택 완료
+        </div>
       </div>
     </div>
   );
