@@ -11,12 +11,10 @@ export const header = style({
 export const left = style({
     
     zIndex: 30, 
-    backgroundColor: 'white',
-    cursor: 'pointer',
-    padding: '8px 16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: '30px'
 });
 export const logoImg = style({
     width: '140px',
