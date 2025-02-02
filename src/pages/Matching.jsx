@@ -249,7 +249,7 @@ useEffect(() => {
       }
 
       // 선택된 MBTI 값을 정리하여 formData.mbtiOption에 반영
-    const mbtiOptionValue = updatedMBTI.filter((letter) => letter !== "X").join(",");
+      const mbtiOptionValue = updatedMBTI.filter((letter) => letter !== "X").join(",");
 
 
   
@@ -590,11 +590,9 @@ useEffect(() => {
           <div
             className="cost-bubble"
             style={{
-              display:
-              isButtonEnabled
-                  ? "block"
-                  : "none",
+              display: isButtonEnabled && isMBTISelected ? "block" : "none",
             }}
+            
           >
             <img src="/assets/footercoin.svg" alt="coin" />
             <span>{MatchState.point}P 소모</span>
@@ -602,37 +600,37 @@ useEffect(() => {
 
           <div
             className="footer_btn"
-            onMouseMove={isButtonEnabled   ? handleMove : null}
-            onMouseUp={isButtonEnabled   ? handleEnd : null}
-            onTouchMove={isButtonEnabled   ? handleMove : null}
-            onTouchEnd={isButtonEnabled   ? handleEnd : null}
+            onMouseMove={isButtonEnabled && isMBTISelected   ? handleMove : null}
+            onMouseUp={isButtonEnabled && isMBTISelected   ? handleEnd : null}
+            onTouchMove={isButtonEnabled && isMBTISelected ? handleMove : null}
+            onTouchEnd={isButtonEnabled && isMBTISelected  ? handleEnd : null}
           >
             <div
               className="footer_btn_box"
               style={{
-                backgroundColor: isButtonEnabled   ? "white" : "lightgray",
-                opacity: isButtonEnabled   ? 1 : 0.5,
-                boxShadow: isButtonEnabled  
+                backgroundColor: isButtonEnabled && isMBTISelected ? "white" : "lightgray",
+                opacity: isButtonEnabled && isMBTISelected  ? 1 : 0.5,
+                boxShadow: isButtonEnabled && isMBTISelected 
                   ? "0px 4px 12px rgba(0, 0, 0, 0.1)"
                   : "none",
               }}
             >
               <img
                 src={
-                  isButtonEnabled  
+                  isButtonEnabled  && isMBTISelected
                     ? "/assets/slider_active.svg"
                     : "/assets/slider.svg"
                 } // 이미지 변경
                 alt=""
                 style={{
                   left: `${imagePosition}px`,
-                  cursor: isButtonEnabled   ? "pointer" : "not-allowed",
+                  cursor: isButtonEnabled && isMBTISelected  ? "pointer" : "not-allowed",
                 }} // 커서 변경
                 onMouseDown={handleStart}
                 onTouchStart={handleStart}
               />
               <p>
-                {isButtonEnabled  
+                {isButtonEnabled && isMBTISelected 
                 ? "밀어서 커플되기"
                 : "조건을 선택해 주세요"}
               </p>
