@@ -3,7 +3,7 @@ import P from '../css/components/PaymentSecondModalStyle.js';
 import TossBuyPointComponent from './TossBuyPointComponent.jsx';
 import 'aos/dist/aos.css'; // AOS 스타일 시트 불러오기
 import { PaymentCheckoutPage } from './TossPaymentAPI.jsx';
-const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, discount }) => {
+const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, discount, closeSecondModal,point }) => {
   if (!isOpen) return null;
   const amount = Number(pointPrice.replace(/,/g, '')); // 콤마를 제거하고 숫자로 변환
   // 이미지 상태 관리
@@ -15,14 +15,14 @@ const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, disco
     setIsChecked((prev) => !prev); // 기존 상태를 반전시켜 이미지 변경
   };
   const handleTossButtonClick = async() => {
-    console.log("Toss button clicked");
+    console.log("point",point);
     try {
       const response = await fetch('http://13.124.46.181:8080/payments/order', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount, productName }),
+        body: JSON.stringify({ amount, productName, point }),
       });
 
       if (!response.ok) {
@@ -61,6 +61,7 @@ const PaymentSecondModal = ({ isOpen, closeModal, pointPrice, productName, disco
       />
        {paymentData && (
         <PaymentCheckoutPage
+          closeSecondModal={closeSecondModal}
           amount={amount}
           orderName={productName}
           currency="KRW"

@@ -7,6 +7,7 @@ C.Container = styled.div`
     justify-content: space-between;
     align-items: center;
     font-family: "Pretendard", sans-serif;
+    
 `
 C.StyledDiv = styled.div`
     font-size: 16px;

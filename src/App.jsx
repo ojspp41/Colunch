@@ -26,6 +26,8 @@ import MainPaymentModal from "./components/MainPaymentModal.jsx";
 import ProfileEdit  from "./pages/ProfileEdit.jsx"
 
 import SuccessPage from "./components/PaymentSuccess.jsx";
+import PaymentCallTest from "./components/PaymentCallTest.jsx";
+
 
 export default function App() {
   return (
@@ -56,6 +58,9 @@ export default function App() {
             <Route path="/charge" element={<Charge />} />
             <Route path="/heart" element={<Heart />} />
             <Route path="/event" element={<EventModal />} />
+
+            <Route path="/test" element={<PaymentCallTest />} />
+
             <Route path="/test" element={<MainPaymentModal />} />
 
             <Route path="/mypage" element={<Mypage />} />
