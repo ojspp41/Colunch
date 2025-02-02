@@ -1,8 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
+
 import Background from '../components/Background';
 import '../css/pages/mypage.css';
 import SupportSection from '../components/Mypage/SupportSection.jsx'
+import NavBar from '../components/Navbar.jsx';
 const Mypage = () => {
+  const navigate = useNavigate(); // 네비게이션 훅 사용
+
   return (
     <div className='mypage-container'>
       <Background />
@@ -11,7 +16,10 @@ const Mypage = () => {
         <p>겨울이오길님, <br />반갑습니다.</p>
       </div>
       
-      <button className='mypage-profile-btn'>프로필 수정</button>
+      {/* 프로필 수정 버튼 클릭 시 /profile-edit로 이동 */}
+      <button className='mypage-profile-btn' onClick={() => navigate('/profile-edit')}>
+        프로필 수정
+      </button>
       
       <div className='mypage-point-container'>
         <div className="mypage-flex">
@@ -30,6 +38,7 @@ const Mypage = () => {
       </div>
       
       <SupportSection />
+      <NavBar/>
     </div>
   );
 };

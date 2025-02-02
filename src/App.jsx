@@ -22,6 +22,7 @@ import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import Hobby from "./pages/Hobby.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import MainPaymentModal from "./components/MainPaymentModal.jsx";
+import ProfileEdit  from "./pages/ProfileEdit.jsx"
 export default function App() {
   return (
     <RecoilRoot>
@@ -53,6 +54,7 @@ export default function App() {
             <Route path="/event" element={<EventModal />} />
             <Route path="/test" element={<MainPaymentModal />} />
             <Route path="/mypage" element={<Mypage />} />
+            <Route path="/profile-edit" element={<ProfileEdit />} />
             
           </Routes>
 
