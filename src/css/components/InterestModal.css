@@ -6,8 +6,8 @@
     margin: 20px 0;
   }
   .interest-item {
-    width: 133px;
-    height: 133px;
+    width: 113px;
+    height: 113px;
     border: 1px solid #E5E5E5;
     background: rgba(26, 26, 26, 0.02);
     display: flex;
@@ -21,14 +21,14 @@
     transition: all 0.3s ease;
   }
   .interest-item p{
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
     margin-top: 4px;
     margin-bottom: 7px;
   }
   .interest-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     margin-top: 10px;
     
   }

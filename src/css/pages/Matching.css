@@ -138,15 +138,14 @@ body.modal-open {
   font-weight: bold;
   color: #333;
 }
-
+.match-premium-option-class-click-button{
+  background: none;
+}
 .match-premium-option-cost img,
 .match-premium-option-click-button img {
   width: 20px;
   height: 20px;
   margin-right: 8px; /* spacing between the image and text */
-}
-.match-premium-option-class-click-button{
-  background-color: #fff;
 }
 .match-premium-option-click-button img {
   margin-right: 0; /* Remove margin for the close icon */
@@ -424,4 +423,12 @@ body.modal-open {
 
 .match-img{
   margin-right: 10px;
+}
+
+.cost_icon{
+  width: 50px;
+  height: 50px;
+}
+.match-premium-option-clicks-button{
+  background: none;
 }

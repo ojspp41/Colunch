@@ -20,9 +20,15 @@ import Charge from "./pages/Charge.jsx";
 import EventModal from "./components/EventModal.jsx";
 import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import Hobby from "./pages/Hobby.jsx";
+import Mypage from "./pages/Mypage.jsx";
 import MainPaymentModal from "./components/MainPaymentModal.jsx";
+
+import ProfileEdit  from "./pages/ProfileEdit.jsx"
+
 import SuccessPage from "./components/PaymentSuccess.jsx";
 import PaymentCallTest from "./components/PaymentCallTest.jsx";
+
+
 export default function App() {
   return (
     <RecoilRoot>
@@ -52,10 +58,20 @@ export default function App() {
             <Route path="/charge" element={<Charge />} />
             <Route path="/heart" element={<Heart />} />
             <Route path="/event" element={<EventModal />} />
+
             <Route path="/test" element={<PaymentCallTest />} />
+
+            <Route path="/test" element={<MainPaymentModal />} />
+
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/profile-edit" element={<ProfileEdit />} />
+            
+
             <Route path="/success" element={<SuccessPage/>} />
 
+
           </Routes>
+
         </BrowserRouter>
       </div>
     </RecoilRoot>
