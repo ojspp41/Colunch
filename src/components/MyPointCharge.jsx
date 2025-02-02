@@ -4,7 +4,7 @@ import PopularPaymentMenu from './PopularPaymentMenu';
 const MyPointCharge = () => {
     return (
         <M.Container>
-            <img src='..\..\public\assets\MainPayment\coin.svg'/>
+            <img src='/assets/MainPayment/coin.svg'/>
             <div style={{display:'flex',flexDirection:'column', gap:'4px',alignItems:'flex-start'}}>
                 <M.HoldPoint>보유 포인트</M.HoldPoint>
                 <M.MyHoldPoint>10000P</M.MyHoldPoint>

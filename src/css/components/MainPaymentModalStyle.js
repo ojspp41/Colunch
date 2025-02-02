@@ -11,9 +11,8 @@ P.ModalWrapper = styled.div`
   display: ${({ show }) => (show ? 'flex' : 'none')}; /* show prop에 따라 모달을 보이게 하거나 숨기기 */
   justify-content: center;
   /* align-items: center; */
-  z-index: 999; /* 다른 콘텐츠 위에 표시 */
+  z-index: 900; /* 다른 콘텐츠 위에 표시 */
   align-items: flex-end; /* 화면 하단에 위치하도록 */
-  font-family: "Pretendard", sans-serif;
   box-sizing: border-box;
 `;
 P.ModalContent = styled.div`
@@ -28,7 +27,35 @@ P.ModalContent = styled.div`
   padding: 24px 24px 0 24px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  filter: ${({ isSecondModalOpen }) => (isSecondModalOpen ? 'brightness(0.7)' : 'none')}; 
+  pointer-events: ${({ isSecondModalOpen }) => (isSecondModalOpen ? 'none' : 'auto')}; /* 두 번째 모달이 열리면 첫 번째 모달 클릭 차단 */
 `;
+// P.ModalContent = styled.div`
+//   position: absolute;
+//   background-color: white;
+//   border-radius: 25px 25px 0 0;
+//   width: 90%;
+//   max-width: 500px;
+//   display: flex;
+//   flex-direction: column;
+//   height: 87%;
+//   padding: 24px 24px 0 24px;
+//   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+//   overflow-y: auto;
+ 
+
+ 
+   /* &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 950; 
+  }
+`;  */
 P.Header = styled.div`
     display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
