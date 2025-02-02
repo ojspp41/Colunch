@@ -1,7 +1,6 @@
 import React from 'react';
 import M from '../css/components/MyPointChargeStyle';
-import PopularPaymentMenu from './PopularPaymentMenu';
-const MyPointCharge = ({onOpenChargeHistory}) => {
+const MyPointChargeWithoutChargeList = ({onOpenChargeHistory}) => {
     return (
         <M.Container>
             <img src='/assets/MainPayment/coin.svg'/>
@@ -9,9 +8,8 @@ const MyPointCharge = ({onOpenChargeHistory}) => {
                 <M.HoldPoint>보유 포인트</M.HoldPoint>
                 <M.MyHoldPoint>10000P</M.MyHoldPoint>
             </div>
-            <M.MyChargeListText onClick={onOpenChargeHistory}>충전 내역 &gt;</M.MyChargeListText>
         </M.Container>
     );
 };
 
-export default MyPointCharge;
+export default MyPointChargeWithoutChargeList;
