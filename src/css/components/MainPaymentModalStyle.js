@@ -24,11 +24,11 @@ P.ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   height: 87%;
-  padding: 24px 24px 0 24px;
+  padding:0px 24px 0 24px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  filter: ${({ isSecondModalOpen }) => (isSecondModalOpen ? 'brightness(0.7)' : 'none')}; 
-  pointer-events: ${({ isSecondModalOpen }) => (isSecondModalOpen ? 'none' : 'auto')}; /* 두 번째 모달이 열리면 첫 번째 모달 클릭 차단 */
+  filter: ${({ isDimmed }) => (isDimmed ? 'brightness(0.7)' : 'none')};
+  pointer-events: ${({ isDimmed }) => (isDimmed ? 'none' : 'auto')};
 `;
 // P.ModalContent = styled.div`
 //   position: absolute;
@@ -60,10 +60,13 @@ P.Header = styled.div`
     display: flex;
   justify-content: center; /* 수평 중앙 정렬 */
   width: 100%;
-  position: relative;
+  /* position: relative; */
   margin-bottom: 32px;
   font-family: "Pretendard", sans-serif;
-  
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
 `
 
 // 모달 닫기 버튼 스타일
