@@ -10,14 +10,11 @@ import PointInformationFooter from './PointInformationFooter';
 import PaymentSecondModal from './PaymentSecondModal';
 import { useEffect, useState } from 'react';
 
-const MainPaymentModal = () => {
-  const [isOpen, setIsOpen] = useState(false); // 첫 번째 모달 열기/닫기 상태
+const MainPaymentModal = ({isOpen,onClose}) => {
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false); // 두 번째 모달 열기/닫기 상태
   const [productName, setProductName] = useState();
   const [pointPrice, setPointPrice] = useState();
   const [discount, setDiscount] = useState();
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
   
   // 두 번째 모달 열기
   const openSecondModal=()=>{
@@ -42,12 +39,12 @@ const MainPaymentModal = () => {
 
   return (
     <div>
-      <button onClick={openModal}>모달 열기</button>
+      
       <P.ModalWrapper show={isOpen} isSecondModalOpen={isSecondModalOpen} data-aos="fade-up">
         <P.ModalContent onClick={(e) => e.stopPropagation()} isSecondModalOpen={isSecondModalOpen}>
           <P.Header>
             <P.ChargePointText>포인트 충전</P.ChargePointText>
-            <P.CloseButton onClick={closeModal}>닫기</P.CloseButton>
+            <P.CloseButton onClick={onClose}>닫기</P.CloseButton>
           </P.Header>
           <MyPointCharge />
           <PopularPaymentMenu openSecondModal={openSecondModal} setPointPrice={setPointPrice} setProductName={setProductName} setDiscount={setDiscount}/>
