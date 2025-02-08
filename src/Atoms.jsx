@@ -92,3 +92,19 @@ export const priorityState = atom({
     { id: "4", label: "연락빈도" }
   ],
 });
+
+export const profileEditState = atom({
+  key: 'profileEditState',
+  default: {
+    nickname: '겨울이오길',
+    age: '25',
+    school: '가톨릭대학교',
+    department: '정보통신전자공학부',
+    contact: '@winterizcoming_',
+    interests: '인디노래, 맛집탐방 외 3개',
+    favoriteSong: '실리카겔 - Tik Tak Tok',
+    selectedMBTIEdit: "ESFJ",
+    ageOption: "YOUNGER",
+    introduction: '인디노래 좋아하세요? 😌',
+  },
+});
