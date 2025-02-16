@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { useRecoilState } from "recoil";
 import { profileEditState } from "../Atoms";
 import "../css/components/SchoolSelectModal.css";
@@ -12,7 +12,8 @@ const SchoolSelectModal = ({ isOpen, onClose }) => {
   const [department, setDepartment] = useState(profile.department || "");
   const [major, setMajor] = useState(profile.major || "");
   const [isVerified, setIsVerified] = useState(false);
-
+  // ✅ 모달이 열릴 때마다 Recoil 상태를 가져와서 입력 필드 초기화
+  
   const handleSave = () => {
     if (isVerified && school && department && major) {
       setProfile((prev) => ({

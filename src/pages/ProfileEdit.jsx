@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import '../css/pages/profileEdit.css';
 import Background from '../components/Background';
 import MBTISection from '../components/MBTISection';
@@ -6,8 +6,9 @@ import AgeButton from '../components/AgeButton';
 import SchoolSelectModal from '../components/SchoolSelectModal.jsx'
 import { profileEditState } from '../Atoms.jsx';
 import { useRecoilState } from 'recoil';
+import InterestSelectModal from '../components/InterestSelectModal.jsx';
+import ContactEditModal from '../components/ContactEditModal.jsx';
 const ProfileEdit = () => {
-
   // 프로필 정보 상태 관리
   
   const [profile, setProfile] = useRecoilState(profileEditState);
@@ -15,6 +16,22 @@ const ProfileEdit = () => {
   const [editingField, setEditingField] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  // 모달이 열릴 때 스크롤 막기
+  useEffect(() => {
+    if (isInterestModalOpen) {
+      document.body.style.overflow = "hidden"; // 스크롤 막기
+    } else {
+      document.body.style.overflow = "auto"; // 원래대로 돌리기
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // 컴포넌트가 언마운트되면 복원
+    };
+  }, [isInterestModalOpen]);
 
   const handleEditClick = (field) => {
     if (field !== 'school' && field !== 'department') {
@@ -131,38 +148,44 @@ const ProfileEdit = () => {
         </div>
 
         {/* 연락처 */}
-        <div className="profile-edit-item profile-edit-clickable" onClick={() => handleEditClick('contact')}>
+        <div className="profile-edit-item profile-edit-noneditable">
           <span className="profile-edit-label">연락처</span>
-          {editingField === 'contact' ? (
-            <input
-              type="text"
-              className="profile-edit-input"
-              value={profile.contact}
-              onChange={(e) => handleInputChange(e, 'contact')}
-              onBlur={handleBlur}
-              autoFocus
+          <span className="profile-edit-value profile-edit-no-underline">
+            {profile.contact_id}
+            <img
+              src="/assets/Common/gt.svg"
+              alt=""
+              className="profile-edit-img"
+              onClick={() => setIsContactModalOpen(true)}
             />
-          ) : (
-            <span className="profile-edit-value">{profile.contact}</span>
-          )}
+          </span>
         </div>
 
+
         {/* 관심사 */}
-        <div className="profile-edit-item profile-edit-clickable" onClick={() => handleEditClick('interests')}>
+        <div className="profile-edit-item profile-edit-noneditable">
           <span className="profile-edit-label">관심사</span>
-          {editingField === 'interests' ? (
-            <input
-              type="text"
-              className="profile-edit-input"
-              value={profile.interests}
-              onChange={(e) => handleInputChange(e, 'interests')}
-              onBlur={handleBlur}
-              autoFocus
+          <span className="profile-edit-value profile-edit-no-underline">
+            {profile.interests.length > 0 ? (
+              profile.interests.length > 2 ? (
+                // 관심사가 3개 이상인 경우
+                `${profile.interests.slice(0, 2).join(", ")} 외 ${profile.interests.length - 2}개`
+              ) : (
+                // 관심사가 2개 이하인 경우
+                profile.interests.join(", ")
+              )
+            ) : (
+              "선택하세요"
+            )}
+            <img
+              src="/assets/Common/gt.svg"
+              alt=""
+              className="profile-edit-img"
+              onClick={() => setIsInterestModalOpen(true)}
             />
-          ) : (
-            <span className="profile-edit-value">{profile.interests}</span>
-          )}
+          </span>
         </div>
+
 
         
         
@@ -236,6 +259,18 @@ const ProfileEdit = () => {
         수정하기
       </button>
       <SchoolSelectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <InterestSelectModal 
+        isOpen={isInterestModalOpen} 
+        onClose={() => setIsInterestModalOpen(false)}
+        interests={profile.interests}
+        setInterests={(newInterests) => setProfile({ ...profile, interests: newInterests })}
+      />
+      <ContactEditModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
+
+
     </div>
   );
 };
