@@ -10,6 +10,9 @@ import MainPaymentModal from '../components/MainPaymentModal.jsx';
 const Mypage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+  const closeModal = ()=>{
+    setIsModalOpen(false)
+  }
 
   return (
     <div className='mypage-container'>
@@ -43,7 +46,7 @@ const Mypage = () => {
       <NavBar />
 
       {/* 충전하기 버튼 클릭 시 모달 표시 */}
-      {isModalOpen && <MainPaymentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />} 
+      {isModalOpen && <MainPaymentModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />} 
     </div>
   );
 };
