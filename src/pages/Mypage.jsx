@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 
 import Background from '../components/Background';
 import '../css/pages/mypage.css';
-import SupportSection from '../components/Mypage/SupportSection.jsx';
+import SupportSection from '../components/Mypage/SupportSection.jsx'
 import NavBar from '../components/Navbar.jsx';
-import MainPaymentModal from '../components/MainPaymentModal.jsx';
-
 const Mypage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
@@ -29,16 +27,17 @@ const Mypage = () => {
       
       <div className='mypage-point-container'>
         <div className="mypage-flex">
-          <img className='mypage-point-icon' src='/assets/MainPayment/coin.svg' alt='포인트 아이콘' />
-          <div className='mypage-point-info'>
-            <p className='mypage-point-label'>보유 포인트</p>
-            <p className='mypage-point-value'>10,000 P</p>
-          </div>
-          <button className='mypage-recharge-btn' onClick={() => setIsModalOpen(true)}>충전하기</button>
+            <img className='mypage-point-icon' src='/assets/MainPayment/coin.svg' alt='포인트 아이콘' />
+            <div className='mypage-point-info'>
+                <p className='mypage-point-label'>보유 포인트</p>
+                <p className='mypage-point-value'>10,000 P</p>
+            </div>
+            <button className='mypage-recharge-btn'>충전하기</button>
+            
         </div>
         <div className='mypage-history-btns'>
-          <button className='mypage-history-btn'>충전내역</button>
-          <button className='mypage-history-btn'>사용내역</button>
+            <button className='mypage-history-btn'>충전내역</button>
+            <button className='mypage-history-btn'>사용내역</button>
         </div>
       </div>
       
@@ -47,6 +46,7 @@ const Mypage = () => {
 
       {/* 충전하기 버튼 클릭 시 모달 표시 */}
       {isModalOpen && <MainPaymentModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />} 
+      <NavBar/>
     </div>
   );
 };
