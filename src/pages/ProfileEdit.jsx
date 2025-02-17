@@ -1,26 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import '../css/pages/profileEdit.css';
 import Background from '../components/Background';
 import MBTISection from '../components/MBTISection';
 import AgeButton from '../components/AgeButton';
-
+import SchoolSelectModal from '../components/SchoolSelectModal.jsx'
+import { profileEditState } from '../Atoms.jsx';
+import { useRecoilState } from 'recoil';
+import InterestSelectModal from '../components/InterestSelectModal.jsx';
+import ContactEditModal from '../components/ContactEditModal.jsx';
 const ProfileEdit = () => {
-
   // 프로필 정보 상태 관리
-  const [profile, setProfile] = useState({
-    nickname: '겨울이오길',
-    age: '25',
-    school: '가톨릭대학교',
-    department: '정보통신전자공학부',
-    contact: '@winterizcoming_',
-    interests: '인디노래, 맛집탐방 외 3개',
-    favoriteSong: '실리카겔 - Tik Tak Tok',
-    selectedMBTIEdit: "ESFJ", // ✅ 문자열로 변경
-    ageOption:"YOUNGER",
-    introduction: '인디노래 좋아하세요? 😌',
-  });
+  
+  const [profile, setProfile] = useRecoilState(profileEditState);
 
   const [editingField, setEditingField] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isInterestModalOpen, setIsInterestModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+
+  // 모달이 열릴 때 스크롤 막기
+  useEffect(() => {
+    if (isInterestModalOpen) {
+      document.body.style.overflow = "hidden"; // 스크롤 막기
+    } else {
+      document.body.style.overflow = "auto"; // 원래대로 돌리기
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // 컴포넌트가 언마운트되면 복원
+    };
+  }, [isInterestModalOpen]);
 
   const handleEditClick = (field) => {
     if (field !== 'school' && field !== 'department') {
@@ -81,32 +92,102 @@ const ProfileEdit = () => {
         </p>
       </div>
       <div className="profile-edit-form">
-        {Object.keys(profile).map((field) => (
-          (field === 'ageOption' ||field === 'favoriteSong' || field === 'introduction' || field === 'selectedMBTIEdit') ? null : (
-            <div key={field} className={`profile-edit-item ${field !== 'school' && field !== 'department' ? 'profile-edit-clickable' : 'profile-edit-noneditable'}`} onClick={() => handleEditClick(field)}>
-              <span className="profile-edit-label">{field === 'nickname' ? '닉네임' : 
-                field === 'age' ? '나이' : 
-                field === 'school' ? '학교' : 
-                field === 'department' ? '학과' :
-                field === 'contact' ? '연락처' :
-                field === 'interests' ? '관심사' :
-                '한줄소개'}</span>
-              {editingField === field ? (
-                <input
-                  type="text"
-                  className="profile-edit-input"
-                  value={profile[field]}
-                  onChange={(e) => handleInputChange(e, field)}
-                  onBlur={handleBlur}
-                  autoFocus
-                />
+        {/* 닉네임 */}
+        <div className="profile-edit-item profile-edit-clickable" onClick={() => handleEditClick('nickname')}>
+          <span className="profile-edit-label">닉네임</span>
+          {editingField === 'nickname' ? (
+            <input
+              type="text"
+              className="profile-edit-input"
+              value={profile.nickname}
+              onChange={(e) => handleInputChange(e, 'nickname')}
+              onBlur={handleBlur}
+              autoFocus
+            />
+          ) : (
+            <span className="profile-edit-value">{profile.nickname}</span>
+          )}
+        </div>
+
+        {/* 나이 */}
+        <div className="profile-edit-item profile-edit-clickable" onClick={() => handleEditClick('age')}>
+          <span className="profile-edit-label">나이</span>
+          {editingField === 'age' ? (
+            <input
+              type="text"
+              className="profile-edit-input"
+              value={profile.age}
+              onChange={(e) => handleInputChange(e, 'age')}
+              onBlur={handleBlur}
+              autoFocus
+            />
+          ) : (
+            <span className="profile-edit-value">{profile.age}</span>
+          )}
+        </div>
+
+        {/* 학교 (수정 불가) */}
+        <div className="profile-edit-item profile-edit-noneditable">
+          <span className="profile-edit-label">학교</span>
+          <span className="profile-edit-value profile-edit-no-underline">{profile.school} 
+            <img src="/assets/Common/gt.svg" alt="" className='profile-edit-img' 
+            onClick={() => setIsModalOpen(true)}
+            />
+          </span>
+        </div>
+
+        {/* 학과 (수정 불가) */}
+        <div className="profile-edit-item profile-edit-noneditable">
+          <span className="profile-edit-label">학과</span>
+          <span className="profile-edit-value profile-edit-no-underline">{profile.department}
+            <img src="/assets/Common/gt.svg" alt="" className='profile-edit-img' 
+            onClick={() => setIsModalOpen(true)}
+            />
+          </span>
+          
+        </div>
+
+        {/* 연락처 */}
+        <div className="profile-edit-item profile-edit-noneditable">
+          <span className="profile-edit-label">연락처</span>
+          <span className="profile-edit-value profile-edit-no-underline">
+            {profile.contact_id}
+            <img
+              src="/assets/Common/gt.svg"
+              alt=""
+              className="profile-edit-img"
+              onClick={() => setIsContactModalOpen(true)}
+            />
+          </span>
+        </div>
+
+
+        {/* 관심사 */}
+        <div className="profile-edit-item profile-edit-noneditable">
+          <span className="profile-edit-label">관심사</span>
+          <span className="profile-edit-value profile-edit-no-underline">
+            {profile.interests.length > 0 ? (
+              profile.interests.length > 2 ? (
+                // 관심사가 3개 이상인 경우
+                `${profile.interests.slice(0, 2).join(", ")} 외 ${profile.interests.length - 2}개`
               ) : (
-                <span className={`profile-edit-value ${field === 'school' ||
-                  field === 'department' ? 'profile-edit-no-underline' : ''}`}>{profile[field]}</span>
-              )}
-            </div>
-          )
-        ))}
+                // 관심사가 2개 이하인 경우
+                profile.interests.join(", ")
+              )
+            ) : (
+              "선택하세요"
+            )}
+            <img
+              src="/assets/Common/gt.svg"
+              alt=""
+              className="profile-edit-img"
+              onClick={() => setIsInterestModalOpen(true)}
+            />
+          </span>
+        </div>
+
+
+        
         
         <div className="profile-edit-mbti profile-edit-clickable">
           <span className="profile-edit-name">MBTI</span>
@@ -177,6 +258,19 @@ const ProfileEdit = () => {
       >
         수정하기
       </button>
+      <SchoolSelectModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <InterestSelectModal 
+        isOpen={isInterestModalOpen} 
+        onClose={() => setIsInterestModalOpen(false)}
+        interests={profile.interests}
+        setInterests={(newInterests) => setProfile({ ...profile, interests: newInterests })}
+      />
+      <ContactEditModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+      />
+
+
     </div>
   );
 };
