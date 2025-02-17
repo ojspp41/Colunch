@@ -6,7 +6,11 @@ import '../css/pages/mypage.css';
 import SupportSection from '../components/Mypage/SupportSection.jsx'
 import NavBar from '../components/Navbar.jsx';
 const Mypage = () => {
-  const navigate = useNavigate(); // 네비게이션 훅 사용
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+  const closeModal = ()=>{
+    setIsModalOpen(false)
+  }
 
   return (
     <div className='mypage-container'>
@@ -38,6 +42,10 @@ const Mypage = () => {
       </div>
       
       <SupportSection />
+      <NavBar />
+
+      {/* 충전하기 버튼 클릭 시 모달 표시 */}
+      {isModalOpen && <MainPaymentModal isOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />} 
       <NavBar/>
     </div>
   );

@@ -27,6 +27,8 @@ import ProfileEdit  from "./pages/ProfileEdit.jsx"
 
 import SuccessPage from "./components/PaymentSuccess.jsx";
 import PaymentCallTest from "./components/PaymentCallTest.jsx";
+import Adminpage_MyPage from "./pages/Adminpage_MyPage.jsx";
+import AdminRegister from "./pages/AdminRegister.jsx";
 
 
 export default function App() {
@@ -47,6 +49,15 @@ export default function App() {
               path="/adminpage/charge-requests"
               element={<AdminRequestList />}
             />
+            <Route
+              path="/adminpage/myPage"
+              element={<Adminpage_MyPage />}
+            />
+            <Route
+              path="/adminpage/register"
+              element={<AdminRegister />}
+            />
+            
 
             <Route path="/loading" element={<Loading />} />
             
@@ -68,6 +79,8 @@ export default function App() {
             
 
             <Route path="/success" element={<SuccessPage/>} />
+            <Route path="/test" element={<PaymentCallTest/>} />
+            
 
 
           </Routes>
