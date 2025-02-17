@@ -7,26 +7,33 @@ import { useRecoilState } from "recoil";
 import { userState } from "../Atoms";
 
 const InterestSelectModal = ({ isOpen, onClose, interests, setInterests }) => {
+  if (!isOpen) return null;
   
-    if (!isOpen) return null;
   const [user, setUser] = useRecoilState(userState);
   const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
-  
-  const handleHobbyClick = (name) => {
-    const isAlreadySelected = interests.includes(name);
-    const updatedHobbies = isAlreadySelected
-      ? interests.filter((hobby) => hobby !== name) // 이미 선택된 경우 제거
-      : interests.length < 10
-      ? [...interests, name] // 최대 10개까지만 추가
-      : interests;
+  const [tempInterests, setTempInterests] = useState(interests); // 임시 상태
 
-    setInterests(updatedHobbies);
+  const handleHobbyClick = (name) => {
+    const isAlreadySelected = tempInterests.includes(name);
+    const updatedHobbies = isAlreadySelected
+      ? tempInterests.filter((hobby) => hobby !== name) // 이미 선택된 경우 제거
+      : tempInterests.length < 10
+      ? [...tempInterests, name] // 최대 10개까지만 추가
+      : tempInterests;
+
+    setTempInterests(updatedHobbies);
   };
-  
+
   const handleSearch = (query) => {
     setSearchQuery(query); // 검색어 업데이트
   };
-  
+
+  const handleSave = () => {
+    setInterests(tempInterests);
+    setUser({ ...user, interests: tempInterests }); // user 상태 업데이트
+    onClose();
+  };
+
   const filteredHobbyData = hobbyData.map((category) => ({
     ...category,
     hobbies: category.hobbies.filter((hobby) => {
@@ -35,7 +42,7 @@ const InterestSelectModal = ({ isOpen, onClose, interests, setInterests }) => {
   
       return decomposedSearch.every((searchChar, index) => {
         const hobbyChar = decomposedHobby[index];
-        if (!hobbyChar) return false; // 검색어가 더 길면 제외
+        if (!hobbyChar) return false;
   
         if (decomposedSearch.length === 1) {
           return hobbyChar.chosung === searchChar.chosung;
@@ -79,7 +86,7 @@ const InterestSelectModal = ({ isOpen, onClose, interests, setInterests }) => {
                       <div
                         key={idx}
                         className={`hobby-items ${
-                          interests.includes(hobby.name) ? "selected" : ""
+                          tempInterests.includes(hobby.name) ? "selected" : ""
                         }`}
                         onClick={() => handleHobbyClick(hobby.name)}
                       >
@@ -93,6 +100,13 @@ const InterestSelectModal = ({ isOpen, onClose, interests, setInterests }) => {
               )
           )}
         </div>
+        <button 
+          className={`edit-button ${tempInterests.length > 0 && tempInterests !== interests ? "active" : "inactive"}`} 
+          onClick={handleSave}
+          disabled={tempInterests.length === 0 || tempInterests === interests}
+        >
+          수정하기
+        </button>
       </div>
     </div>
   );
