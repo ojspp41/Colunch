@@ -84,4 +84,3 @@ P.ChargePointText = styled.span`
   color: #373737;
 `
 export default P;
-

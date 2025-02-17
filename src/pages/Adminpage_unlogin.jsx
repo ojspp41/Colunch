@@ -98,10 +98,10 @@ function Adminpageunlogin() {
         <div className="links-container">
           <div className="link-row">
             <a href="#signup" className="login-link">
-              오퍼레이터 가입하기
+              가입하기
             </a>
             <a href="#find-id-password" className="login-link">
-              | ID/비밀번호 찾기
+              | &nbsp;ID/비밀번호 찾기
             </a>
           </div>
           <a href="#contact" className="login-link login-link-contact">
