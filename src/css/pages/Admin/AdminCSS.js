@@ -2,20 +2,24 @@ import styled from "styled-components";
 
 export const MainWrapper = styled.div`
   background-color: #f4f4f4;
-  width: 100%;
   padding: 24px max(5vw,20px);
-  height: calc(100vh - 88px);
   box-sizing: border-box;
   font-family: "Pretendard", sans-serif;
   display: flex;
+  min-height: calc(100vh - 88px);
+  width: 1920px;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  flex: 1;
   @media (max-width: 768px) {
   padding: 16px 5vw; /* 모바일에서는 padding을 줄임 */
+  width: 768px;
+  
 }
 @media (max-width: 480px) {
   padding: 12px 4vw; /* 더 작은 화면에서는 padding을 더 줄임 */
+  width: 480px;
 }
 
 `;
@@ -32,9 +36,10 @@ export const AdminDiv = styled.div`
   text-align: left;
   padding: 24px 0 24px 24px;
   box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
   gap: 8px;
   @media (max-width:768px){
-    height: auto;
+    justify-content: normal;
   }
 `;
 

@@ -29,6 +29,8 @@ import SuccessPage from "./components/PaymentSuccess.jsx";
 import PaymentCallTest from "./components/PaymentCallTest.jsx";
 import Adminpage_MyPage from "./pages/Adminpage_MyPage.jsx";
 import AdminRegister from "./pages/AdminRegister.jsx";
+import AdminWebmail from "./pages/AdminWebmail.jsx";
+import AdminSearch from "./components/Admin/AdminSearch.jsx";
 
 
 export default function App() {
@@ -54,8 +56,16 @@ export default function App() {
               element={<Adminpage_MyPage />}
             />
             <Route
+              path="/adminpage/myPage/search"
+              element={<AdminSearch />}
+            />
+            <Route
               path="/adminpage/register"
               element={<AdminRegister />}
+            />
+            <Route
+              path="/adminpage/webmail-check"
+              element={<AdminWebmail/>}
             />
             
 
@@ -72,14 +82,14 @@ export default function App() {
 
             <Route path="/test" element={<PaymentCallTest />} />
 
-            <Route path="/test" element={<MainPaymentModal />} />
+            {/* <Route path="/test" element={<MainPaymentModal />} /> */}
 
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/profile-edit" element={<ProfileEdit />} />
             
 
             <Route path="/success" element={<SuccessPage/>} />
-            <Route path="/test" element={<PaymentCallTest/>} />
+            {/* <Route path="/test" element={<PaymentCallTest/>} /> */}
             
 
 

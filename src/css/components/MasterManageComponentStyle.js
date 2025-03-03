@@ -24,6 +24,8 @@ M.EachContainer = styled.div`
     padding: 24px 0 24px 24px ;
     box-sizing: border-box;
     gap: 8px;
+    cursor: pointer;
+    min-width: 317px;
 `
 M.TitleText= styled.div`
     font-size:32px;

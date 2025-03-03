@@ -4,17 +4,24 @@ import {AdminMyPageMain,AdminMyPageManage, AdminTeamManage} from '../components/
 import { adminUserState } from '../Atoms';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import AdminNotAllowed from '../components/Admin/AdminNotAllowed';
+import { useNavigate } from 'react-router-dom';
 const Adminpage_MyPage = () => {
+    const navigate = useNavigate();
     const [adminSelect, setAdminSelect] = useState("Main");
     const {isChecked} = useRecoilValue(adminUserState);
-    if(!isChecked){
-        return (
-            <div>
-                <AdminHeader setAdminSelect={setAdminSelect} adminSelect={adminSelect}></AdminHeader>
-                <AdminNotAllowed/>
-            </div>
-        )
-    }
+    const {authority} = useRecoilValue(authority);
+    
+    // if(!isChecked && authority==="오퍼레이터" ){
+    //     return (
+    //         <>
+    //             <AdminHeader setAdminSelect={setAdminSelect} adminSelect={adminSelect}></AdminHeader>
+    //             <AdminNotAllowed/>
+    //         </>
+    //     )
+    // }
+    // else if(!isChecked && authority==="관리자"){
+    //     navigate("/adminpage/webmail-check")
+    // }
     return (
             <div>
                 <AdminHeader setAdminSelect={setAdminSelect} adminSelect={adminSelect}/>

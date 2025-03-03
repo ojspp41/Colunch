@@ -46,6 +46,7 @@ A.HeaderProfile = styled.div`
     gap: 16px;
     border-radius: 8px;
     padding: 8px 0;
+    white-space: nowrap;
 `
 A.AlarmImg = styled.div`
     border-radius: 100%;

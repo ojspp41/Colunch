@@ -45,16 +45,30 @@ const AdminRegister = () => {
         console.log(e.target.value)
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+    
 
     // 🔹 폼 제출 핸들러
     const handleSubmit = (e) => {
         e.preventDefault();
+        const requiredFields = ["userId", "password", "confirmPassword", "email", "name", "university", "authority"];
+        for(const field of requiredFields){
+            if(!formData[field]||formData[field].trim()===""){
+                alert(`${field} 입력이 누락되었습니다.`);
+                return;
+            }
+        }
         console.log("회원가입 데이터:", formData);
         if(formData.password!=formData.confirmPassword){
             alert("비밀번호가 다릅니다 다시 입력해주세요")
             return ;
         }
-        navigate("/adminpage/myPage")
+        if(formData.authority==="관리자"){
+            alert("회원가입이 완료되었습니다.")
+            navigate("/adminpage",{state:{email:formData.email}});
+        }else if(formData.authority==="오퍼레이터"){
+            alert("오퍼레이터 가입이 완료되었습니다. 관리자의 승인이 필요합니다")
+            navigate("/adminpage")
+        }
         // 🚀 API 요청 예시 (백엔드 연결 시)
         // fetch("/api/register", {
         //     method: "POST",
@@ -86,7 +100,7 @@ const AdminRegister = () => {
         }
     ]
     return (
-        <div>
+        <div style={{display:'flex', flexDirection:'column',width:'auto',height:'100vh'}}>
             <AdminRegisterHeader/>
              <MainWrapper>
                 <AdminDiv height="117px" onClick={handleSubmit} style={{cursor:"pointer"}}>

@@ -1,12 +1,17 @@
 import React from 'react';
 import A from '../../css/components/AdminHeader';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AdminHeader = ({ adminSelect, setAdminSelect }) => {
+  const navigate = useNavigate();
+  const goToMainButton = ()=>{
+    navigate("/adminpage")
+  }
   return (
     <A.HeaderContainer>
-      <A.HeaderImg src="/assets/Admin/header_logo.svg" alt="코매칭 로고" />
+      <A.HeaderImg src="/assets/Admin/header_logo.svg" alt="코매칭 로고" onClick={goToMainButton} />
 
-      <A.HeaderMenu>
+      <A.HeaderMenu style={{padding:"0 20px"}}>
         <A.HeaderText
           onClick={() => setAdminSelect("Main")}
           isActive={adminSelect === "Main"}
@@ -46,9 +51,13 @@ const AdminHeader = ({ adminSelect, setAdminSelect }) => {
   );
 };
 const AdminRegisterHeader = ()=>{
+  const navigate = useNavigate();
+  const goToMainButton = ()=>{
+    navigate("/adminpage")
+  }
   return (
     <A.HeaderContainer>
-      <A.HeaderImg src="/assets/Admin/header_logo.svg" alt="코매칭 로고" />
+      <A.HeaderImg src="/assets/Admin/header_logo.svg" alt="코매칭 로고" onClick={goToMainButton} />
     </A.HeaderContainer>
   );
 }

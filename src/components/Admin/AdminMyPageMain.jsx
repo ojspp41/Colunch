@@ -2,6 +2,9 @@ import React from 'react';
 import M from '../../css/components/AdminMyPageMain'
 import MasterManageComponent from './MasterManageComponent';
 import OperatorManageComponent from './OperatorManageComponent';
+import { adminUserState } from '../../Atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { MainWrapper } from '../../css/pages/Admin/AdminCSS';
 const AdminMyPageMain = () => {
     return (
         <M.MainWrapper>
@@ -20,11 +23,13 @@ const AdminMyPageMain = () => {
     );
 };
 const AdminMyPageManage = ()=>{
+    // const {authority} = useRecoilValue(adminUserState);
+    const authority = "관리자"
     return (
-        <M.MainWrapper>
-            <MasterManageComponent/>
-            {/* <OperatorManageComponent/> */}
-        </M.MainWrapper>
+        <MainWrapper>
+              {authority === '오퍼레이터' && <OperatorManageComponent />}
+              {authority === '관리자' && <MasterManageComponent />}
+        </MainWrapper>
     )
 }
 const AdminTeamManage = ()=>{

@@ -44,7 +44,7 @@ function Adminpageunlogin() {
           const tokenWithoutBearer = token.slice(7);
           Cookies.set("Authorization", tokenWithoutBearer,{ path: "/", expires: 1/6 });
         }
-        navigate("/adminpage/charge-requests"); // 로그인 성공 시 페이지 이동
+        navigate("/adminpage/myPage"); // 로그인 성공 시 페이지 이동
       } else {
         console.log("로그인 실패:", response.data.message); // 로그인 실패 시 메시지 로깅
         alert("로그인 실패: " + response.data.message); // 사용자에게 실패 메시지를 보여줍니다.
@@ -97,7 +97,7 @@ function Adminpageunlogin() {
         </form>
         <div className="links-container">
           <div className="link-row">
-            <a href="#signup" className="login-link">
+            <a href="register" className="login-link">
               가입하기
             </a>
             <a href="#find-id-password" className="login-link">
