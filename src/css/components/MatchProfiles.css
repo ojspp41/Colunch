@@ -12,7 +12,7 @@
   /* 전체 프로필 박스 */
 .profile-box {
     text-align: left;
-    
+    padding-top: 20px;
     border: 2px solid #E5E5E5;
     border-radius: 10px;
     background: #fff;
@@ -71,7 +71,7 @@
   /* 연락처 컨테이너 */
 .contact-container {
     display: flex;
-   
+    padding-top: 20px;
     justify-content: center;
     align-items: center;
     ;
