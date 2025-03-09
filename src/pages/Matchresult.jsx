@@ -1,17 +1,13 @@
 import React, { useEffect,useState } from "react";
 import axios from "axios";
 import Background from "../components/Background.jsx";
-import HeaderBackPoint from "../components/HeaderBackPoint.jsx";
-import Footer from "../components/Footer";
 import { useRecoilState } from "recoil";
 import { MatchResultState, MatchPickState, userState } from "../Atoms";
 import "../css/pages/Matchresult.css";
 import { useNavigate } from "react-router-dom";
 import hobbyData from "../data/hobbyData.js";
-import Cookies from "js-cookie";
 import Loading from "./Loading.jsx";
 import PointBalance from "../components/PointBalance.jsx";
-import instance from "../axiosConfig"; // axios 인스턴스 불러오기
 import HeaderBack from "../components/Match-result/Header.jsx";
 function Matchresult() {
   const navigate = useNavigate();

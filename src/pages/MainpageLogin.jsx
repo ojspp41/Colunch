@@ -2,35 +2,23 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import HeaderMain from "../components/HeaderMain";
-import UserInfoRrev from "../components/UserInfoRrev";
 import { charge, userState } from "../Atoms";
 import "../css/pages/MainpageLogin.css";
 import { useNavigate } from "react-router-dom";
 import TotalUsersCounter from "../components/TotalUsersCounter";
-import BottomNavButton from "../components/BottomNavButton";
-import MyInfoButton from "../components/MyInfoButton";
-import ChargeButtonInfo from "../components/ChargeButtonInfo";
-
 import Footer from "../components/Footer";
 import TutorialSlides from "../components/TutorialSlides";
-import HartButtonInfo from "../components/HartButtonInfo";
 import Background from "../components/Background";
 import instance from "../axiosConfig";
-import AccountButtonInfo from "../components/AccountButtonInfo";
 import Cookies from "js-cookie"; // js-cookie import 추가
-import EventModal from "../components/EventModal";
 import PointBalance from "../components/PointBalance";
 import MatchProfiles from "../components/Mainpage/MatchProfiles";
 function MainpageLogin() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
-  const [isAccountClicked, setIsAccountClicked] = useState(false);
-  const [isPointClicked, setIsPointClicked] = useState(false); // 포인트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
-  const [isHeartClicked, setIsHeartClicked] = useState(false); // 하트 충전 요청 토글 클릭 상태를 저장하는 상태 변수
+ 
   const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
   const [userInfo, setUserInfo] = useRecoilState(userState);
-  // 충전 요청 상태를 관리하는 Recoil 상태(너무 자주 못누르게 하기 위해서 임시방편이였습니다. 회의를 통해 방식 수정이 필요합니다)
-  const [chargeclick, setchargeclick] = useRecoilState(charge);
-  const [showEventModal, setShowEventModal] = useState(false);
+ 
   
   const handleAccountToggleClick = () => {
     setIsAccountClicked((prevIsClicked) => !prevIsClicked);
@@ -126,32 +114,13 @@ function MainpageLogin() {
   const handleNotService = () => {
     alert("해당 서비스는 9/12일 10:00에 오픈됩니다 축제까지 기다려주세요!");
   };
-  const handleVisitGuide = () => {
-    navigate("/guide");
-  };
-  const handleCharge = () => {
-    navigate("/charge");
-  };
-  const handlehartCharge = () => {
-    navigate("/heart");
-  };
+  
   const handleClickmatch = () => {
     navigate("/matching");
   };
-  const handleVisitcheckresult = () => {
-    navigate("/check-result");
-  };
+ 
 
-  // 충전 요청
-  const handleChargeRequest = async () => {
-    const response = await instance.get("/user/charge/request");
-    setchargeclick({
-      chargeclick: true, // 클릭된 것으로 상태 변경, 클릭시 관리자 페이지에 뜹니다.
-    });
-    if (response.data.code === "CHR-001") {
-      alert("이미 요청되었습니다."); // 이미 요청된 경우 알림
-    }
-  };
+ 
   const sampleProfiles = [
     {
       nickname: "JaneDoe",
@@ -210,49 +179,10 @@ function MainpageLogin() {
             />
           </button>
         </div>
-        <div className="button-group">
-          {userInfo.canRequestCharge ? (
-            <MyInfoButton
-              imgSrc={`../../assets/point.svg`}
-              infoText={`${userInfo.point}P`}
-              buttonText="잔여포인트"
-              handleCharge={handleCharge} 
-              // canRequestCharge가 true일 때 handleCharge 전달
-              // handleCharge={handleNotService}
-            />
-          ) : (
-            <MyInfoButton
-              imgSrc={`../../assets/point.svg`}
-              infoText={`${userInfo.point}P`}
-              buttonText="잔여포인트"
-              handleCharge={null} // canRequestCharge가 false일 때 handleCharge는 null
-            />
-          )}
-          <MyInfoButton
-            imgSrc={`../../assets/heart.svg`}
-            infoText={`${userInfo.pickMe}회`}
-            buttonText="내가 뽑힐 횟수"
-            handleCharge={handlehartCharge}
-            // handleCharge={handleNotService}
-          />
-        </div>
+        
 
         
-        <div className="button-group">
-          <BottomNavButton
-            // onClick={handleNotService}
-            onClick={handleVisitcheckresult}
-            imgSrc={`../../assets/checkresult.svg`}
-            imgText="조회버튼"
-            buttonText="조회하기"
-          />
-          <BottomNavButton
-            onClick={handleVisitGuide}
-            imgSrc={`../../assets/guidebook.svg`}
-            imgText="가이드북"
-            buttonText="가이드북"
-          />
-        </div>
+        
         {/* <div  style={{ height: '50px' }}></div> */}
       </div>
       <div className="logout-container">
@@ -261,14 +191,7 @@ function MainpageLogin() {
         </a>
       </div>
       <Footer/>
-      {/* <NavBar/> */}
-      {showEventModal && userInfo.eventokay === false && (
-        <EventModal
-          onParticipate={handleParticipate}
-          onCancel={handleCancel}
-          
-        />
-      )}
+      
       {showTutorial && (
         <TutorialSlides onComplete={() => setShowTutorial(false)} />
       )}
