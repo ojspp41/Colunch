@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import instance from "../axiosConfig"; // axiosConfig 인스턴스 불러오기
-import { useRecoilState } from "recoil";
-import { userState, selectedMBTIState } from "../Atoms";
-import { useNavigate } from "react-router-dom";
+import {useRecoilState} from "recoil";
+import {userState, selectedMBTIState} from "../Atoms";
+import {useNavigate} from "react-router-dom";
 import MyInput from "../components/MyInput";
 import MajorSelector from "../components/MajorSelector";
 import "../css/pages/User_info.css";
@@ -12,8 +12,9 @@ import GenderSelect from "../components/GenderSelect";
 import AdmissionYearInput from "../components/AdmissionYearInput";
 import Background from "../components/Background";
 import Modal from "react-modal"; // Import react-modal
-import TermsAgreementModal from "../components/TermsAgreementModal"; 
+import TermsAgreementModal from "../components/TermsAgreementModal";
 import ProgressNav from "../components/ProgressNav";
+import {fetchWithAuth} from "../api/authFetch";
 Modal.setAppElement("#root");
 
 function Userinfo() {
@@ -24,93 +25,109 @@ function Userinfo() {
         school: null, // 초기값을 null로 설정
         department: null,
         major: null,
-        contactVerified: true,
+        contactVerified: true
     });
     useEffect(() => {
         console.log("📝 user 상태 변경됨:", user);
     }, [user]); // user 값이 변경될 때마다 실행
-    
-    const [registerCheck, setRegisterCheck] = useState({
-        terms1: false,
-        terms2: false,
-        terms3: false,
-    });
+
+    const [registerCheck, setRegisterCheck] = useState(
+        {terms1: false, terms2: false, terms3: false}
+    );
     const handleMBTISelection = (value) => {
-        const category =
-            value === "E" || value === "I"
-                ? "EI"
-                : value === "S" || value === "N"
+        const category = value === "E" || value === "I"
+            ? "EI"
+            : value === "S" || value === "N"
                 ? "SN"
                 : value === "T" || value === "F"
-                ? "TF"
-                : "PJ";
-    
+                    ? "TF"
+                    : "PJ";
+
         setSelectedMBTI((prevMBTI) => ({
             ...prevMBTI,
-            [category]: value,
+            [category]: value
         }));
-    
+
         setUser((prevUser) => {
             const updatedMBTI = {
-                EI: category === "EI" ? value : selectedMBTI.EI,
-                SN: category === "SN" ? value : selectedMBTI.SN,
-                TF: category === "TF" ? value : selectedMBTI.TF,
-                PJ: category === "PJ" ? value : selectedMBTI.PJ,
+                EI: category === "EI"
+                    ? value
+                    : selectedMBTI.EI,
+                SN: category === "SN"
+                    ? value
+                    : selectedMBTI.SN,
+                TF: category === "TF"
+                    ? value
+                    : selectedMBTI.TF,
+                PJ: category === "PJ"
+                    ? value
+                    : selectedMBTI.PJ
             };
-    
+
             // All MBTI parts concatenated
             const mbtiString = `${updatedMBTI.EI || ""}${updatedMBTI.SN || ""}${updatedMBTI.TF || ""}${updatedMBTI.PJ || ""}`;
-    
+
             return {
                 ...prevUser,
                 mbti: mbtiString,
-                isLoggedIn: true,
+                isLoggedIn: true
             };
         });
     };
 
-    const [isGenderSelectable, setIsGenderSelectable] = useState(false); 
+    const [isGenderSelectable, setIsGenderSelectable] = useState(false);
     const [isContactVerified, setIsContactVerified] = useState(false);
     const [isSongInputVisible, setIsSongInputVisible] = useState(false);
     const [isCommentVisible, setIsCommentVisible] = useState(false);
     const [isFiveChars, setIsFiveChars] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [isGenderSelected, setIsGenderSelected] = useState(false); 
+    const [isGenderSelected, setIsGenderSelected] = useState(false);
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         let errorMessage = "";
 
         switch (name) {
-            
+
             case "song":
                 if (!/^[^?~!@#$%^&*()+'"<>\\/|{}[\]_=;:]{0,20}$/.test(value)) {
                     // 특수기호 타이핑 확인
                     errorMessage = "노래에는 특수 기호를 사용할 수 없고 20자리 이내로 작성해주세요";
-                }else {
+                } else {
                     setIsCommentVisible(true);
                 }
                 break;
             case "comment":
                 if (value.length <= 5) { // 'comment' 필드가 최대 5글자까지만 입력되도록 제한
-                    setUser((prevUser) => ({ ...prevUser, comment: value }));
+                    setUser((prevUser) => ({
+                        ...prevUser,
+                        comment: value
+                    }));
                     setIsCommentVisible(true); // 'comment' 필드가 표시되도록 설정
-                    setIsFiveChars(true); 
+                    setIsFiveChars(true);
                 }
-                
+
                 break;
             case "age":
-                setUser((prevUser) => ({ ...prevUser, age: parseInt(value, 10) || "" }));
-                
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    age: parseInt(value, 10) || ""
+                }));
+
                 break;
             case "admissionYear":
-                setUser((prevUser) => ({ 
-                    ...prevUser, 
-                    admissionYear: value !== "" ? parseInt(value, 10) : "" 
+                setUser((prevUser) => ({
+                    ...prevUser,
+                    admissionYear: value !== ""
+                        ? parseInt(value, 10)
+                        : ""
                 }));
                 break;
             case "gender":
                 if (value === "MALE" || value === "FEMALE") {
-                    setUser((prevUser) => ({ ...prevUser, gender: value }));
+                    setUser((prevUser) => ({
+                        ...prevUser,
+                        gender: value
+                    }));
                     setIsGenderSelected(true);
                 } else {
                     errorMessage = "성별은 MALE 또는 FEMALE로 선택해야 합니다.";
@@ -123,12 +140,13 @@ function Userinfo() {
         if (errorMessage) {
             alert(errorMessage);
         } else {
-            setUser((prevUser) => ({ ...prevUser, [name]: value }));
+            setUser((prevUser) => ({
+                ...prevUser,
+                [name]: value
+            }));
         }
     };
-    // const handleContactVerified = () => {
-    //     setIsContactVerified(true);
-    // };
+    // const handleContactVerified = () => {     setIsContactVerified(true); };
     const fieldLabels = {
         major: "전공",
         age: "나이",
@@ -155,7 +173,7 @@ function Userinfo() {
             "hobby",
             "song",
             "comment",
-            "admissionYear",
+            "admissionYear"
         ];
         for (let field of requiredFields) {
             if (!user[field] || (Array.isArray(user[field]) && user[field].length === 0)) {
@@ -174,43 +192,20 @@ function Userinfo() {
             hobby: user.hobby,
             song: user.song,
             comment: user.comment,
-            admissionYear: user.admissionYear,
+            admissionYear: user.admissionYear
         };
-        // const postData = {
-        //     contact_id: "@diwqdqn",
-        //     major: "컴퓨터정보공학과과",
-        //     age: 20,
-        //     mbti: "esfj",
-        //     gender: "남성",
-        //     contactFrequency: "보통통",
-        //     hobby: ["운동"],
-        //     song: "영시시",
-        //     comment: "친하게지내요요",
-        //     admissionYear: 21,
-        // };
+        // const postData = {     contact_id: "@diwqdqn",     major: "컴퓨터정보공학과과",
+        // age: 20,     mbti: "esfj",     gender: "남성",     contactFrequency: "보통통",
+        // hobby: ["운동"],     song: "영시시",     comment: "친하게지내요요",     admissionYear:
+        // 21, };
         try {
-            const accessToken = document.cookie
-                .split("; ")
-                .find(row => row.startsWith("accessToken="))
-                ?.split("=")[1]; // 쿠키에서 accessToken 가져오기
-        
-            if (!accessToken) {
-                throw new Error("Access token이 없습니다.");
-            }
-        
-            console.log("Access Token:", accessToken);
-        
-            const response = await fetch("http://localhost:8000/api/users/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`, // ✅ Authorization 헤더 추가
-                },
-                body: JSON.stringify(postData),
-            });
-        
             console.log("Request Data:", postData);
-        
+            // BASE_URL과 엔드포인트가 합쳐진 URL로 요청
+            const response = await fetchWithAuth("/api/users/signup", {
+                method: "POST",
+                body: JSON.stringify(postData)
+            });
+
             if (response.ok) {
                 alert("가입이 완료되었습니다.");
                 navigate("/");
@@ -221,37 +216,27 @@ function Userinfo() {
             console.error("오류 발생:", error);
             alert("서버 오류가 발생했습니다.");
         }
-        
-        
+
     };
 
-   
-    
-
-
-
-    useEffect(() => {
-        checkAllFieldsSelected(); // Initial check on load
-    }, [checkMethod, user.age, user.admissionYear, user.mbti, user.contactFrequency]);
+    useEffect(
+        () => {
+            checkAllFieldsSelected(); // Initial check on load
+        },
+        [checkMethod, user.age, user.admissionYear, user.mbti, user.contactFrequency]
+    );
     const openModal = () => {
         setModalIsOpen(true);
     };
     const handleAgeClick = (value) => {
         setUser((prev) => ({
             ...prev,
-            contactFrequency: value,
+            contactFrequency: value
         }));
         checkAllFieldsSelected();
     };
     const checkAllFieldsSelected = () => {
-        const isAllSelected =
-            checkMethod.school &&
-            checkMethod.department &&
-            checkMethod.major &&
-            user.age &&
-            user.admissionYear && user.admissionYear.length === 2 &&
-            
-            user.contactFrequency;
+        const isAllSelected = checkMethod.school && checkMethod.department && checkMethod.major && user.age && user.admissionYear && user.admissionYear.length === 2 && user.contactFrequency;
 
         if (isAllSelected) {
             setIsGenderSelectable(true);
@@ -262,150 +247,144 @@ function Userinfo() {
     };
     return (
         <div className="container">
-            
-            <Background />
+
+            <Background/>
             <ProgressNav step={3}></ProgressNav>
             <div className="text-container">
                 <div className="main-text">전공이 어떻게 되세요?</div>
-                <div className="sub-text">정보를 정확하게 입력했는지 확인해 주세요. <br />
-                별로 오래 걸리지 않아요! </div>
+                <div className="sub-text">정보를 정확하게 입력했는지 확인해 주세요.
+                    <br/>
+                    별로 오래 걸리지 않아요!
+                </div>
             </div>
-            <form className= "form_container" onSubmit={handleSubmit}>
+            <form className="form_container" onSubmit={handleSubmit}>
 
                 <div className="form-inner-content">
-                {isCommentVisible && (
-                        <div>
-                            <label>
-                                <h3 className="commet_title"> 나를 소개할 다섯글자</h3>
-                                <div className="music">
-                                    <MyInput
-                                        name="comment"
-                                        value={user.comment}
-                                        onChange={handleChange}
-                                        placeholder="5글자 이상 작성해주세요"
-                                        className="comment-input"
-                                        maxLength={5}
-                                    />
-                                </div>
-                            </label>
-                        </div>
-                    )}
-                    
-
-                {isContactVerified && (
-                        <div>
-                            <label>
-                                <h3 className="music_title">좋아하는 노래</h3>
-                                <div className="music">
-                                    <MyInput
-                                        name="song"
-                                        value={user.song}
-                                        onChange={handleChange}
-                                        placeholder="Young Man"
-                                        className="song-input"
-                                    />
-                                </div>
-                            </label>
-                        </div>
-                    )}
-
-                {isGenderSelected && (
-                        <ContactMethod
-                            checkMethod={checkMethod}
-                            setCheckMethod={setCheckMethod}
-                            setIsContactVerified={setIsContactVerified}
-                            user={user}
-                            setUser={setUser}
-                            handleChange={handleChange}
-                        />
-                    )}
-                
-                {isGenderSelectable && (
-                        <GenderSelect
-                            user={user}
-                            setUser={setUser}
-                            onChange={handleChange}
-                            setIsGenderSelected={setIsGenderSelected}
-                        />
-                    )}
-                {checkMethod.school &&
-                        checkMethod.department &&
-                        checkMethod.major &&
-                        user.age &&
-                        user.admissionYear && (
-                        <div>
-                            <h3>연락빈도</h3>
-                            <div className="match-select-button">
-                            <button
-                                type="button"
-                                className={`form-AgeMaker ${
-                                user.contactFrequency === "자주" ? "selected" : ""
-                                }`}
-                                value={"자주"}
-                                onClick={() => handleAgeClick("자주")}
-                            >
-                                자주
-                            </button>
-                            <button
-                                type="button"
-                                className={`form-AgeMaker ${
-                                user.contactFrequency === "보통" ? "selected" : ""
-                                }`}
-                                value={"보통"}
-                                onClick={() => handleAgeClick("보통")}
-                            >
-                                보통
-                            </button>
-                            <button
-                                type="button"
-                                className={`form-AgeMaker ${
-                                user.contactFrequency === "가끔" ? "selected" : ""
-                                }`}
-                                value={"가끔"}
-                                onClick={() => handleAgeClick("가끔")}
-                            >
-                                가끔
-                            </button>
+                    {
+                        isCommentVisible && (
+                            <div>
+                                <label>
+                                    <h3 className="commet_title">
+                                        나를 소개할 다섯글자</h3>
+                                    <div className="music">
+                                        <MyInput
+                                            name="comment"
+                                            value={user.comment}
+                                            onChange={handleChange}
+                                            placeholder="5글자 이상 작성해주세요"
+                                            className="comment-input"
+                                            maxLength={5}/>
+                                    </div>
+                                </label>
                             </div>
-                        </div>
-                    )}
-                    {checkMethod.school &&
-                        checkMethod.department &&
-                        checkMethod.major &&
-                        user.age && (
-                        <AdmissionYearInput value={user.admissionYear} onChange={handleChange} />
-                    )}
+                        )
+                    }
 
-                    {checkMethod.school && checkMethod.department && checkMethod.major && (
-                        <AgeInputInput value={user.age} onChange={handleChange} />
-                    )}
+                    {
+                        isContactVerified && (
+                            <div>
+                                <label>
+                                    <h3 className="music_title">좋아하는 노래</h3>
+                                    <div className="music">
+                                        <MyInput
+                                            name="song"
+                                            value={user.song}
+                                            onChange={handleChange}
+                                            placeholder="Young Man"
+                                            className="song-input"/>
+                                    </div>
+                                </label>
+                            </div>
+                        )
+                    }
+
+                    {
+                        isGenderSelected && (
+                            <ContactMethod
+                                checkMethod={checkMethod}
+                                setCheckMethod={setCheckMethod}
+                                setIsContactVerified={setIsContactVerified}
+                                user={user}
+                                setUser={setUser}
+                                handleChange={handleChange}/>
+                        )
+                    }
+
+                    {
+                        isGenderSelectable && (
+                            <GenderSelect
+                                user={user}
+                                setUser={setUser}
+                                onChange={handleChange}
+                                setIsGenderSelected={setIsGenderSelected}/>
+                        )
+                    }
+                    {
+                        checkMethod.school && checkMethod.department && checkMethod.major && user.age && user.admissionYear && (
+                            <div>
+                                <h3>연락빈도</h3>
+                                <div className="match-select-button">
+                                    <button
+                                        type="button"
+                                        className={`form-AgeMaker ${
+                                        user.contactFrequency === "자주"
+                                            ? "selected"
+                                            : ""}`}
+                                        value={"자주"}
+                                        onClick={() => handleAgeClick("자주")}>
+                                        자주
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`form-AgeMaker ${
+                                        user.contactFrequency === "보통"
+                                            ? "selected"
+                                            : ""}`}
+                                        value={"보통"}
+                                        onClick={() => handleAgeClick("보통")}>
+                                        보통
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`form-AgeMaker ${
+                                        user.contactFrequency === "가끔"
+                                            ? "selected"
+                                            : ""}`}
+                                        value={"가끔"}
+                                        onClick={() => handleAgeClick("가끔")}>
+                                        가끔
+                                    </button>
+                                </div>
+                            </div>
+                        )
+                    }
+                    {
+                        checkMethod.school && checkMethod.department && checkMethod.major && user.age && (
+                            <AdmissionYearInput value={user.admissionYear} onChange={handleChange}/>
+                        )
+                    }
+
+                    {
+                        checkMethod.school && checkMethod.department && checkMethod.major && (
+                            <AgeInputInput value={user.age} onChange={handleChange}/>
+                        )
+                    }
 
                     <MajorSelector
                         user={user}
                         setUser={setUser}
                         checkMethod={checkMethod}
-                        setCheckMethod={setCheckMethod}
-                    />
-                    
-                    
-                    
+                        setCheckMethod={setCheckMethod}/>
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     <button
-                        className={`start-button ${isFiveChars ? "active" : ""}`}
+                        className={`start-button ${isFiveChars
+                            ? "active"
+                            : ""}`}
                         type="button"
-                        onClick={openModal}
-                    >
+                        onClick={openModal}>
                         코매칭 시작하기
                     </button>
 
-                    
                 </div>
             </form>
             <TermsAgreementModal
@@ -413,8 +392,7 @@ function Userinfo() {
                 onRequestClose={closeModal}
                 handleSubmit={handleSubmit}
                 registerCheck={registerCheck}
-                setRegisterCheck={setRegisterCheck}
-            />
+                setRegisterCheck={setRegisterCheck}/>
         </div>
     );
 }
