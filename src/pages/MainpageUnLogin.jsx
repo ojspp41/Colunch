@@ -15,7 +15,7 @@ function MainpageUnLogin() {
   // 일반적인 형식과 다를텐데 아래 링크로 이동시켜서 백엔드에서 카카오 로그인을 처리한뒤
   // Redirection페이지로 옮겨서 role을 확인하는 과정을 거쳤습니다.
   const handleLogin = () => {
-    window.location.href = "http://13.124.46.181:8080/oauth2/authorization/kakao"
+    window.location.href = "http://localhost:8000/auth/kakao"
       // "https://cuk.comatching.site/oauth2/authorization/kakao";
     // alert("서비스 종료 ㅠㅠㅠㅠ");
   };
@@ -31,8 +31,8 @@ function MainpageUnLogin() {
     const fetchData = async () => {
       try {
         // const response = await axios.get("https://cuk.comatching.site/api/participations");
-        const response = await axios.get("http://13.124.46.181:8080/api/participations");
-
+        const response = await axios.get("http://localhost:8000/api/participations");
+        
         if (response.status === 200) {
           setNumParticipants(response.data.data);
         }

@@ -9,6 +9,12 @@
     text-align: left;
     margin-top: 20px;
 }
+.match-select-button {
+    display: flex;
+    justify-content: space-between; /* 요소들을 양 끝으로 정렬 */
+    width: 100%; /* 필요에 따라 조정 */
+}
+
 .form-inner-content {
     text-align: center;
     width: 100%;
@@ -99,7 +105,7 @@ button {
     border: 1px solid #e0e0e0; /* Stroke: E0E0E0 with 100% opacity and 1px width */
     margin: 8px 0 16px 0;
 
-    font-size: 3vw;
+    font-size: 4.5vw;
     font-family: "Pretendard", sans-serif; /* Font family set to Pretendard */
     font-weight: bold; /* Bold font weight */
     color: #a5a5a5; /* Pretendard Bold color A5A5A5 at 18px */

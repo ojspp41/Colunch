@@ -1,5 +1,4 @@
 import React, { useState,useEffect } from "react";
-// import { validateForm } from "../myfunction/formValidation";
 import instance from "../axiosConfig"; // axiosConfig 인스턴스 불러오기
 import { useRecoilState } from "recoil";
 import { userState, selectedMBTIState } from "../Atoms";
@@ -10,15 +9,10 @@ import "../css/pages/User_info.css";
 import AgeInputInput from "../components/AgeInput";
 import ContactMethod from "../components/ContactMethod";
 import GenderSelect from "../components/GenderSelect";
-import MBTISection from "../components/MBTISection";
-// import hobbyIcons from "../data/hobbyIcons";
-// import Agreement from "../components/Agreement";
 import AdmissionYearInput from "../components/AdmissionYearInput";
 import Background from "../components/Background";
-import ProgressBar from "../components/Progressbar";
 import Modal from "react-modal"; // Import react-modal
 import TermsAgreementModal from "../components/TermsAgreementModal"; 
-import HeaderMain from "../components/HeaderMain";
 import ProgressNav from "../components/ProgressNav";
 Modal.setAppElement("#root");
 
@@ -32,6 +26,9 @@ function Userinfo() {
         major: null,
         contactVerified: true,
     });
+    useEffect(() => {
+        console.log("📝 user 상태 변경됨:", user);
+    }, [user]); // user 값이 변경될 때마다 실행
     
     const [registerCheck, setRegisterCheck] = useState({
         terms1: false,
@@ -168,8 +165,7 @@ function Userinfo() {
         }
 
         const postData = {
-            university: user.university,
-            contactId: user.contact_id,
+            contact_id: user.contact_id,
             major: user.major,
             age: user.age,
             mbti: user.mbti,
@@ -180,13 +176,42 @@ function Userinfo() {
             comment: user.comment,
             admissionYear: user.admissionYear,
         };
+        // const postData = {
+        //     contact_id: "@diwqdqn",
+        //     major: "컴퓨터정보공학과과",
+        //     age: 20,
+        //     mbti: "esfj",
+        //     gender: "남성",
+        //     contactFrequency: "보통통",
+        //     hobby: ["운동"],
+        //     song: "영시시",
+        //     comment: "친하게지내요요",
+        //     admissionYear: 21,
+        // };
         try {
-            const response = await instance.post(
-                "/auth/social/api/user/info",
-                postData
-            );
-            
-            if (response.data.status === 200) {
+            const accessToken = document.cookie
+                .split("; ")
+                .find(row => row.startsWith("accessToken="))
+                ?.split("=")[1]; // 쿠키에서 accessToken 가져오기
+        
+            if (!accessToken) {
+                throw new Error("Access token이 없습니다.");
+            }
+        
+            console.log("Access Token:", accessToken);
+        
+            const response = await fetch("http://localhost:8000/api/users/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`, // ✅ Authorization 헤더 추가
+                },
+                body: JSON.stringify(postData),
+            });
+        
+            console.log("Request Data:", postData);
+        
+            if (response.ok) {
                 alert("가입이 완료되었습니다.");
                 navigate("/");
             } else {
@@ -194,9 +219,14 @@ function Userinfo() {
             }
         } catch (error) {
             console.error("오류 발생:", error);
+            alert("서버 오류가 발생했습니다.");
         }
+        
+        
     };
 
+   
+    
 
 
 
@@ -232,6 +262,7 @@ function Userinfo() {
     };
     return (
         <div className="container">
+            
             <Background />
             <ProgressNav step={3}></ProgressNav>
             <div className="text-container">

@@ -19,8 +19,9 @@ const MatchProfiles = ({ profiles = [] }) => {
     return (
       <div className="no-match">
         <img src="/assets/Mainpage/logo.svg" alt="No Match" className="no-match-icon" />
-        <p className="no-match-text">아직 매칭된 상대가 없어요.</p>
-        <p className="no-match-subtext">나와 딱 맞는 이성친구를 만들어봐요!</p>
+        <p className="no-match-text">아직 매칭된 상대가 없어요.
+          <br /> 나와 딱 맞는 이성친구를 만들어봐요!
+        </p>
       </div>
     );
   }
