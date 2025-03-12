@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import HeaderMain from "../components/HeaderMain";
-import { charge, userState } from "../Atoms";
+import { charge, userState, matchedUserState } from "../Atoms";
 import "../css/pages/MainpageLogin.css";
 import { useNavigate } from "react-router-dom";
 import TotalUsersCounter from "../components/TotalUsersCounter";
@@ -10,191 +10,143 @@ import Footer from "../components/Footer";
 import TutorialSlides from "../components/TutorialSlides";
 import Background from "../components/Background";
 import instance from "../axiosConfig";
-import Cookies from "js-cookie"; // js-cookie import 추가
+import Cookies from "js-cookie";
 import PointBalance from "../components/PointBalance";
 import MatchProfiles from "../components/Mainpage/MatchProfiles";
-function MainpageLogin() {
-  const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅 사용
- 
-  const [showTutorial, setShowTutorial] = useState(false); // Show tutorial on login
-  const [userInfo, setUserInfo] = useRecoilState(userState);
- 
-  
-  const handleAccountToggleClick = () => {
-    setIsAccountClicked((prevIsClicked) => !prevIsClicked);
-  };
-  // 포인트 충전 토글 클릭 핸들러
-  const handlePointToggleClick = () => {
-    setIsPointClicked((prevIsClicked) => !prevIsClicked);
-  };
+import axios from "axios";
+import { fetchWithAuth } from "../api/authFetch";
 
-  // 하트 충전 토글 클릭 핸들러
-  const handleHeartToggleClick = () => {
-    setIsHeartClicked((prevIsClicked) => !prevIsClicked);
-  };
+function MainpageLogin() {
+  const navigate = useNavigate();
+  const [matchedUser, setMatchedUser] = useRecoilState(matchedUserState);
+  const [showTutorial, setShowTutorial] = useState(false);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+  const [numParticipants, setNumParticipants] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [profiles, setProfiles] = useState([]); // 매칭된 사용자 정보를 저장할 상태 변수
+
+  // 참가자 수를 가져오는 useEffect
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/participations");
+        if (response.status === 200) {
+          setNumParticipants(response.data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [setNumParticipants]);
+
+  // ✅ 매칭된 사용자 정보를 가져오는 useEffect 추가
+  useEffect(() => {
+    const fetchMatchedUsers = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchWithAuth("/api/matching/matched-users", { method: "GET" });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch matched users");
+        }
+
+        const data = await response.json();
+        
+        setProfiles(data.matchedUsers); // 응답 받은 매칭된 사용자 정보를 profiles 상태에 저장
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMatchedUsers();
+  }, []);
+
+  
+
   const handleLogout = () => {
-    // 쿠키에서 Authorization, RefreshToken 제거
     Cookies.remove("accessToken");
     Cookies.remove("connect.sid");
-    
     window.location.reload();
   };
+
   useEffect(() => {
-    // eventokay가 false일 때만 모달을 띄웁니다.
     if (userInfo.eventokay === false) {
       setShowEventModal(true);
     }
   }, [userInfo.eventokay]);
+
   const handleCancel = async () => {
     try {
       const response = await instance.get("/auth/user/api/event/no-pickMe");
       if (response.status === 200) {
         setUserInfo((prev) => ({
           ...prev,
-          eventokay: true, // Set eventokay to false after participation
+          eventokay: true,
         }));
-        setShowEventModal(false); // Close modal after successful participation
+        setShowEventModal(false);
       }
     } catch (error) {
       console.error("Error participating in event:", error);
     }
   };
-  
-  const handleParticipate = async () => {
+
+  // ✅ AI 매칭 버튼 클릭 핸들러
+  const handleClickMatch = async () => {
+    // 매칭된 사용자가 한 명 이상 있을 경우 알림 표시
+    console.log(profiles);
+    if (profiles.length > 0) {
+      alert("늘품제 매칭 기회는 1번입니다 !!");
+      return;
+    }
+
+    setLoading(true);
     try {
-      const response = await instance.get("/auth/user/api/event/pickMe");
-      if (response.status === 200) {
-        setUserInfo((prev) => ({
-          ...prev,
-          eventokay: true, // Set eventokay to false after participation
-        }));
-        setShowEventModal(false); // Close modal after successful participation
-        window.location.reload(); 
+      const response = await fetchWithAuth("/api/matching", { method: "GET" });
+      if (!response.ok) {
+        throw new Error("Failed to fetch matched user");
       }
-    } catch (error) {
-      console.error("Error participating in event:", error);
+      const data = await response.json();
+      
+      setMatchedUser(data.matchedUser);
+      
+      navigate("/loading");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
-  
 
-  // 사용자 정보를 가져오는 비동기 함수
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await instance.get("/auth/user/api/info"); // instance로 요청
-        
-  //       if (response.status === 200) {
-  //         setUserInfo((prev) => ({
-  //           ...prev,
-  //           username: response.data.data.username,
-  //           major: response.data.data.major,
-  //           age: response.data.data.age,
-  //           song: response.data.data.song,
-  //           mbti: response.data.data.mbti,
-  //           point: response.data.data.point,
-  //           pickMe: response.data.data.pickMe,
-  //           hobby:response.data.data.hobbies,
-  //           comment:response.data.data.comment,
-  //           contact_frequency:response.data.data.contactFrequency,
-  //           contact_id: response.data.data.contactId,
-  //           canRequestCharge: response.data.data.canRequestCharge,
-  //           numParticipants: response.data.data.participations,
-  //           eventokay: response.data.data.event1,
-  //         }));
-  //       }
-  //     } catch (error) {
-  //       Cookies.remove("Authorization");
-  //       Cookies.remove("RefreshToken");
-  //       console.error("Error fetching data:", error);
-  //       window.location.reload();
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-  const handleNotService = () => {
-    alert("해당 서비스는 9/12일 10:00에 오픈됩니다 축제까지 기다려주세요!");
-  };
-  
-  const handleClickmatch = () => {
-    navigate("/matching");
-  };
- 
-
- 
-  const sampleProfiles = [
-    // {
-    //   nickname: "JaneDoe",
-    //   school: "가톨릭대학교",
-    //   department: "컴퓨터공학과",
-    //   mbti: "INTJ",
-    //   age: 22,
-    //   admissionYear: 23,
-    //   contactId: "@janedoe",
-    //   favoriteSong: "IU - Love Poem",
-    //   introduction: "안녕하세요!!",
-    //   interests: ["여행"],
-    // },
-    // {
-    //   nickname: "JohnSmith",
-    //   school: "고려대학교",
-    //   department: "경영학과",
-    //   mbti: "ENTP",
-    //   age: 24,
-    //   admissionYear: 21,
-    //   contactId: "@johnsmith",
-    //   favoriteSong: "Coldplay - Fix You",
-    //   introduction: "모험을 좋아하는 자유로운 영혼입니다. 새로운 도전을 즐깁니다!",
-    //   interests: ["영화 감상", "자전거", "요리"],
-    // },
-    // {
-    //   nickname: "AliceKim",
-    //   school: "연세대학교",
-    //   department: "심리학과",
-    //   mbti: "INFJ",
-    //   age: 23,
-    //   admissionYear: 22,
-    //   contactId: "@alicekim",
-    //   favoriteSong: "BTS - Spring Day",
-    //   introduction: "사람들과 깊이 있는 대화를 나누는 걸 좋아해요. 심리학이 흥미로워요!",
-    //   interests: ["음악 감상", "글쓰기", "명상"],
-    // },
-  ];
   return (
     <div className="container">
       <HeaderMain />
       <Background />
-      {/* <PointBalance amount={userInfo.point}/> */}
-      <MatchProfiles profiles={sampleProfiles}/>
+      <MatchProfiles profiles={profiles} />
       <div className="Mainpage__Login">
-        
-        <div
-          onClick={handleClickmatch}
-          // onClick={handleNotService}
+        <div>
+        <button
+          className="matching-button"
+          onClick={handleClickMatch}
+          disabled={profiles.length > 0} // ✅ 매칭된 사용자가 있으면 비활성화
         >
-          <button className="matching-button">
-            AI 매칭하기 ▶
-            <TotalUsersCounter
-              font_size="15px"
-              numParticipants={userInfo.numParticipants}
-            />
-          </button>
-        </div>
-        
+          {profiles.length > 0 ? "축제를 기대하세요!" : "AI 매칭하기 ▶"} 
+           
+          <TotalUsersCounter font_size="15px" numParticipants={numParticipants} />
+        </button>
 
-        
-        
-        {/* <div  style={{ height: '50px' }}></div> */}
+        </div>
       </div>
       <div className="logout-container">
         <a href="#" onClick={handleLogout} className="logout-link">
           로그아웃
         </a>
       </div>
-      <Footer/>
-      
-      {showTutorial && (
-        <TutorialSlides onComplete={() => setShowTutorial(false)} />
-      )}
+      <Footer />
+      {showTutorial && <TutorialSlides onComplete={() => setShowTutorial(false)} />}
     </div>
   );
 }

@@ -1,82 +1,31 @@
-import React, { useEffect,useState } from "react";
-import axios from "axios";
-import Background from "../components/Background.jsx";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { MatchResultState, MatchPickState, userState } from "../Atoms";
-import "../css/pages/Matchresult.css";
+import { MatchResultState, MatchPickState, userState, matchedUserState } from "../Atoms"; // ✅ matchedUsersState → matchedUserState 변경
 import { useNavigate } from "react-router-dom";
-import hobbyData from "../data/hobbyData.js";
+import Background from "../components/Background.jsx";
 import Loading from "./Loading.jsx";
 import PointBalance from "../components/PointBalance.jsx";
 import HeaderBack from "../components/Match-result/Header.jsx";
+import hobbyData from "../data/hobbyData.js";
+import "../css/pages/Matchresult.css";
+
 function Matchresult() {
   const navigate = useNavigate();
-  const [MatchState, setMatchState] = useRecoilState(MatchPickState);
+  const [MatchState] = useRecoilState(MatchPickState);
   const [MatchResult, setMatchResult] = useRecoilState(MatchResultState);
-
+  const [matchedUser] = useRecoilState(matchedUserState); // ✅ matchedUsersState → matchedUserState 변경
   const [resultPoint, setResultPoint] = useRecoilState(userState);
   const [loading, setLoading] = useState(false);
-  
-   // 목데이터 설정
-   useEffect(() => {
-    const mockData = {
-      age: 25,
-      comment: "활발한 사람",
-      contactFrequency: "매일",
-      currentPoint: 500,
-      gender: "여성",
-      hobby: ["헬스", "독서", "영화"],
-      major: "컴퓨터 공학",
-      mbti: "ENTP",
-      socialId: "@instagram_id",
-      song: "Love Yourself - Justin Bieber",
-    };
-    setMatchResult(mockData);
-    setResultPoint((prev) => ({ ...prev, point: mockData.currentPoint }));
-  }, [setMatchResult, setResultPoint]);
-  
-  //같은 조건으로 다시 매칭하기 핸들러
-  const handleSubmit = async () => {
-    
-    // if (MatchState.point > resultPoint.point) {
-    //   alert("포인트가 부족합니다!!");
-    //   navigate("/charge-request", { replace: true }); 
-    //   return; // 동작 중단
-    // }
-    // try {
-    //   setLoading(true);
-      
-    //   const response = await instance.post(
-    //     "/auth/user/api/match/request",
-    //     MatchState.formData.FormData
-    //   );
-    //   if (response.data.status === 200) {
-    //     await setMatchResult((prev) => ({
-    //       ...prev,
-    //       age: response.data.data.age,
-    //       comment: response.data.data.comment,
-    //       contactFrequency: response.data.data.contactFrequency,
-    //       currentPoint: response.data.data.currentPoint,
-    //       gender: response.data.data.gender,
-    //       hobby: response.data.data.hobby,
-    //       major: response.data.data.major,
-    //       mbti: response.data.data.mbti,
-    //       socialId: response.data.data.contactId,
-    //       song: response.data.data.song,
-    //     }));
-    //     await setResultPoint((prev) => ({
-    //       ...prev,
-    //       point: response.data.data.currentPoint,
-    //     }));
-    //     setLoading(false);
-    //   } else {
-    //     throw new Error("Unexpected response code or status");
-    //   }
-    // } catch (error) {
-    //   console.error("Error during match request:", error);
-    // }
-  };
-  
+
+  console.log(matchedUser);
+
+  // 매칭된 사용자가 없을 경우 홈으로 이동
+  useEffect(() => {
+    if (!matchedUser._id) {
+      navigate("/", { replace: true });
+    }
+  }, [matchedUser, navigate]);
+
   // 취미를 아이콘과 매핑하는 함수
   const mapHobbiesWithIcons = (hobbyList) => {
     return hobbyList.map((hobbyName) => {
@@ -89,41 +38,15 @@ function Matchresult() {
       return { name: hobbyName, image: matchedHobby?.emoji || "" };
     });
   };
-  
-  const resultData = {
-    ...MatchResult,
-    hobby: mapHobbiesWithIcons(MatchResult.hobby),
-  };
-  
-  // useEffect(() => {
-  //   if (
-  //     resultData.age === 0 &&
-  //     resultData.comment === "" &&
-  //     resultData.contactFrequency === "" &&
-  //     resultData.currentPoint === 0 &&
-  //     resultData.gender === "" &&
-  //     resultData.hobby.length === 0 &&
-  //     resultData.major === "" &&
-  //     resultData.mbti === "" &&
-  //     resultData.socialId === "" &&
-  //     resultData.song === ""
-  //   ) {
-  //     navigate("/", { replace: true });
-  //   }
-  // }, [resultData, navigate]);
-  
-  // 다시뽑기 버튼 핸들러
-  const handleRematch = () => {
-    navigate("/matching");
-  };
 
-  const handleSendText = () => {
-    alert("아직 준비중인 기능이에요!");
-  };
+  const resultData = matchedUser._id
+    ? { ...matchedUser, hobby: mapHobbiesWithIcons(matchedUser.hobby) }
+    : null;
+
   const handleHome = () => {
     navigate("/");
   };
-  console.log(resultData);
+
   return (
     <>
       {loading ? (
@@ -133,17 +56,8 @@ function Matchresult() {
           <div className="container">
             <Background />
             <HeaderBack />
-            <PointBalance amount={resultPoint.point}/>
 
-            {resultData.generatedCode === 2002 ? (
-              <div className="matchresult-content">
-                <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "24px" }}>
-                    이성이 데이터에 한명도 없습니다
-                  </span>
-                </div>
-              </div>
-            ) : (
+            {resultData ? (
               <div>
                 <div className="matchresult-content">
                   <div className="MatchResult-Container">
@@ -195,40 +109,27 @@ function Matchresult() {
                   <div className="MatchResult-Container">
                     <div className="MatchResult-Contact">
                       <div className="MatchResult-Topic">
-                        {resultData.socialId[0] === "@" ? "instagram" : "kakao"}
+                        {resultData.contact_id[0] === "@" ? "Instagram" : "Kakao"}
                       </div>
                       <div className="MatchResult-Text MatchResult-Text-Contact">
-                        {resultData.socialId}
+                        {resultData.contact_id}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="MatchResult-button-container">
-                  <button className="Retry-button" onClick={handleRematch}>
-                    다시뽑기
-                  </button>
-                  {/* <button className="SendText-button" onClick={handleSendText}>
-                    쪽지 보내기
-                  </button> */}
                   <button className="SendText-button" onClick={handleHome}>
-                    쪽지 보내기 
+                    홈으로 가기
                   </button>
                 </div>
-                <div className="MatchResult-button-container">
-                  <button className="Retry-same-button" onClick={handleSubmit}>
-                    <div className="Retry-same-button-point">
-                      <img
-                        src={`${
-                          import.meta.env.VITE_PUBLIC_URL
-                        }../../assets/point.svg`}
-                        alt="cost"
-                      />
-                      {MatchState.point}P
-                    </div>
-                    같은 조건으로 다시 뽑기
-                  </button>
+              </div>
+            ) : (
+              <div className="matchresult-content">
+                <div style={{ textAlign: "center" }}>
+                  <span style={{ fontSize: "24px" }}>
+                    이성이 데이터에 한 명도 없습니다
+                  </span>
                 </div>
-                
               </div>
             )}
           </div>

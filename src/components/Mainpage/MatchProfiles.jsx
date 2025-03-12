@@ -3,23 +3,41 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../css/components/MatchProfiles.css";
+import hobbyData from "../../data/hobbyData"; // ✅ 취미 데이터 불러오기
 
 const MatchProfiles = ({ profiles = [] }) => {
   const settings = {
-    dots: true,             // 페이지네이션 점을 보여줍니다.
-    infinite: false,        // 무한 슬라이드 여부 (true로 하면 마지막에서 첫번째로 자연스럽게 이동)
-    speed: 500,             // 애니메이션 속도 (ms)
-    slidesToShow: 1,        // 한 번에 보여줄 슬라이드 수
-    slidesToScroll: 1,      // 한 번에 이동할 슬라이드 수
-    swipe: true,            // 터치 스와이프 활성화
-    arrows: false,          // 좌우 화살표 비활성화 (필요에 따라 true로 변경 가능)
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    swipe: true,
+    arrows: false,
+  };
+
+  // ✅ 취미를 이모티콘과 매핑하는 함수
+  const mapHobbiesWithIcons = (hobbyList) => {
+    if (!hobbyList || hobbyList.length === 0) return ["취미 없음"];
+
+    return hobbyList.map((hobbyName) => {
+      const matchedCategory = hobbyData.find((category) =>
+        category.hobbies.some((hobby) => hobby.name === hobbyName)
+      );
+      const matchedHobby = matchedCategory?.hobbies.find(
+        (hobby) => hobby.name === hobbyName
+      );
+
+      return matchedHobby ? `${matchedHobby.emoji} ${hobbyName}` : hobbyName;
+    });
   };
 
   if (profiles.length === 0) {
     return (
       <div className="no-match">
         <img src="/assets/Mainpage/logo.svg" alt="No Match" className="no-match-icon" />
-        <p className="no-match-text">아직 매칭된 상대가 없어요.
+        <p className="no-match-text">
+          아직 매칭된 상대가 없어요.
           <br /> 나와 딱 맞는 이성친구를 만들어봐요!
         </p>
       </div>
@@ -31,32 +49,34 @@ const MatchProfiles = ({ profiles = [] }) => {
       {profiles.map((profile, index) => (
         <div key={index} className="profile-box">
           <p>
-            저는, <span>{profile.department}</span> 에 다니는,
+            저는 <span>{profile.major}</span> 전공이고,
           </p>
           <p>
-            <span>{profile.age}</span> 살, <span>{profile.nickname}</span> 이라고 합니다!
+            <span>{profile.age}</span> 살이에요.
           </p>
           <br />
           <p>
-            MBTI는 <span>{profile.mbti}</span>, 연락빈도는 <span>보통 ➡️</span> 이에요.
+            MBTI는 <span>{profile.mbti}</span>, 연락빈도는 <span>{profile.contactFrequency || "알 수 없음"}</span> 이에요.
           </p>
           <p>
-            저는 요즘 <span>{profile.interests}</span>을 좋아해요.
+            저는 요즘{" "}
+            <span>{mapHobbiesWithIcons(profile.hobby).join(", ")}</span>을(를)
+            좋아해요.
           </p>
           <br />
           <p>
             요즘 좋아하는 노래는,
             <br />
-            <span>{profile.favoriteSong}</span> 입니다!
+            <span>{profile.song || "없음"}</span> 입니다!
           </p>
           <br />
           <p>마지막으로,</p>
           <p>
-            <span>{profile.introduction}</span>
+            <span>{profile.comment}</span>
           </p>
           <div className="contact-container">
-            <div className={`profile-contact ${profile.contactId.startsWith("@") ? "instagram" : "kakao"}`}>
-              <div className="profile-text">{profile.contactId}</div>
+            <div className={`profile-contact ${profile.contact_id?.startsWith("@") ? "instagram" : "kakao"}`}>
+              <div className="profile-text">{profile.contact_id || "연락처 없음"}</div>
               <div className="profile-right">
                 <img src="/assets/Mainpage/send.svg" alt="" />
                 <img src="/assets/Mainpage/more.svg" alt="" />

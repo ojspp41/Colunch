@@ -7,20 +7,20 @@ const Loading = () => {
   const [offset, setOffset] = useState(-100);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setOffset((prevOffset) => (prevOffset < 100 ? prevOffset + 1 : -100));
-  //   }, 15);
-  //   const redirectTimeout = setTimeout(() => {
-  //     navigate("/match-result");
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setOffset((prevOffset) => (prevOffset < 100 ? prevOffset + 1 : -100));
+    }, 15);
+    const redirectTimeout = setTimeout(() => {
+      navigate("/match-result");
 
-  //   }, 2000);
+    }, 2000);
 
-  //   return () => {
-  //     clearInterval(interval);
-  //     clearTimeout(redirectTimeout);
-  //   };
-  // }, [navigate]);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(redirectTimeout);
+    };
+  }, [navigate]);
 
   return (
     <div className="container">

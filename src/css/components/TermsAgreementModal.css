@@ -61,11 +61,12 @@
     width: 24px;
     height: 24px;
     margin-right: 10px;
-    background: url('/assets/checked.svg') no-repeat center center;
+    background: url('/assets/unchecked.svg') no-repeat center center;
+    border-bottom:none;
     background-size: contain;
 }
 .agreement_desc li input[type="checkbox"]:checked {
-    background: url('/assets/unchecked.svg') no-repeat center center;
+    background: url('/assets/userinfo/checked.svg') no-repeat center center;
     background-size: contain;
     border: none;
 }

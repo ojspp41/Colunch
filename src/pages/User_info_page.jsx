@@ -265,7 +265,7 @@ function Userinfo() {
                             <div>
                                 <label>
                                     <h3 className="commet_title">
-                                        나를 소개할 다섯글자</h3>
+                                        제 장점은요...</h3>
                                     <div className="music">
                                         <MyInput
                                             name="comment"
@@ -273,7 +273,7 @@ function Userinfo() {
                                             onChange={handleChange}
                                             placeholder="5글자 이상 작성해주세요"
                                             className="comment-input"
-                                            maxLength={5}/>
+                                            maxLength={10}/>
                                     </div>
                                 </label>
                             </div>
@@ -320,49 +320,51 @@ function Userinfo() {
                         )
                     }
                     {
-                        checkMethod.school && checkMethod.department && checkMethod.major && user.age && user.admissionYear && (
+                        checkMethod.school &&
+                        checkMethod.department &&
+                        checkMethod.major &&
+                        user.age?.toString().length === 2 && // ✅ age가 null이면 오류 방지
+                        user.admissionYear?.toString().length === 2 && ( // ✅ admissionYear가 null이면 오류 방지
                             <div>
-                                <h3>연락빈도</h3>
-                                <div className="match-select-button">
-                                    <button
-                                        type="button"
-                                        className={`form-AgeMaker ${
-                                        user.contactFrequency === "자주"
-                                            ? "selected"
-                                            : ""}`}
-                                        value={"자주"}
-                                        onClick={() => handleAgeClick("자주")}>
-                                        자주
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`form-AgeMaker ${
-                                        user.contactFrequency === "보통"
-                                            ? "selected"
-                                            : ""}`}
-                                        value={"보통"}
-                                        onClick={() => handleAgeClick("보통")}>
-                                        보통
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`form-AgeMaker ${
-                                        user.contactFrequency === "가끔"
-                                            ? "selected"
-                                            : ""}`}
-                                        value={"가끔"}
-                                        onClick={() => handleAgeClick("가끔")}>
-                                        가끔
-                                    </button>
-                                </div>
+                            <h3>연락빈도</h3>
+                            <div className="match-select-button">
+                                <button
+                                type="button"
+                                className={`form-AgeMaker ${user.contactFrequency === "자주" ? "selected" : ""}`}
+                                value={"자주"}
+                                onClick={() => handleAgeClick("자주")}
+                                >
+                                자주
+                                </button>
+                                <button
+                                type="button"
+                                className={`form-AgeMaker ${user.contactFrequency === "보통" ? "selected" : ""}`}
+                                value={"보통"}
+                                onClick={() => handleAgeClick("보통")}
+                                >
+                                보통
+                                </button>
+                                <button
+                                type="button"
+                                className={`form-AgeMaker ${user.contactFrequency === "가끔" ? "selected" : ""}`}
+                                value={"가끔"}
+                                onClick={() => handleAgeClick("가끔")}
+                                >
+                                가끔
+                                </button>
+                            </div>
                             </div>
                         )
-                    }
+                        }
+
                     {
-                        checkMethod.school && checkMethod.department && checkMethod.major && user.age && (
-                            <AdmissionYearInput value={user.admissionYear} onChange={handleChange}/>
-                        )
+                        checkMethod.school &&
+                        checkMethod.department &&
+                        checkMethod.major &&
+                        user.age?.toString().length === 2 && // ✅ age가 null일 경우 오류 방지
+                        <AdmissionYearInput value={user.admissionYear} onChange={handleChange} />
                     }
+
 
                     {
                         checkMethod.school && checkMethod.department && checkMethod.major && (

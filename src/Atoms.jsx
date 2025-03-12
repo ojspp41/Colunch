@@ -137,3 +137,21 @@ export const profileEditState = atom({
     introduction: '',
   },
 });
+
+
+export const matchedUserState = atom({
+  key: "matchedUserState",
+  default: {
+    _id: "",
+    admissionYear: "",
+    age: "",
+    comment: "",
+    contactFrequency: "",
+    contact_id: "",
+    hobby: [],
+    major: "",
+    mbti: "",
+    song: "",
+    message: "",
+  },
+});

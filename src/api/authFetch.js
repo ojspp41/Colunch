@@ -1,5 +1,5 @@
 // authFetch.js
-import { BASE_URL } from "../config/apiConfig"; // 또는 직접 정의: const BASE_URL = "http://localhost:8000";
+import { BASE_URL } from "./baseUrl.js"; // 또는 직접 정의: const BASE_URL = "http://localhost:8000";
 
 export const fetchWithAuth = async (endpoint, options = {}) => {
     // document.cookie에서 accessToken 추출
