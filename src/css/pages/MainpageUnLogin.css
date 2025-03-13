@@ -1,10 +1,8 @@
 .container{
   width: calc(100% - 48px);
+  
+}
 
-}
-.margin_top{
-  margin-top: 50px;
-}
 .greeting-message{
   font-family: 'Pretendard', sans-serif;
 
@@ -61,7 +59,7 @@
 }
 
 .bubble-counter {
-
+  margin-top: 50px;
   background: #ffffff;
   border: 1px solid #ff4d61;
   border-radius: 24px;

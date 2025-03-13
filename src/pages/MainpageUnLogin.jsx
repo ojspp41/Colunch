@@ -46,7 +46,6 @@ function MainpageUnLogin() {
   return (
     <div className="container">
       <Background />
-      <div className="margin_top"></div>
       <div className="bubble-counter">
           <TotalUsersCounter
             font_size="16px"
