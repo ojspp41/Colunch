@@ -103,7 +103,7 @@ function Matchresult() {
                     <div className="MatchResult-Text">{resultData.song}</div>
                   </div>
                   <div className="MatchResult-Song">
-                    <div className="MatchResult-Topic">나를 표현하는 다섯글자</div>
+                    <div className="MatchResult-Topic">내 장점은 ..</div>
                     <div className="MatchResult-Text">{resultData.comment}</div>
                   </div>
                   <div className="MatchResult-Container">

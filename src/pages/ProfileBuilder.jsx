@@ -20,6 +20,20 @@ const ProfileBuilder = () => {
   const [questionNum, setQuestionNum] = useState(0); // 현재 몇번째 질문인지 저장
   const [showAnswerBox, setShowAnswerBox] = useState(false); // 질문 타이핑이 끝나면 선택지가 나오도록 상태 저장
   const chatMessageRef = useRef(null);
+ 
+
+  useEffect(() => {
+    const preventGoBack = () => {
+      navigate(0); // 🔥 강제 새로고침 (뒤로 가기 차단)
+    };
+
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", preventGoBack);
+
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+    };
+  }, [navigate]);
 
   // 새로운 질문이 나타날 때마다 채팅창을 맨 아래로 스크롤
   useEffect(() => {

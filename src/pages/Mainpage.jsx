@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainpageUnLogin from "./MainpageUnLogin.jsx";
 import MainpageLogin from "./MainpageLogin.jsx";
-
+import { fetchWithAuth } from "../api/authFetch.js";
 function Mainpage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -15,17 +15,18 @@ function Mainpage() {
   };
 
   useEffect(() => {
-    // ✅ URL에서 isFirstLogin 값 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const isFirstLogin = urlParams.get("isFirstLogin");
 
-    // ✅ 첫 로그인인 경우 /profile-builder로 이동
     if (isFirstLogin === "true") {
+      localStorage.setItem("isFirstLogin", "true"); // 첫 로그인 여부 저장
       navigate("/profile-builder");
-      return; // ✅ 더 이상의 로직 실행 방지
+      return;
     }
 
-    // ✅ accessToken 쿠키 확인 (첫 로그인 아닌 경우)
+  
+
+    // ✅ accessToken 쿠키 확인 (첫 로그인이 아닌 경우)
     const accessToken = getCookie("accessToken");
 
     if (accessToken) {
@@ -35,7 +36,6 @@ function Mainpage() {
     }
   }, [navigate]);
 
-  // 로그인 상태에 따라 다른 컴포넌트 렌더링
   return isLoggedIn ? <MainpageLogin /> : <MainpageUnLogin />;
 }
 

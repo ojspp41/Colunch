@@ -8,7 +8,8 @@ import Redirection from "./pages/RedirectionPage.jsx";
 import OpenExternalBrowser from "./OpenExternalBrowser.jsx";
 import Userinfo from "./pages/User_info_page.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import MainpageUnLogin from "./pages/MainpageUnLogin.jsx";
+import MainpageLogin from "./pages/MainpageLogin.jsx";
 import "./App.css";
 import "./axiosConfig.jsx";
 

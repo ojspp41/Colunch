@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import HeaderMain from "../components/HeaderMain";
@@ -25,6 +25,43 @@ function MainpageLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [profiles, setProfiles] = useState([]); // 매칭된 사용자 정보를 저장할 상태 변수
+
+
+  useEffect(() => {
+      const preventGoBack = () => {
+        navigate(0); // 🔥 강제 새로고침 (뒤로 가기 차단)
+      };
+  
+      window.history.pushState(null, "", window.location.href);
+      window.addEventListener("popstate", preventGoBack);
+  
+      return () => {
+        window.removeEventListener("popstate", preventGoBack);
+      };
+    }, [navigate]);
+
+   // ✅ isFirstLogin 여부 확인 후 이동 처리
+   useEffect(() => {
+    const checkFirstLogin = async () => {
+      try {
+        const response = await fetchWithAuth("/api/users/is-first-login", { method: "GET" });
+  
+        if (!response.ok) {
+          throw new Error("Failed to check isFirstLogin");
+        }
+  
+        const data = await response.json();
+        console.log(data)
+        if (data.isFirstLogin) {
+          navigate("/profile-builder", { replace: true });
+        }
+      } catch (err) {
+        console.error("Error checking first login:", err);
+      }
+    };
+  
+    checkFirstLogin();
+  }, [navigate]);
 
   // 참가자 수를 가져오는 useEffect
   useEffect(() => {

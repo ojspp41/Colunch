@@ -18,9 +18,9 @@ function HeaderMain() {
         </object>
       </div>
       <div >
-        <div className={styles.iconWrapper}>
+        {/* <div className={styles.iconWrapper}>
           <img className={styles.iconImage} src="/assets/Mainpage/notice.svg" alt="알림 아이콘" />
-        </div>
+        </div> */}
       </div>
     </div>
   );

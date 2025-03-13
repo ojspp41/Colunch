@@ -178,6 +178,7 @@ function Userinfo() {
         for (let field of requiredFields) {
             if (!user[field] || (Array.isArray(user[field]) && user[field].length === 0)) {
                 alert(`${fieldLabels[field]} 빈칸을 채워주세요`);
+                navigate('/');
                 return;
             }
         }
@@ -215,6 +216,7 @@ function Userinfo() {
         } catch (error) {
             console.error("오류 발생:", error);
             alert("서버 오류가 발생했습니다.");
+            navigate('/');
         }
 
     };
