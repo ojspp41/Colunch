@@ -25,6 +25,7 @@ export const fetchWithAuth = async (endpoint, options = {}) => {
         ...defaultHeaders,
         ...options.headers,
       },
+      credentials: "include", // ✅ 쿠키 자동 포함
     };
   
     // endpoint를 BASE_URL과 결합하여 전체 URL 구성
