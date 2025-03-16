@@ -9,7 +9,7 @@ function HeaderMain() {
       <div className={styles.left}>
         <object
           className={styles.logoImg}
-          data={`${import.meta.env.VITE_PUBLIC_URL}../../assets/logoblacknav.svg`}
+          data={`${import.meta.env.VITE_PUBLIC_URL}../../assets/colunch_black.svg`}
           type="image/svg+xml"
           aria-label="로고"
           onClick={() => navigate("/")}

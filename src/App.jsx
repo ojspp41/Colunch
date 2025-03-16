@@ -16,8 +16,6 @@ import "./axiosConfig.jsx";
 import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import Hobby from "./pages/Hobby.jsx";
 
-
-
 export default function App() {
   return (
     <RecoilRoot>
@@ -33,8 +31,7 @@ export default function App() {
             <Route path="/match-result" element={<Matchresult />} />
             <Route path="/redirection" element={<Redirection />} />
             <Route path="/userinfo" element={<Userinfo />} />
-
-
+            
             
           </Routes>
 
