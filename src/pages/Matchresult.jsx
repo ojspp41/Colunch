@@ -8,7 +8,7 @@ import PointBalance from "../components/PointBalance.jsx";
 import HeaderBack from "../components/Match-result/Header.jsx";
 import hobbyData from "../data/hobbyData.js";
 import "../css/pages/Matchresult.css";
-
+import { motion } from "framer-motion";
 function Matchresult() {
   const navigate = useNavigate();
   const [MatchState] = useRecoilState(MatchPickState);
@@ -52,88 +52,150 @@ function Matchresult() {
       {loading ? (
         <Loading />
       ) : (
-        <div>
-          <div className="container">
-            <Background />
-            <HeaderBack />
+        <motion.div
+          className="container"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Background />
+          <HeaderBack />
 
-            {resultData ? (
-              <div>
-                <div className="matchresult-content">
-                  <div className="MatchResult-Container">
-                    <div className="MatchResult-Major">
-                      <div className="MatchResult-Topic-Top">전공</div>
-                      <div className="MatchResult-Text">{resultData.major}</div>
-                    </div>
-                  </div>
+          {resultData ? (
+            <motion.div
+              className="matchresult-content"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: { transition: { staggerChildren: 0.2 } },
+              }}
+            >
+              <motion.div
+                className="MatchResult-Container"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <div className="MatchResult-Major">
+                  <div className="MatchResult-Topic-Top">전공</div>
+                  <div className="MatchResult-Text">{resultData.major}</div>
+                </div>
+              </motion.div>
 
-                  <div className="MatchResult-Container">
-                    <div className="MatchResult-Age">
-                      <div className="MatchResult-Topic">나이</div>
-                      <div className="MatchResult-Text">{resultData.age}</div>
-                    </div>
-                    <div className="MatchResult-MBTI">
-                      <div className="MatchResult-Topic">MBTI</div>
-                      <div className="MatchResult-Text">{resultData.mbti}</div>
-                    </div>
-                    <div className="MatchResult-Frequency">
-                      <div className="MatchResult-Topic">연락빈도</div>
-                      <div className="MatchResult-Text">
-                        {resultData.contactFrequency}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="MatchResult-Container">
-                    <div className="MatchResult-Hobby">
-                      <div className="MatchResult-Topic">취미</div>
-                      <div className="MatchResult-Text-Hobby">
-                        {resultData.hobby.map((hobby, index) => (
-                          <div key={index} className="hobby-box">
-                            <span className="hobby-icon">{hobby.image}</span>
-                            <span className="hobby-text">{hobby.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="MatchResult-Song">
-                    <div className="MatchResult-Topic">좋아하는 노래</div>
-                    <div className="MatchResult-Text">{resultData.song}</div>
-                  </div>
-                  <div className="MatchResult-Song">
-                    <div className="MatchResult-Topic">내 장점은 ..</div>
-                    <div className="MatchResult-Text">{resultData.comment}</div>
-                  </div>
-                  <div className="MatchResult-Container">
-                    <div className="MatchResult-Contact">
-                      <div className="MatchResult-Topic">
-                        {resultData.contact_id[0] === "@" ? "Instagram" : "Kakao"}
-                      </div>
-                      <div className="MatchResult-Text MatchResult-Text-Contact">
-                        {resultData.contact_id}
-                      </div>
-                    </div>
+              <motion.div
+                className="MatchResult-Container"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <div className="MatchResult-Age">
+                  <div className="MatchResult-Topic">나이</div>
+                  <div className="MatchResult-Text">{resultData.age}</div>
+                </div>
+                <div className="MatchResult-MBTI">
+                  <div className="MatchResult-Topic">MBTI</div>
+                  <div className="MatchResult-Text">{resultData.mbti}</div>
+                </div>
+                <div className="MatchResult-Frequency">
+                  <div className="MatchResult-Topic">연락빈도</div>
+                  <div className="MatchResult-Text">
+                    {resultData.contactFrequency}
                   </div>
                 </div>
-                <div className="MatchResult-button-container">
-                  <button className="SendText-button" onClick={handleHome}>
-                    홈으로 가기
-                  </button>
+              </motion.div>
+
+              <motion.div
+                className="MatchResult-Container"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <div className="MatchResult-Hobby">
+                  <div className="MatchResult-Topic">취미</div>
+                  <div className="MatchResult-Text-Hobby">
+                    {resultData.hobby.map((hobby, index) => (
+                      <div key={index} className="hobby-box">
+                        <span className="hobby-icon">{hobby.image}</span>
+                        <span className="hobby-text">{hobby.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+              </motion.div>
+
+              <motion.div
+                className="MatchResult-Song"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <div className="MatchResult-Topic">좋아하는 노래</div>
+                <div className="MatchResult-Text">{resultData.song}</div>
+              </motion.div>
+
+              <motion.div
+                className="MatchResult-Song"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <div className="MatchResult-Topic">내 장점은 ..</div>
+                <div className="MatchResult-Text">{resultData.comment}</div>
+              </motion.div>
+
+              <motion.div
+                className="MatchResult-Container"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <div className="MatchResult-Contact">
+                  <div className="MatchResult-Topic">
+                    {resultData.contact_id[0] === "@" ? "Instagram" : "Kakao"}
+                  </div>
+                  <div className="MatchResult-Text MatchResult-Text-Contact">
+                    {resultData.contact_id}
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="MatchResult-button-container"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <motion.button
+                  className="SendText-button"
+                  onClick={handleHome}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  홈으로 가기
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              className="matchresult-content"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              <div style={{ textAlign: "center" }}>
+                <span style={{ fontSize: "24px" }}>
+                  이성이 데이터에 한 명도 없습니다
+                </span>
               </div>
-            ) : (
-              <div className="matchresult-content">
-                <div style={{ textAlign: "center" }}>
-                  <span style={{ fontSize: "24px" }}>
-                    이성이 데이터에 한 명도 없습니다
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+            </motion.div>
+          )}
+        </motion.div>
       )}
     </>
   );
