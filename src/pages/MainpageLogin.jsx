@@ -174,6 +174,8 @@ function MainpageLogin() {
             }
         } else {
             alert("코드가 틀렸습니다. 다시 입력해주세요.");
+            setShowCodeModal(false);
+
         }
     };
     return (
@@ -240,7 +242,9 @@ function MainpageLogin() {
               >
                 <button className="close-button" onClick={() => setShowCodeModal(false)}>×</button>
                 <h2 className="modal-title">🔒 비밀 코드 입력</h2>
-                <p className="modal-subtitle">매칭을 시작하려면 코드를 입력하세요</p>
+                <p className="modal-subtitle">매칭을 시작하려면 코드를 입력하세요
+                  <br /> 코드는 coma 부스에서 확인가능합니다
+                </p>
                 <input
                   type="text"
                   value={matchCode}
