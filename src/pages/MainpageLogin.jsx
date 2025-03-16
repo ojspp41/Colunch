@@ -27,6 +27,9 @@ function MainpageLogin() {
   const [profiles, setProfiles] = useState([]); // 매칭된 사용자 정보를 저장할 상태 변수
 
 
+
+  
+
   useEffect(() => {
       const preventGoBack = () => {
         navigate(0); // 🔥 강제 새로고침 (뒤로 가기 차단)
@@ -67,7 +70,7 @@ function MainpageLogin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://colunch-be.onrender.com/api/participations");
+        const response = await axios.get("http://localhost:8000/api/participations");
         if (response.status === 200) {
           setNumParticipants(response.data.data);
         }
@@ -170,7 +173,7 @@ function MainpageLogin() {
           onClick={handleClickMatch}
           disabled={profiles.length > 0} // ✅ 매칭된 사용자가 있으면 비활성화
         >
-          {profiles.length > 0 ? "축제를 기대하세요!" : "AI 매칭하기 ▶"} 
+          {profiles.length > 0 ? "축제를 기대해주세요!" : "AI 매칭하기 ▶"} 
            
           <TotalUsersCounter font_size="15px" numParticipants={numParticipants} />
         </button>
