@@ -6,6 +6,8 @@ Modal.setAppElement('#root');
 
 const TermsAgreementModal = ({ isOpen, onRequestClose, handleSubmit, registerCheck, setRegisterCheck }) => {
     const [isAgreementOpen, setIsAgreementOpen] = useState(false); // 개인정보 수집 안내 모달 상태
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const handleCheckboxChange = (e) => {
         const { id, checked } = e.target;
@@ -13,10 +15,15 @@ const TermsAgreementModal = ({ isOpen, onRequestClose, handleSubmit, registerChe
     };
 
     const handleSubmitClick = () => {
+        if (isSubmitting) return;
+
         if (!registerCheck.terms1 || !registerCheck.terms2 || !registerCheck.terms3) {
             alert('필수 항목을 모두 선택해주세요.');
             return;
         }
+        // ✅ 제출 시작 → 버튼 비활성화
+        setIsSubmitting(true);
+        
         onRequestClose(); // 모달을 닫습니다
         handleSubmit(); // 전달받은 handleSubmit 함수를 호출합니다
     };
