@@ -20,8 +20,15 @@ function Hobby() {
   const [customHobbies, setCustomHobbies] = useState([]); // 사용자 추가 관심사 목록
 
   const handleCustomHobbyChange = (e) => {
-    setCustomHobbyInput(e.target.value);
+    const input = e.target.value;
+    if (input.length <= 10) {
+      setCustomHobbyInput(input);
+    } else {
+      alert("관심사는 10글자 이내로 입력해주세요.");
+    }
   };
+  
+  
 
   
 

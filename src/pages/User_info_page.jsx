@@ -55,7 +55,7 @@ const checkAllFieldsFilled = () => {
         const value = user[field];
         return value && (Array.isArray(value) ? value.length > 0 : value !== "");
     });
-    const isCommentValid = user.comment && user.comment.length >= 5;
+    const isCommentValid = user.comment && user.comment.length >= 3;
     
     setIsFiveChars(isFilled && isCommentValid);
 };
@@ -132,7 +132,7 @@ useEffect(() => {
                 }
                 break;
             case "comment":
-                if (value.length <= 5) { // 'comment' 필드가 최대 5글자까지만 입력되도록 제한
+                if (value.length <= 10) { // 'comment' 필드가 최대 5글자까지만 입력되도록 제한
                     setUser((prevUser) => ({
                         ...prevUser,
                         comment: value

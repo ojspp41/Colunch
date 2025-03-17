@@ -73,3 +73,19 @@ button span, button a {
   color: inherit;
   text-decoration: none;
 }
+select {
+  -webkit-appearance: none; /* iOS 기본 UI 제거 */
+  -moz-appearance: none;
+  appearance: none;
+  background-color: white;
+  color: black; /* 글자 색 */
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* option 태그도 스타일 */
+option {
+  color: black;
+  background-color: white;
+}
