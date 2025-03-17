@@ -20,6 +20,9 @@ function Hobby() {
     setCustomHobbyInput(e.target.value);
   };
 
+  
+
+
   const handleSearch = (query) => {
     setSearchQuery(query); // Update the search query
   };

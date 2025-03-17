@@ -27,6 +27,14 @@ function Userinfo() {
         major: null,
         contactVerified: true
     });
+
+    useEffect(() => {
+        if (!user.mbti || user.mbti === "") {
+            alert("MBTI 정보를 먼저 입력해주세요!");
+            navigate("/profile-builder");
+        }
+    }, [user.mbti, navigate]);
+    
     useEffect(() => {
         console.log("📝 user 상태 변경됨:", user);
     }, [user]); // user 값이 변경될 때마다 실행
