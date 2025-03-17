@@ -31,6 +31,33 @@ function Userinfo() {
         console.log("📝 user 상태 변경됨:", user);
     }, [user]); // user 값이 변경될 때마다 실행
 
+    // 모든 필드 채워졌는지 확인하는 함수
+const checkAllFieldsFilled = () => {
+    const requiredFields = [
+        "major",
+        "age",
+        "gender",
+        "contactFrequency",
+        
+        "song",
+        "comment",
+        "admissionYear"
+    ];
+    const isFilled = requiredFields.every(field => {
+        const value = user[field];
+        return value && (Array.isArray(value) ? value.length > 0 : value !== "");
+    });
+    const isCommentValid = user.comment && user.comment.length >= 5;
+    
+    setIsFiveChars(isFilled && isCommentValid);
+};
+
+// user가 바뀔 때마다 확인
+useEffect(() => {
+    checkAllFieldsFilled();
+}, [user, checkMethod]);
+
+
     const [registerCheck, setRegisterCheck] = useState(
         {terms1: false, terms2: false, terms3: false}
     );
@@ -103,7 +130,7 @@ function Userinfo() {
                         comment: value
                     }));
                     setIsCommentVisible(true); // 'comment' 필드가 표시되도록 설정
-                    setIsFiveChars(true);
+                    
                 }
 
                 break;
@@ -167,10 +194,9 @@ function Userinfo() {
         const requiredFields = [
             "major",
             "age",
-            "mbti",
             "gender",
             "contactFrequency",
-            "hobby",
+            
             "song",
             "comment",
             "admissionYear"
@@ -385,7 +411,9 @@ function Userinfo() {
                             ? "active"
                             : ""}`}
                         type="button"
-                        onClick={openModal}>
+                        onClick={openModal}
+                        disabled={!isFiveChars} // 👉 추가
+                        >
                         코매칭 시작하기
                     </button>
 
