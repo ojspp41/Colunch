@@ -1,7 +1,7 @@
 import {useEffect, useState, useLayoutEffect} from "react";
 import {useRecoilState} from "recoil";
 
-import HeaderMain from "../components/HeaderMain";
+import HeaderLogin from "../components/HeaderLogin";
 import {charge, userState, matchedUserState} from "../Atoms";
 import "../css/pages/MainpageLogin.css";
 import {useNavigate} from "react-router-dom";
@@ -185,7 +185,7 @@ function MainpageLogin() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <HeaderMain />
+        <HeaderLogin />
         <Background />
   
         <motion.div

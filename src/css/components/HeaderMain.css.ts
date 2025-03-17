@@ -17,6 +17,7 @@ export const left = style({
     alignItems: 'center',
     justifyContent: 'space-between',
 });
+
 export const logoImg = style({
     width: '140px',
     height: '40px',
@@ -57,16 +58,15 @@ export const spanText = style({
     marginRight: '8px', // 텍스트와 이미지 사이에 간격 추가
 });
 export const center = style({
-    position: 'absolute',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    
+    display: 'block',
+    margin: '0 auto', // 박스 자체를 가로 중앙
+    textAlign: 'center',
+    marginBottom: '15px',
     fontSize: '15px',
     fontWeight: 'bold',
-});
+  });
+  
+  
 
 export const logoImage = style({
     width: '108px',

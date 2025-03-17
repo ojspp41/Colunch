@@ -11,6 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+input {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+  background-color: white;
+  color: black;
+  caret-color: black;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  background-color: white !important;
+  color: black !important;
+}
+
 
 /* 테블릿 크기에 맞춘 스타일
 @media (min-width: 768px) and (max-width: 1024px) {

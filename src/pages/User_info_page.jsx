@@ -273,7 +273,7 @@ function Userinfo() {
                                             name="comment"
                                             value={user.comment}
                                             onChange={handleChange}
-                                            placeholder="5글자 이상 작성해주세요"
+                                            placeholder="맛 잘알이에여~"
                                             className="comment-input"
                                             maxLength={10}/>
                                     </div>
@@ -336,7 +336,7 @@ function Userinfo() {
                                 value={"자주"}
                                 onClick={() => handleAgeClick("자주")}
                                 >
-                                자주
+                                적음
                                 </button>
                                 <button
                                 type="button"
@@ -344,7 +344,7 @@ function Userinfo() {
                                 value={"보통"}
                                 onClick={() => handleAgeClick("보통")}
                                 >
-                                보통
+                                중간
                                 </button>
                                 <button
                                 type="button"
@@ -352,7 +352,7 @@ function Userinfo() {
                                 value={"가끔"}
                                 onClick={() => handleAgeClick("가끔")}
                                 >
-                                가끔
+                                많음
                                 </button>
                             </div>
                             </div>

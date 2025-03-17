@@ -38,7 +38,7 @@ function MBTIMaker({
         <div className={styles.mbtiMakerButtonTitle}>
           {mbtiAnswers[questionNum][2]}
         </div>
-        <div>{mbtiAnswers[questionNum][0]}</div>
+        <div className={styles.mbtiMakerButtonText}>{mbtiAnswers[questionNum][0]}</div>
       </button>
       <button
         className={`${styles.mbtiMakerChooseButton} ${
@@ -55,7 +55,7 @@ function MBTIMaker({
         <div className={styles.mbtiMakerButtonTitle}>
           {mbtiAnswers[questionNum][3]}
         </div>
-        <div>{mbtiAnswers[questionNum][1]}</div>
+        <div className={styles.mbtiMakerButtonText}>{mbtiAnswers[questionNum][1]}</div>
       </button>
       <button
         className={styles.mbtiMakerSubmitButton}

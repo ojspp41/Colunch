@@ -72,7 +72,7 @@ function ContactMethodInput({ handleChange, setIsContactVerified,user, setUser  
         className={styles.inputField}
       />
       <button type="button" className={styles.checkButton} onClick={handleCheck}>
-        확인
+        중복확인
       </button>
     </div>
   );

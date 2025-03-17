@@ -83,9 +83,9 @@ const ProfileBuilder = () => {
     <div className="container">
       <Background></Background>
       <ProgressNav step={step}></ProgressNav>
-      <div className="hearticon">
+      {/* <div className="hearticon">
         <img src="/assets/ProfileBuilder/hearticon.png" alt="" />
-      </div>
+      </div> */}
       <div className="chat-message" ref={chatMessageRef}>
         <div className="ProfileBuilder">
           <TypeAnimation

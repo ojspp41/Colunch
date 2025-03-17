@@ -50,29 +50,34 @@ const MatchProfiles = ({ profiles = [] }) => {
       {profiles.map((profile, index) => (
         <div key={index} className="profile-box">
           <p>
+            안녕하세요?
+          </p>
+          
+          <p>
             저는 <span>{profile.major}</span> 전공이고,
           </p>
           <p>
             <span>{profile.age}</span> 살이에요.
           </p>
+          <div className="mb"></div>
           <p>
-            MBTI는 <span>{profile.mbti}</span>, 연락빈도는 <span>{profile.contactFrequency || "알 수 없음"}</span> 이에요.
+            MBTI는 <span>{profile.mbti}</span>, 연락빈도는 <span>{profile.contactFrequency || "알 수 없음"} ➡️</span> 이에요.
           </p>
           <p>
             저는 요즘{" "}
             <span>{mapHobbiesWithIcons(profile.hobby).join(", ")}</span>을(를)
             좋아해요.
           </p>
-          <br />
+          <div className="mb"></div>
           <p>
             요즘 좋아하는 노래는,
             <br />
-            <span>{profile.song || "없음"}</span> 입니다!
+            <span>🎵{profile.song || "없음"}</span> 입니다!
           </p>
-          <br />
+          <div className="mb"></div>
           <p>마지막으로,제 장점은요</p>
           <p>
-            <span>{profile.comment}</span>
+            <span>{profile.comment}😊</span>
           </p>
           <div className="contact-container">
             <div

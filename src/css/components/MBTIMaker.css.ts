@@ -38,6 +38,7 @@ export const mbtiMakerChooseButton = style({
   color: "#000000",
   fontSize: "18px",
   fontWeight: "bold",
+  opacity: '0.8',
 });
 
 export const selected = style({
@@ -47,6 +48,7 @@ export const selected = style({
   boxShadow: `inset 2px 2px 10px rgba(255, 119, 94, 0.5),
               inset 0px 4px 10px rgba(0, 0, 0, 0.15),
               inset 4px 4px 15px rgba(0, 0, 0, 0.2)`, // 내부 그림자
+              opacity: '1',
 });
 
 
@@ -60,6 +62,14 @@ export const mbtiMakerButtonTitle = style({
   height: "36px",
   borderRadius: "100px",
   marginRight: "15px",
+  
+});
+
+export const mbtiMakerButtonText = style({
+  fontWeight: "600",
+  marginLeft:'auto',
+  marginRight:'auto',
+  fontSize:'20px',
 });
 
 export const mbtiMakerSubmitButton = style({
@@ -73,4 +83,5 @@ export const mbtiMakerSubmitButton = style({
   marginLeft: "60%",
   boxShadow: "2px 2px 4px rgba(0, 0, 0, 0.25)",
   marginBottom:"10px",
+  
 });

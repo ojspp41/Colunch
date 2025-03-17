@@ -62,3 +62,14 @@
   position: relative;
   backdrop-filter: blur(12px);
 }
+button {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  color: black;
+  text-decoration: none;
+}
+
+button span, button a {
+  color: inherit;
+  text-decoration: none;
+}
