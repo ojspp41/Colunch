@@ -26,6 +26,8 @@ function MainpageLogin() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [profiles, setProfiles] = useState([]); // 매칭된 사용자 정보를 저장할 상태 변수
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
 
     const [showCodeModal, setShowCodeModal] = useState(false);
     const [matchCode, setMatchCode] = useState("");
@@ -154,7 +156,13 @@ function MainpageLogin() {
     };
     // 코드 입력 확인 및 매칭 시작 핸들러
     const handleConfirmCode = async () => {
+
+
+        // 이미 진행 중이면 클릭 방지
+        if (isSubmitting) return;
+
         if (matchCode === MATCH_CODE) {
+            setIsSubmitting(true); // 버튼 비활성화
             setShowCodeModal(false);
             setLoading(true);
 
