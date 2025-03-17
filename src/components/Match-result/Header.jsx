@@ -11,7 +11,7 @@ function HeaderBack() {
       </div>
       <div className={styles.center}>
         <img src="/assets/Common/logo.svg" alt="logo" className={styles.logoImage} />
-        매칭 결과
+        
       </div>
     </div>
   );
