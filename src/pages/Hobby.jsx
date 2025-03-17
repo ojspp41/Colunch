@@ -8,6 +8,9 @@ import SearchBar from "../components/SearchBar.jsx";
 import hobbyData from "../data/hobbyData.js";
 import "../css/pages/Hobby.css";
 import decomposeHangul from "../utils/getChosung.js";
+
+import { motion } from "framer-motion";
+
 function Hobby() {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
