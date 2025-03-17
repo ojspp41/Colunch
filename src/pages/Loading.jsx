@@ -7,17 +7,17 @@ const Loading = () => {
   const [offset, setOffset] = useState(-100);
   const navigate = useNavigate();
 
-  // useEffect(() => {
+  useEffect(() => {
     
-  //   const redirectTimeout = setTimeout(() => {
-  //     navigate("/match-result");
+    const redirectTimeout = setTimeout(() => {
+      navigate("/match-result");
 
-  //   }, 3000);
+    }, 3000);
 
-  //   return () => {
-  //     clearTimeout(redirectTimeout);
-  //   };
-  // }, [navigate]);
+    return () => {
+      clearTimeout(redirectTimeout);
+    };
+  }, [navigate]);
 
   return (
     <div className="container">
