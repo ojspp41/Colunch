@@ -37,14 +37,14 @@
   color: transparent; /* 글자 색 투명 */
   -webkit-text-fill-color: transparent; /* 사파리 호환성 */
   
-  animation: gradientMove 3s linear infinite;
+  animation: gradientMove 3.2s linear infinite;
 }
 
 @keyframes gradientMove {
   0% {
-    background-position: 0% 50%;
+    background-position: 200% 100%;
   }
   100% {
-    background-position: 200% 50%;
+    background-position: 40% 50%;
   }
 }
