@@ -32,3 +32,8 @@ export const checkButton = style({
   marginLeft: '15px',
   fontSize:'14px',
 });
+export const verifiedButton = style({
+  backgroundColor: ' #d3d3d3', // 연한 회색
+  color: '#666',
+  cursor: 'default',
+});

@@ -338,6 +338,8 @@ useEffect(() => {
                         isGenderSelected && (
                             <ContactMethod
                                 checkMethod={checkMethod}
+                                
+                                isContactVerified={isContactVerified}
                                 setCheckMethod={setCheckMethod}
                                 setIsContactVerified={setIsContactVerified}
                                 user={user}

@@ -12,7 +12,7 @@ import MainpageUnLogin from "./pages/MainpageUnLogin.jsx";
 import MainpageLogin from "./pages/MainpageLogin.jsx";
 import "./App.css";
 import "./axiosConfig.jsx";
-
+import ProtectedLayout from "./pages/ProtectedLayout .jsx";
 import ProfileBuilder from "./pages/ProfileBuilder.jsx";
 import Hobby from "./pages/Hobby.jsx";
 
@@ -24,13 +24,16 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Mainpage />} />
-            <Route path="/hobby" element={<Hobby />} />
             <Route path="/loading" element={<Loading />} />
-            <Route path="/userinfo" element={<Userinfo />} />
-            <Route path="/profile-builder" element={<ProfileBuilder />} />
-            <Route path="/match-result" element={<Matchresult />} />
+            {/* 보호된 경로 그룹 */}
+            <Route element={<ProtectedLayout />}>
+              <Route path="/hobby" element={<Hobby />} />
+              <Route path="/userinfo" element={<Userinfo />} />
+              <Route path="/profile-builder" element={<ProfileBuilder />} />
+              <Route path="/loading" element={<Loading />} />
+              <Route path="/match-result" element={<Matchresult />} />
+            </Route>
             <Route path="/redirection" element={<Redirection />} />
-            <Route path="/userinfo" element={<Userinfo />} />
             
             
           </Routes>
