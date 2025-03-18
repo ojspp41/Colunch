@@ -311,6 +311,11 @@ label {
   color: #FF4D61;
 }
 
+.desc_ai{
+  color: #8c8c8c;
+  font-size: 13px;
+}
+
 /* 애니메이션 */
 @keyframes fadeIn {
   from { opacity: 0; }

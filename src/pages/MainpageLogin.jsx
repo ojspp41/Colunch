@@ -217,9 +217,19 @@ function MainpageLogin() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {profiles.length > 0 ? "축제를 기대해주세요!" : "AI 매칭하기 ▶"}
-              <TotalUsersCounter font_size="15px" numParticipants={numParticipants} />
+              {profiles.length > 0 ? (
+                <>
+                  아우름제에서 만나요!
+                  <p className="desc_ai">AI 커플매칭 코매칭 많은 관심 부탁드립니다😊</p>
+                </>
+              ) : (
+                <>
+                  AI 매칭하기 ▶
+                  <TotalUsersCounter font_size="15px" numParticipants={numParticipants} />
+                </>
+              )}
             </motion.button>
+
           </motion.div>
         </div>
   
