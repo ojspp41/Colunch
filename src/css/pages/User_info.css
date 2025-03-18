@@ -130,8 +130,8 @@ button {
     color: #B3B3B3; /* 비활성 텍스트 색상 */
     width: 95%;
     height: 54px;
-    border-radius: 32px;
-    font-size: 20px;
+    border-radius: 16px;
+    font-size: 24px;
     font-weight: bold;
     margin: 16px 0;
     position: fixed;
@@ -144,8 +144,8 @@ button {
     opacity: 0.7;
     
   /* ✨ 블러 효과 추가 */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Safari 지원 */
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px); /* Safari 지원 */
 }
 
 /* 활성화 상태 */

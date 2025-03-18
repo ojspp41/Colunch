@@ -287,7 +287,7 @@ useEffect(() => {
             <Background/>
             <ProgressNav step={3}></ProgressNav>
             <div className="text-container">
-                <div className="main-text">전공이 어떻게 되세요?</div>
+                <div className="main-text">자신을 소개해주세요!</div>
                 <div className="sub-text">정보를 정확하게 입력했는지 확인해 주세요.
                     <br/>
                     별로 오래 걸리지 않아요!

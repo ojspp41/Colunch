@@ -95,8 +95,8 @@
     z-index: 1000; /* 다른 요소 위에 표시 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 (선택 사항) */
     /* 블러 효과 추가 */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px); /* Safari 지원 */
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px); /* Safari 지원 */
   }
 
   

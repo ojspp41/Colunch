@@ -10,10 +10,11 @@ export const mbtiMaker = style({
   left: "0px", // 양쪽 여백 균등하게 설정 (40px 중 절반)
   display: "inline-block",
   borderRadius: "16px 16px 0 0", // 위쪽만 둥글게
-  padding: "16px 20px", // 적절한 패딩
+  
+  padding: "25px 20px", // 적절한 패딩
   boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)", // 위쪽 그림자
   border: "1px solid rgba(255, 255, 255, 0.8)", // 테두리
-  backgroundColor: "transparent", // 배경색 제거
+  backgroundColor: "white", // 배경색 제거
   backdropFilter: "blur(50px)", // 선택적으로 배경 블러 유지
 });
 
