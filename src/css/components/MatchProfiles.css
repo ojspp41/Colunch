@@ -69,7 +69,7 @@
     font-size: 16px;
     color: #1A1A1A; /* 강조 색상 */
     text-decoration: underline; /* 밑줄 추가 */
-    
+    line-height: 1.5;
     text-underline-offset: 7px; /* 밑줄과 글자 사이 간격 */
   }
   
