@@ -31,7 +31,7 @@ function MainpageLogin() {
 
     const [showCodeModal, setShowCodeModal] = useState(false);
     const [matchCode, setMatchCode] = useState("");
-    const MATCH_CODE = "COMA7942"; // 예시로 사용할 코드
+    const MATCH_CODE = "COMA79"; // 예시로 사용할 코드
 
     useEffect(() => {
         const preventGoBack = () => {
