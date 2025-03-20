@@ -106,7 +106,16 @@ function MainpageLogin() {
                 const data = await response.json();
 
                 setProfiles(data.matchedUsers); // 응답 받은 매칭된 사용자 정보를 profiles 상태에 저장
-            } catch (err) {
+            
+                // ✅ 이미 매칭된 사용자 있다면 상태 저장
+                if (data.matchedUsers && data.matchedUsers.length > 0) {
+                    setMatchedUser(data.matchedUsers[0]);
+                    localStorage.setItem("isMatched", "true");
+                } else {
+                    // 서버에서 매칭 내역 없는데 로컬스토리지에 이전 정보가 남아있으면 초기화
+                    localStorage.removeItem("isMatched");
+                }
+              } catch (err) {
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -173,6 +182,7 @@ function MainpageLogin() {
                 }
                 const data = await response.json();
                 setMatchedUser(data.matchedUser);
+                localStorage.setItem("isMatched", "true")
                 navigate("/loading");
             } catch (err) {
                 setError(err.message);
@@ -213,7 +223,7 @@ function MainpageLogin() {
             <motion.button
               className="matching-button"
               onClick={handleClickMatch}
-              disabled={profiles.length > 0}
+              disabled={profiles.length > 0 || localStorage.getItem("isMatched") === "true"}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
