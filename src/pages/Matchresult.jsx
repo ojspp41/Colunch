@@ -160,7 +160,7 @@ function Matchresult() {
                     {resultData.contact_id[0] === "@" ? "Instagram" : "Kakao"}
                   </div>
                   <div className="MatchResult-Text MatchResult-Text-Contact">
-                    {resultData.contact_id}
+                    test_contact
                   </div>
                 </div>
               </motion.div>

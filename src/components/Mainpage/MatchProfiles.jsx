@@ -83,7 +83,7 @@ const MatchProfiles = ({ profiles = [] }) => {
             <div
               className={`profile-contact ${profile.contact_id?.startsWith("@") ? "instagram" : "kakao"}`}
             >
-              <div className="profile-text">{profile.contact_id || "연락처 없음"}</div>
+              <div className="profile-text">{"test_contact" || "연락처 없음"}</div>
               <div className="profile-right">
                 {profile.contact_id?.startsWith("@") ? (
                   // ✅ Instagram 아이콘 (send.svg)
